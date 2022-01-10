@@ -1,0 +1,29 @@
+A number of students have asked for suggestions about database texts.
+
+The module descriptor lists:
+
+Connolly, Thomas & Begg, Carolyn. (2015), Database Systems, 6th. Addison-Wesley, [ISBN: 1292061189]
+
+which is one I regularly use.
+
+In most cases the best resource by far is the PostgreSQL manual.  It is very comprehensive and presents the material in a suitably applied style:
+
+https://www.postgresql.org/docs/13/index.html
+
+
+Other texts include:
+
+	• Mannino, Michael. (2014), Database Design, Application Development, and Administration, 6th. Chicago Business Press, [ISBN: 0983332428].
+	• Bob Bryla. (2015), Oracle Database 12c DBA Handbook, McGrawHill, [ISBN: 9780071798785].
+	• Craig S. Mullins. (2012), Database Administration: The Complete Guide to DBA Practices and Procedures, 2nd. Addison Wesley, [ISBN: 0321822943].
+
+	• Coronel, C. ;Morris, S.. (2019), Database Systems: Design, Implementation, and Management, 13th ed.. Cengage Learning, [ISBN: 9781333762790].
+	• DuBois, Paul. (2014), MySQL: Developers Library, 5th ed.. Pearson, [ISBN: 9780321833877].
+	• Elmasri et al.. (2016), Fundamentals of Database Systems, 7th ed.. Pearson, [ISBN: 9780133970777].
+
+
+	• Date, C.J.. (2015), SQL and Relational Theory, 3rd ed.. O'Reilly Media, [ISBN: 978149194117].
+
+Regards
+
+Peadar.

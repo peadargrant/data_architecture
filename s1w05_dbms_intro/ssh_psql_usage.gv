@@ -1,0 +1,23 @@
+digraph G {
+
+	subgraph cluster_client {
+		 label="Client host (desktop / laptop)";
+		 Terminal [ label="Powershell Terminal" ];
+		 SSHClient [ label="SSH Client" ];
+		 Terminal -> SSHClient;
+	}
+
+	subgraph cluster_server {
+		 label="Server host (VM in cloud / onsite server)";
+		 SSHServer [ label ="SSH Server" ];
+		 Shell;
+		 psql;
+		 PostgresServer [ label="Postgres Server"];
+		 SSHServer -> Shell;
+		 Shell -> psql;
+		 psql -> PostgresServer;
+	}
+
+	SSHClient -> SSHServer;
+
+}

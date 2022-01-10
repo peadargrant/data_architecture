@@ -1,0 +1,127 @@
+create table projects ( id bigserial primary key, description text not null unique ); 
+create table tasks ( id bigserial primary key, description text not null unique, project bigint references projects ); 
+\d
+\d tasks
+insert into projects (description) values ('prep', 'housework', 'shopping'); 
+insert into projects (description) values ('prep'), ('housework'), ('shopping'); 
+table projects;
+insert into tasks (description, project) values ('prep data arch', 1), ('prep cloud arch', 1), ('prep data cent inf', 1), ('clean the kitchen', 2), ('wash the floor', 2), ('do the weekly shop', 3);
+table tasks; 
+insert into tasks (description, project) values ('buy a new car', 9); 
+insert into tasks (description) values ('buy a new car'); 
+insert into tasks (description, project) values ('buy a new house', null); 
+table tasks; 
+begin;
+insert into tasks (description, project) values ('buy a new clock', null); 
+table tasks;
+rollback;
+table tasks;
+insert into tasks (description, project) values ('buy a new clock', null); 
+table tasks;
+table projects;
+delete from projects where id=1; 
+update projects set id=1000 where id=1;
+\d
+begin;
+\d tasks
+alter table tasks drop constraint tasks_project_fkey ; 
+\d tasks
+savepoint sp1;
+ALTER TABLE tasks ADD CONSTRAINT tasks_project_fkey FOREIGN KEY (project) REFERENCES projects ON DELETE CASCADE; 
+savepoint sp2;
+\d tasks
+table projects;
+\d projects
+delete from projects where id=1; 
+table projects;
+table tasks; 
+rollback ; 
+\d tasks
+begin; 
+alter table tasks drop constraint tasks_project_fkey ; 
+ALTER TABLE tasks ADD CONSTRAINT tasks_project_fkey FOREIGN KEY (project) REFERENCES projects ON DELETE SET NULL; 
+table projects;
+table tasks;
+savepoint sp1; 
+delete from projects where id=3; 
+table projects;
+table tasks; 
+\d projects
+\d tasks
+create domain priority as integer check ( VALUE >= 1 AND VALUE <=10 ); 
+begin;
+rollback;
+begin;
+create domain priority as integer check ( VALUE >= 1 AND VALUE <=10 ); 
+\dd
+\?
+\dD
+savepoint sp1;
+alter table projects add column priority priority; 
+rollback to sp1; 
+alter table projects add column priority priority not null default 5; 
+\d projects
+savepoint sp2; 
+alter table tasks add column priority priority ; 
+\d tasks
+table projects; 
+table tasks; 
+\dD
+alter domain priority drop constraint; 
+alter domain priority drop constraint check;
+rollback to sp2; 
+commit; 
+\d
+select * from tasks; 
+\dD
+select * from projects; 
+alter table tasks add column priority priority; 
+select * from tasks;
+select tasks.description, projects.description right join projects on projects.id=tasks.project; 
+select tasks.description, projects.description from tasks right join projects on projects.id=tasks.project; 
+select tasks.description as task_desc, projects.description as proj_desc from tasks right join projects on projects.id=tasks.project; 
+select tasks.description as task_desc, projects.description as proj_desc from tasks left join projects on projects.id=tasks.project; 
+select tasks.description as task_desc, projects.description as proj_desc, projects.priority as proj_priority, tasks.priority as task_priority from tasks left join projects on projects.id=tasks.project; 
+select tasks.description as task_desc, projects.description as proj_desc, projects.priority as proj_priority, tasks.priority as task_priority, CASE WHEN tasks.priority IS NOT NULL THEN tasks.priority WHEN projects.priority IS NOT NULL THEN projects.priority END as overall_priority from tasks left join projects on projects.id=tasks.project; 
+create view prioritised_view as select tasks.description as task_desc, projects.description as proj_desc, projects.priority as proj_priority, tasks.priority as task_priority, CASE WHEN tasks.priority IS NOT NULL THEN tasks.priority WHEN projects.priority IS NOT NULL THEN projects.priority END as overall_priority from tasks left join projects on projects.id=tasks.project; 
+table prioritised_view;
+begin;
+drop view prioritised_view;
+create view prioritised_view as select tasks.id, tasks.description as task_desc, projects.description as proj_desc, projects.priority as proj_priority, tasks.priority as task_priority, CASE WHEN tasks.priority IS NOT NULL THEN tasks.priority WHEN projects.priority IS NOT NULL THEN projects.priority END as overall_priority from tasks left join projects on projects.id=tasks.project; 
+table prioritised_view;
+table prioritised_view;
+begin;
+update tasks set priority=9 where id=11;
+table prioritised_view;
+update tasks set priority=9 where id=1;
+table prioritised_view;
+commit;
+begin;
+CREATE TYPE project_status AS ENUM ('PLANNING', 'PROGRESSING', 'COMPLETE'); 
+savepoint sp1;
+\d projects
+alter table projects add column status project_status not null default 'PLANNING';
+update projects set status='PROGRESSING'; 
+savepoint sp2;
+table projects;
+savepoint sp3;
+update projects set status='PROGRESSINGX'; 
+rollback to sp3; 
+alter type project_status add value after 'COMPLETE' 'ARCHIVED'; 
+alter type project_status add value 'ARCHIVED' after 'COMPLETE'; 
+rollback to sp3; 
+alter type project_status add value 'ARCHIVED' after 'COMPLETE'; 
+commit;
+alter type project_status add value 'ARCHIVED' after 'COMPLETE'; 
+\dt
+\dT
+\d project
+\d projects
+CREATE TYPE project_status AS ENUM ('PLANNING', 'PROGRESSING', 'COMPLETE'); 
+alter table projects add column status project_status not null default 'PLANNING';
+\d projects
+alter type project_status add value 'ARCHIVED' after 'COMPLETE'; 
+table projects;
+update projects et status='ARCHIVED' where id=1; 
+update projects set status='ARCHIVED' where id=1; 
+table projects;
