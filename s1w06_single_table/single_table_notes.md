@@ -82,7 +82,7 @@ expression (other than a test for null) is null, then the expression is
 null:
 
 	1 + NULL = NULL 
-	1 + NULL - NULL = 1 
+	1 + NULL - NULL = NULL 
 
 Must consider 3-value logic (true/false/null) rather than 2-value logic
 (true/false).
