@@ -1,0 +1,11 @@
+digraph G {
+
+	DBMS;
+	CLI_CLIENT [label="CLI client (e.g. psql)"];
+	GUI_CLIENT [label="GUI client (e.g. PgAdmin)"];
+
+	CLI_CLIENT -> DBMS;
+	GUI_CLIENT -> DBMS;
+	
+
+}
