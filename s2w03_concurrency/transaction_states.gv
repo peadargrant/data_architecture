@@ -1,0 +1,17 @@
+digraph G {
+
+	rankdir=LR;
+
+	ACT [label="Active"];
+	PC [label="Partially committed"];
+	C [label="Committed"];
+	F [label="Failed"];
+	ABR [label="Aborted"];
+
+	ACT -> PC;
+	ACT -> F;
+	PC -> C;
+	F -> ABR;
+	PC -> F;
+
+}
