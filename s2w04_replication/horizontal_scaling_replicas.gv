@@ -1,0 +1,22 @@
+digraph G {
+
+	rankdir=LR;
+
+	subgraph cluster_server {
+	label="Server environment";
+	M [label="Primary"];
+
+	subgraph cluster_replicas {
+	S1;
+	S2;
+	S3;
+	Sn;
+	}
+
+	M -> S1;
+	M -> S2;
+	M -> S3;
+	M -> Sn;
+	}
+
+}
