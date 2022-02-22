@@ -1,0 +1,6 @@
+Using Python and the teams.json file:
+
+1) set up a table called teams (id, team_name, extra_data)
+
+2) insert each team into the teams table
+   include the full JSON for that team as extra_data
