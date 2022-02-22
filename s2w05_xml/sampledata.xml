@@ -1,0 +1,9 @@
+<person>
+  <firstname>Joe</firstname>
+  <secondname>Murphy</secondname>
+  <address>
+    <street>23 Main Road</street>
+    ... ...
+    <country>Ireland</country>
+  </address>
+</person>

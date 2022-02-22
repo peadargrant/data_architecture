@@ -1,0 +1,374 @@
+\documentclass{pgnotes}
+
+\title{XML}
+\newcommand{\entityref}[1]{\&#1;}
+
+\tikzstyle{cpt} = [fill=black, text=white, draw=none, rounded corners, rectangle, minimum width=2.5cm, minimum height=1.5cm]
+\tikzstyle{ml} = [draw=black, ultra thick, rounded corners, rectangle, minimum width=2.75cm, minimum height=1.5cm] 
+\tikzstyle{subset} = [draw=black, ultra thick, ->, dashed] 
+\tikzstyle{application} = [draw=black, ultra thick, ->] 
+\tikzstyle{bizr} = [anchor=south, text=white] 
+
+
+\begin{document}
+
+\maketitle
+
+% \section*{Aims}
+
+% \begin{enumerate}
+%   \item Explain the essential structures and rules of an XML document.
+%   \item Distinguish well-formed XML from non-well-formed XML. Use tools to diagnose non-well-formed XML.
+%   \item Construct vocabularies to capture structured information using XML.
+% \end{enumerate}
+
+
+\section{eXtensible Markup Language}
+
+Extensible Markup Language (XML) is a \textbf{markup} language that defines a set of rules for encoding documents in a format that is both human-readable and machine-readable.
+It's a subset of SGML, of which HTML is also an \textit{application}. 
+The tag names are up to you. 
+
+\subsection{SGML}
+
+Standard Generalised Markup Language (SGML) originated as a means to store and transfer US government and military documents in machine-readable form, over a timespan of several decades.
+SGML uses \textbf{tags} to mark up a document.
+One of the best known examples of SGML is HTML.
+
+\inputminted{html}{htmlpage.html}
+
+For many applications, SGML was too complicated, and so XML was designed.
+Apart from HTML and Document Type Declarations, you are unlikely to encounter SGML in its non-XML form very frequently.
+XML documents themselves are valid SGML, but have additional restrictions on their layout.
+(SGML documents are not valid XML.)
+ 
+
+\subsection{Sample XML document}
+
+\inputminted{xml}{intro.xml}
+
+\subsection{Design Goals}
+
+\begin{enumerate}
+\item XML shall be straightforwardly usable over the Internet.
+\item XML shall support a wide variety of applications.
+\item XML shall be compatible with SGML.
+\item It shall be easy to write programs which process XML documents.
+\item The number of optional features in XML is to be kept to the absolute minimum, ideally zero.
+\item XML documents should be human-legible and reasonably clear.
+\item The XML design should be prepared quickly.
+\item The design of XML shall be formal and concise.
+\item XML documents shall be easy to create.
+\item Terseness in XML markup is of minimal importance.
+\end{enumerate}
+
+ 
+
+\subsection{Benefits of XML}
+
+\begin{enumerate}
+\item You define the \textbf{vocabulary}, so it provides flexibility.
+\item XML is \textbf{simple} and used widely.
+\item Machine and \textbf{human readable}.
+\item \textbf{Lots of APIs} and parsers to handle XML. 
+\item XML Data \textbf{can be checked} for correctness.
+\end{enumerate}
+
+\subsection{Issues with XML}
+
+\begin{enumerate}
+\item XML documents require more storage than fixed length or comma delimited files.
+  \begin{itemize}
+  \item But, they compress well!
+  \end{itemize}
+\item Can help but not does not solve the politics of competing formats (multiple vocabs).
+\item Definitions can be overly nested and made too complex.
+\end{enumerate}
+ 
+\section{Structure of an XML doc}
+
+XML has a Directed Acyclic Graph tree structure, built from \textbf{nested} tree of \textbf{Elements} delimited by \textbf{tags}.
+Elements are \textbf{case-sensitive}.
+
+\inputminted{xml}{closed.xml}
+
+\subsection{Nesting rules} 
+
+\begin{itemize}
+\item Elements nested inside a \textit{parent} element are called \textit{child} elements. 
+\item Elements must be nested correctly. Child elements must be enclosed within their parent elements.
+\item All elements must be nested within a single document or root element.
+\item There can be only one \textbf{root} element in a document.
+\item Indentation, while helpful, is just visual.  
+\end{itemize}
+
+
+\subsection{XML declaration}
+
+The XML declaration is always the first line of code in an XML document, and tells the \textbf{processor} that what follows is XML.
+It can also provide information about how the parser should interpret the document.
+
+For now, the version is always 1.0.
+This attribute allows the program (or person) reading the document to read older versions if specifications change. 
+
+
+\subsection{XML comments}
+
+Comments may appear anywhere after the declaration.
+The syntax for comments is:
+
+\inputminted{xml}{comment.xml}
+
+Two or more dashes should not appear one after the other in a comment.
+
+
+\subsection{Free-format}
+
+XML documents are free-format.
+For example, the document:
+
+\inputminted{xml}{free-format-condensed.xml}
+  
+is the exact same as:
+  
+\inputminted{xml}{free-format-expanded.xml}
+
+
+\section{Attributes}
+
+An attribute is a feature or characteristic of an element. Attributes are text strings and must be placed in single or double quotes. 
+Use that which makes most sense in deciding whether to store the main data in an element or attribute.
+Often an element is a better choice.
+
+\inputminted{xml}{attribute.xml}
+
+
+\subsection{Mixing elements and attributes}
+
+\inputminted{xml}{mixing.xml}
+
+
+
+\section{Well-formed XML}
+
+When XML text satisfies the syntactic rules as laid out in the XML specification, we say that it is well-formed \citep{goldfarb:2003:the-xml-handbook}.
+
+\subsection{Criteria}
+
+\begin{enumerate}
+\item All XML elements must have a closing tag, except empty elements. 
+\item Tags are case sensitive.
+\item All elements must be properly nested.
+\item Documents must have one single root element.
+\item Attribute values must be quoted.
+\item Certain characters must be replaced with \textit{Entity References}. 
+\end{enumerate}
+
+
+\subsection{Entity references}
+
+Entity references replace certain characters as detailed in \autoref{tab:entity-reference-xml}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l l}
+    \toprule
+    \textbf{Normal symbol} & \textbf{Meaning} & \textbf{Replace with} \\
+    \midrule
+    $<$ & less than & \entityref{lt} \\
+    $>$ & greater than & \entityref{gt} \\
+    \& & ampersand & \entityref{amp} \\
+    ' & apostrophe & \entityref{apos} \\
+    '' & quotation mark & \entityref{quot} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Entity References}
+  \label{tab:entity-reference-xml}
+\end{table}
+
+
+\subsection{Non well-formed XML}
+
+Non well-formed XML will cause errors in applications and parsers that expect strict XML syntax.
+
+\subsection{Line termination}
+
+By convention, different OSes use different delimiters to signal the end of a line in a text file, \autoref{tab:newline}.
+XML specifies that new lines are \textbf{always} stored as LF, regardless of the operating system. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Operating system} & \textbf{Delimiters} \\
+    \midrule
+    Windows & CR LF \\
+    Unix, Mac OS X & LF \\
+    Mac (System 9 and below) & CR \\ 
+    \bottomrule
+  \end{tabular}
+  \caption{Newline characters}
+  \label{tab:newline}
+\end{table}
+
+\subsection{Checking for well-formed XML}
+
+The \texttt{xmllint} utility can check XML well-formedness.
+
+\begin{minted}{bash}
+# consult manpage
+man xmllint
+
+# basic usage
+xmllint filename.xml 
+\end{minted}
+ 
+  
+
+
+
+
+
+
+
+
+\section{Vocabulary}
+
+Although the structure and syntax of XML documents is rigorously specified, you are free to choose a suitable vocabulary of element and attribute names for the application of interest.
+Some common vocabularies are listed in \autoref{tab:common-vocabularies}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Vocabulary} & \textbf{Description} \\
+    \midrule
+    XHTML & a variant of HTML that complies with XML restrictions \\
+    SOAP & message format for web services \\
+    OpenOffice XML & Microsoft's current office word-processing format \\
+    Opendoc & standard formats for (non-Microsoft Office) office documents \\
+    Docbook XML & markup for writing (primarily) technical documentation  \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Common standardised XML vocabularies}
+  \label{tab:common-vocabularies}
+\end{table}
+
+In addition, there are pre-existing vocabularies for many specialised applications.
+It's always good to use a pre-existing vocabulary if possible. 
+
+\subsection{Developing an XML vocabulary}
+
+The process is:
+
+\begin{enumerate}
+\item List out the possible fields (tag names).
+\item Draw a tree diagram.
+\item Markup some sample XML data.
+\item Factor in potential business rules and add them to our tree diagram. 
+\item Optionally formalise the vocabulary in a machine-readable form.
+\end{enumerate}
+
+\subsection{Worked example}
+
+As an example, we will develop a vocabulary that would let you specify address data for a person.
+
+\subsubsection{Possible fields}
+Start with:
+\begin{itemize}
+\item firstname
+\item secondname
+\item address1
+\item address2
+\item city
+\item country
+\end{itemize}
+
+Each of these can be specified as tags like
+\begin{minted}{xml}
+<firstname></firstname>
+\end{minted}
+
+But: a person's name is not really part of an address.
+What happens if a person has multiple addresses?
+So we really need a nested structure:
+\begin{minted}{xml}
+<person>
+  <address>
+  </address>
+</person>
+\end{minted}
+
+
+\subsubsection{Diagram}
+
+The nested structure of our document is then laid out as a \textbf{tree diagram}, \autoref{fig:tree-diagram}. 
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+  \node (person) [cpt] {person};
+  \node (firstname) [cpt, below left=of person] {firstname};
+  \draw (person) to (firstname);
+  \node (secondname) [cpt, below=of person] {secondname};
+  \draw (person) to (secondname);
+  \node (address) [cpt, below right=of person] {address};
+  \draw (person) to (address); 
+  \node (street) [cpt, below left=of address] {street};
+  \draw (address) to (street); 
+  \node (city) [cpt, below=of address] {city};
+  \draw (address) to (city); 
+  \node (country) [cpt, below right=of address] {country}; 
+  \draw (address) to (country); 
+  \end{tikzpicture}
+  \caption{Tree diagram for address example}
+  \label{fig:tree-diagram}
+\end{figure}
+
+\subsubsection{Sample data}
+
+\inputminted{xml}{sampledata.xml}
+
+\subsubsection{Rules}
+
+We then decide on a number of business rules to determine if an element is optional, and if there are any constraints on its \textbf{multiplicity}: 
+
+\begin{itemize}
+\item Person can have multiple first names.
+\item Person can have only one second names.
+\item Person can have multiple addresses.
+\item An address can have a few streets (lets say between 1 and 3).
+\end{itemize}
+
+These rules are then added to the tree diagram, \autoref{fig:tree-diagram-with-rules}. 
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+  \node (person) [cpt] {person};
+  \node (firstname) [cpt, below left=of person, fill=DarkBlue] {firstname};
+  \node [bizr] at (firstname.south) {min=1 max=*};  
+  \draw (person) to (firstname);
+  \node (secondname) [cpt, below=of person] {secondname};
+  \draw (person) to (secondname);
+  \node (address) [cpt, below right=of person, fill=DarkBlue] {address};
+  \node [bizr] at (address.south) {min=1 max=*};  
+  \draw (person) to (address); 
+  \node (street) [cpt, below left=of address, fill=DarkGreen] {street};
+  \node [bizr] at (street.south) {min=1 max=3};  
+  \draw (address) to (street); 
+  \node (city) [cpt, below=of address] {city};
+  \draw (address) to (city); 
+  \node (country) [cpt, below right=of address] {country}; 
+  \draw (address) to (country); 
+  \end{tikzpicture}
+  \caption{Tree diagram with business rules for address example}
+  \label{fig:tree-diagram-with-rules}
+\end{figure}
+ 
+
+
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
+
+\end{document}

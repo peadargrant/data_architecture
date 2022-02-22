@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<doc>
+
+  <!-- CLOSED ELEMENTS -->
+  <!-- a closed element's content is placed between start and end tags -->
+  <element_name>Content</element_name>
+
+  <!-- for example: -->
+  <artist>Nine Inch Nails</artist>
+
+
+  <!-- EMPTY ELEMENTS -->
+  <!-- an empty element is composed of a single tag -->
+  <element_name />
+  
+  <!-- for example: the empty element -->
+  <artist />
+  <!-- is just a shorthand for -->
+  <artist></artist>
+
+  
+  <!-- NESTING ELEMENTS -->
+
+  <!-- an element may contain one or more child elements -->
+  <parent>
+    <child>...</child>
+    <child />
+    <anotherchild>...</anotherchild>
+    <child>
+      <grandchild>...</grandchild>
+    </child>
+  </parent>
+
+  <!-- for example: -->
+  <band>
+    <name>Pink Floyd</name>
+    <member>David Gilmour</member>
+    <member>Roger Waters</member>
+    <member>Nick Mason</member>
+    <member>Richard Wright</member>
+  </band>
+
+</doc>
