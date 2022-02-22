@@ -1,0 +1,14 @@
+
+
+Database issues:
+1. Slow-down with many connections -> queries execute slower.
+2. Failure of DB server -> can't look up data we need!
+
+Physical replication
+Logical replication 
+Statement-based replication 
+
+Replication types:
+Synchronous - COMMIT won't return until written to *ALL* disks.
+Asychronous - COMMIT returns after written to PRIMARY's disks.
+
