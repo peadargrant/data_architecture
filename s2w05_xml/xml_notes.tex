@@ -366,9 +366,532 @@ These rules are then added to the tree diagram, \autoref{fig:tree-diagram-with-r
   \label{fig:tree-diagram-with-rules}
 \end{figure}
  
+\section{XPath}
 
+XPath expressions allow us to easily retrieve the contents of elements and attributes in an XML document, by writing expressions.  
+
+The XPath expression language is standardised and works similarly in many languages - Java, C\#, C++/libxml/JavaScript etc.
+
+XPath uses \textbf{expressions} and standard \textbf{functions} to return \textbf{nodes} that are \textbf{related} to other nodes. 
+
+
+\subsection{Expressions}
+
+XPath uses path expressions to select nodes or node-sets in an XML document.
+These expressions are very similar in theory to file paths or URLs:
+Examples:
+\begin{itemize}
+\item \texttt{/Users/peadar/Intro.pdf}
+\item \texttt{/Users/peadar/Documents/Intro.pdf}
+\item \url{http://xyz.com/dir/file2.xml}
+\item \url{http://xyz.com/dir/sd/file2.xml}
+\end{itemize}
+
+
+\subsection{Standard functions}
+
+XPath includes over 100 built-in functions.
+There are functions for string values, numeric values, date and time comparison, Boolean values, and more complex manipulations.
+  
+Functions usually \textbf{operate} on nodes or node-sets returned using an expression. 
+
+
+\subsection{Nodes}
+
+In XPath, there are seven kinds of nodes:
+
+\begin{enumerate}
+\item \textbf{Element}
+\item \textbf{Attribute}
+\item \textbf{Text}
+\item Namespace (see later)
+\item Processing instruction 
+\item Comment
+\item \textbf{Document}
+\end{enumerate}
+
+
+\subsection{Relationships}
+
+Effective use of XPath requires a firm understanding of the relationships present between various nodes, \autoref{tab:relationships}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Relationship} & \textbf{Meaning} \\
+    \midrule
+    Parent & Each element and attribute has one parent. \\
+    Children & Element nodes may have zero, one or more children. \\
+    Siblings & Nodes that have the same parent. \\
+    Ancestors & A node's parent, parent's parent, etc. \\
+    Descendants & A node's children, children's children, etc. \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Important relationships between nodes}
+  \label{tab:relationships} 
+\end{table}
+
+
+\section{Basic selection expressions}
+
+XPath uses path expressions to select nodes or node-sets in an XML document.
+The node is selected by following a path or steps.
+The most useful path expressions are listed in \autoref{tab:xpath-expressions}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    \textit{elementname} &  all ``elementname'' elements\\
+    / & from root node / previous node \\
+    // & from anywhere in the document \\
+    .. & parent of the current node \\
+    @attribname & attribute ``attribname'' \\
+    text() & text content of current node\\
+    \bottomrule
+  \end{tabular}
+  \caption{XPath expressions}
+  \label{tab:xpath-expressions}
+\end{table}
+
+\subsection{Writing path expressions}
+
+A location path can be absolute or relative.
+An absolute location path starts with a slash ( / ) and a relative location path does not.
+In both cases the location path consists of one or more steps, each separated by a slash:
+
+\begin{verbatim}
+An absolute location path:
+
+/step/step/...
+
+A relative location path:
+
+step/step/...
+\end{verbatim}
+
+Each step is evaluated against the nodes in the current node-set.
+
+
+\subsection{Example}
+
+Using the bookstore document, a number of XPath expressions are shown in \autoref{tab:expressions-example}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    \texttt{bookstore} & all elements named ``bookstore'' \\
+    \texttt{/bookstore} & root element bookstore \\
+    \texttt{bookstore/book} & child books of bookstore \\
+    \texttt{//book} & all books in document \\
+    \texttt{bookstore//book} & descendant books of bookstore\\
+    \bottomrule
+  \end{tabular}
+  \caption{Expressions on \texttt{bookstore.xml} document}
+  \label{tab:expressions-example}
+\end{table}
+
+
+\subsubsection{Selecting text content}
+
+Note that we must use the \texttt{text()} function to get just the text content of an element, rather than the element itself:
+\begin{itemize}
+\item \texttt{/bookstore/book/title} = title element of each book
+\item \texttt{/bookstore/book/title/text()} = title text content of each book
+\end{itemize}
+
+\section{Tooling}
+
+\subsection{Command-line}
+
+The \texttt{xmllint} tool can evaluate XPath expressions at the command-line.
+
+\begin{minted}{bash}
+xmllint --xpath '/route/station[amenity]' stations.xml
+\end{minted}
+
+
+\subsection{Python}
+
+Python's \texttt{lxml} library can work with XPath expressions:
+\begin{minted}{python}
+import lxml.etree as ET
+
+root = ET.parse('stations.xml')
+for name in root.xpath('/route/station/name/text()'):
+    print(name)
+\end{minted}
+
+
+
+\section{Predicates}
+
+Predicates are used to find a \textbf{specific node} or a \textbf{node containing a specific value}.
+
+They are embedded in square brackets after the element name to which they refer.
+Examples:
+\begin{itemize}
+\item \texttt{/element/element[predicate]}
+\item \texttt{/element[predicate]/element}
+\item \texttt{/element[p1]/element[p2]}
+\end{itemize}
+
+
+\subsection{Posessive predicates}
+
+Posessive predicates select elements that have matching children, \autoref{tab:posessive-predicates}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    \textbf{//parent[@attribute]} &  all ``parent'' elements with  ``attribute'' \\
+    \textbf{//gp/parent[child]} & all ``parent'' elements with ``child'' \\
+    \textbf{//gp/parent[child]/child2} &  all ``child2'' of above... \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Posessive predicates}
+  \label{tab:posessive-predicates}
+\end{table}
+
+\subsection{Value-based predicates}
+
+Value-based predicates select elements based on whether they or their child elements or attributes match specific values, \autoref{tab:value-based-predicates}. 
+
+  \begin{table}[htbp]
+    \centering
+    \begin{tabularx}{1.0\linewidth}{l X}
+      \toprule
+      \textbf{Expression} & \textbf{Selects} \\
+      \midrule
+      \texttt{//parent[@attribute='value']} &  all ``parent'' elements with ``attribute''==value \\
+      \texttt{//gp/parent[child$<v$]} &  all ``parent'' elements where ``child'' element has value $<v$ \\
+      \texttt{//gp/parent[child$<v$]/child2} &  all ``child2'' of above... \\
+      \bottomrule
+    \end{tabularx}
+    \caption{Value-based predicates}
+    \label{tab:value-based-predicates}
+  \end{table}
+
+\subsection{Positional predicates}
+
+Positional predicates allow selections based on element ordering usually using XPath functions, \autoref{tab:positional-predicates}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    /parent/child[$n$] & the $n$th child element of the parent. \\
+    /parent/child[last()] & the last child element of the parent. \\
+    /parent/child[last()-$n$] & the last but $n$ child element of the parent. \\
+    /parent/child[position()$<n$] & the first $n-1$ child elements of the parent. \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Positional predicates}
+  \label{tab:positional-predicates}
+\end{table}
+
+\subsection{Other predicates}
+
+There are a lot more things you can do with predicates --- see online tutorials for more details \cite{w3-schools:2013:xpath}. 
+
+\subsection{Combining two node sets}
+
+To combine two node sets, we use the $\vert$ (vertical bar) operator between two separate XPath expressions.
+Example: 
+
+\begin{verbatim}
+    \texttt{/path/path[predicate] $\vert$ /path2/path2[predicate]}
+\end{verbatim}
+
+
+
+\subsection{Operators}
+
+When writing a predicate we can use any of the usual binary comparison operators, \autoref{tab:operators}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Operator} & \textbf{Meaning} \\
+    \midrule
+    = & equal \\
+    != & not equal \\
+    $<, >$ & less than, greater than \\
+    $<=, >=$ & less/greater than or equal to \\
+    or, and & or/and \\
+    \bottomrule
+  \end{tabular}
+  \caption{XPath operators}
+  \label{tab:operators}
+\end{table}
+
+You can use math operators in your comparisons, but \textbf{be careful of division}, \autoref{tab:math-operators}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Operator} & \textbf{Meaning} \\
+    \midrule
+    $+$ & addition \\
+    $-$ & subtraction \\
+    * & multiplication \\
+    div & division \\
+    mod & modulus / division remainder\\
+    \bottomrule
+  \end{tabular}
+  \caption{XPath operators}
+  \label{tab:math-operators}
+\end{table}
+
+
+\section{Wildcards}
+
+XPath wildcards can be used to select unknown XML elements, \autoref{tab:xpath-wildcards}
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Expression} & \textbf{Matches} \\
+    \midrule
+    \texttt{*} &  any element node \\
+    \texttt{@*} &  any attribute node \\
+    \texttt{node()} & any node of any kind \\
+    \bottomrule
+  \end{tabular}
+  \caption{XPath wildcards}
+  \label{tab:xpath-wildcards}
+\end{table}
+
+
+
+
+
+\section{Axes}
+
+An axis defines a node-set relative to the current node.
+
+\subsection{Direct axes}
+
+Direct axes specify the node itself, its parent or children, or its attributes, \autoref{tab:direct-axes}. 
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Axis} & \textbf{Selects} \\
+    \midrule
+    self & the current node \\
+    parent & the parent of the current node \\
+    child & all children of the current node \\
+    attribute & all attributes of the current node \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Direct axes}
+  \label{tab:direct-axes}
+\end{table}
+
+
+\subsection{Cross-generational axes} 
+
+Cross-generational axes allow us to specify nodes ancestral or descending nodes, \autoref{tab:cross-generational-axes}. 
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Axis} & \textbf{Selects} \\
+    \midrule
+    ancestor & all ancestors (parent, grandparent, etc.) of the current node \\
+    ancestor-or-self & current node and all of its ancestors \\
+    descendant & all descendants (children, grandchildren, etc.) of the current node \\
+    descendant-or-self & current node and all descendents \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Cross-generational axes}
+  \label{tab:cross-generational-axes}
+\end{table}
+
+
+
+
+\subsection{Positional axes} 
+
+Positional axes allow us to select nodes before or after other nodes in the document, \autoref{tab:positional-axes}. 
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Axis} & \textbf{Selects} \\
+    \midrule
+    following & everything in the document after the closing tag of the current node \\
+    following-sibling & all siblings after the current node \\
+    preceding &  all nodes  before  current node, except ancestors, attribute nodes and namespace nodes \\
+    preceeding-sibling & all siblings before the current node \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Positional axes}
+  \label{tab:positional-axes}
+\end{table}
+
+\subsection{Writing location path expressions}
+
+With predicates and axes, a full step consists of:
+
+\begin{itemize}
+\item an axis (defines the tree-relationship between the selected nodes and the current node)
+\item a node-test (identifies a node within an axis)
+\item zero or more predicates (to further refine the selected node-set)
+\end{itemize}
+
+The syntax for a location step is:
+\begin{verbatim}
+axisname::nodetest[predicate]
+\end{verbatim}
+
+
+\subsection{Example}
+
+Here are some XPath expressions using axes for the bookstore.xml file:
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    child::book & 	 all book nodes that are children of the current node \\
+    attribute::lang &	 the lang attribute of the current node \\
+    child::* &	 all element children of the current node \\
+    attribute::* &	 all attributes of the current node \\
+    child::text() &	 all text node children of the current node \\ 
+    child::node() &	 all children of the current node \\ 
+    descendant::book &	 all book descendants of the current node \\ 
+    ancestor::book &	 all book ancestors of the current node \\ 
+    ancestor-or-self::book &	 all book ancestors of the current node - and the current as well if it is a book node \\
+    child::*/child::price &	 all price grandchildren of the current node\\
+    \bottomrule
+  \end{tabularx}
+  \caption{XPath axes expressions example}
+  \label{tab:xpath-axes-example}
+\end{table}
+
+
+\section{XQuery}
+
+XQuery is to XML what SQL is to database tables.
+XQuery was designed to \textbf{query} rather than \textit{navigate} XML data.
+
+\subsection{Syntax}
+
+XQuery is built on top of \textbf{XPath}, and uses the \textbf{same expressions and predicates},  
+augmented by the queries made up of by the so-called \textbf{FLWOR} syntax, \autoref{tab:flwor}.
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Component} & \textbf{Function} \\
+    \midrule
+    \textbf{f}or & creates a sequence of nodes \\
+    \textbf{l}et & binds a sequence to a variable \\
+    \textbf{w}here & filters nodes on a boolean expression \\
+    \textbf{o}rder by & sorts the nodes \\
+    \textbf{r}eturn & evaluated once per node \\
+    \bottomrule
+  \end{tabularx}
+  \caption{FLWOR syntax}
+  \label{tab:flwor}
+\end{table}
+
+
+\subsection{Rules}
+
+\begin{enumerate}
+\item XQuery is case-sensitive
+\item XQuery elements, attributes, and variables must be valid XML names
+\item An XQuery string value can be in single or double quotes
+\item Local variables (usually to represent the current node) are preceeded by the \$ character. 
+\item XQuery comments are delimited by (: and :), e.g. (: XQuery Comment :)
+\end{enumerate}
+
+
+\subsection{Examples}
+
+We will use the following XML document:
+
+\inputminted{xml}{books.xml}
+
+
+\subsubsection{Basic selection}
+
+We are asked to:
+\begin{quotation}
+Select all the title elements under the book elements that are under the bookstore element that have a price element with a value that is higher than 30.
+\end{quotation}
+
+Write down a suitable XPath expression for this: 
+
+\vspace{\fill}
+
+This same query could be expressed using the FLWOR syntax as follows:
+
+\begin{minted}{xquery}
+for $x in /bookstore/book
+where $x/price > 30.00
+return $x/title
+\end{minted}
+
+Obviously, the XPath expression is more concise. 
+However, we have a problem if we want the returned element list to be ordered or otherwise modified:
+
+\begin{minted}{xquery}
+for $x in /bookstore/book
+where $x/price > 30.00
+order by $x/title
+return $x/title
+\end{minted}
+
+We can simplify by using XPath predicates instead of (or in addition to) the WHERE clause: 
+
+\begin{minted}{xquery}
+for $x in /bookstore/book[price>30]
+order by $x/title
+return $x/title
+\end{minted}
+
+\subsection{Counting loop iterations}
+
+The at keyword can be used to count the iteration:
+
+\begin{minted}{xquery}
+for $x at $i in /bookstore/book/title
+return {$i}. {data($x)}
+\end{minted}
+
+\subsection{Multiple order by clauses}
+
+The order by clause is used to specify the sort order of the result. Here we want to order the result by category and title:
+
+\begin{minted}{xquery}
+for $x in /bookstore/book
+order by $x/@category, $x/title
+return $x/title
+\end{minted}
 
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
 
 \end{document}
+
+
+
