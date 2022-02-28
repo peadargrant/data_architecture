@@ -53,17 +53,6 @@
     4.  Print out the titles of all `accomodation` elements that have a
         laundry `facility` that is not charged for.
 
-6.  Write appropriate XQuery expressions to extract the specified
-    information from the books XML document at
-    [src/xquery/books.xml](src/xquery/books.xml):
 
-    1.  Print out all book nodes, ordered by year.
-
-    2.  Return the title element of all books in the WEB category,
-        without the lang attribute.
-
-    3.  Print out books in the format “n. TITLE by AUTHOR”, where $n$ is
-        an incrementing integer, ordered alphabetically by author name
-        and then by book title.
 
 
