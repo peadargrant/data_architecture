@@ -1,0 +1,10 @@
+{
+	"description": "Birthday card",
+	"price": 5,
+	"colour": "red",
+	"variants": [
+		"cat",
+		"dog",
+		"sheep"
+		]
+}
