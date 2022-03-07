@@ -1,0 +1,191 @@
+\documentclass{pgnotes}
+
+\title{Text Search}
+
+\begin{document}
+
+\maketitle
+
+\section*{Required reading}
+
+\begin{enumerate}
+  
+\item \href{https://www.postgresql.org/docs/current/textsearch-intro.html}{PostgreSQL manual, Chapter 12}
+\end{enumerate}
+
+\tableofcontents
+
+\section{Text}
+
+A large amount of data is text (e.g. names, comments, remarks, addresses).
+
+Today's class will examine basic ways to query text data.
+We assume that textual data is stored using the \texttt{TEXT} type, but otherwise make no assumptions about it.
+
+\subsection{Full text searching}
+
+The \href{https://www.postgresql.org/docs/current/textsearch.html}{PostgreSQL manual, Chapter 12} provides a thorough yet applied introduction to Full-text search.
+\begin{quotation}
+  Full Text Searching (or just text search) provides the capability to identify natural-language documents that satisfy a query, and optionally to sort them by relevance to the query. The most common type of search is to find all documents containing given query terms and return them in order of their similarity to the query. Notions of query and similarity are very flexible and depend on the specific application. The simplest search considers query as a set of words and similarity as the frequency of query words in the document.
+\end{quotation}
+A document is the unit of searching in a full text search system.
+In a database, the document is either a text field within a row, or an expression involving multiple fields. 
+
+\section{Basic text matching}
+
+\subsection{Equality}
+
+Already we can do basic text matching using the \texttt{=} sign:
+\begin{minted}{postgresql}
+SELECT * FROM products WHERE name = 'CHAIR';
+\end{minted}
+
+\subsection{LIKE operator}
+
+Similarly, we have met the \texttt{LIKE} operator which introduces wildcard characters:
+\begin{description}
+\item[Percent sign (\%)] to match zero or more characters
+\item[Underscore sign (\_)] to match any single character
+\end{description}
+Negation possible using \texttt{NOT}. 
+Best seen by example:
+
+\begin{minted}{postgresql}
+-- example using % sign
+SELECT * FROM products WHERE name LIKE '%CHAIR%';
+
+-- using _ to match single character
+SELECT * FROM tasks WHERE descripion LIKE '%CAPITALI_E%';
+
+-- negation using NOT
+SELECT * FROM products WHERE department NOT LIKE 'GARDEN%';
+\end{minted}
+
+\subsection{Case sensitivity}
+
+PostgreSQL extends SQL with the alternative \texttt{ILIKE} operator, performing a case-insensitive match.
+
+\begin{minted}{postgresql}
+SELECT * FROM products WHERE name ILIKE 'TOMATO%';
+\end{minted}
+
+\subsection{SIMILAR TO}
+
+The \href{https://www.postgresql.org/docs/current/functions-matching.html#FUNCTIONS-SIMILARTO-REGEXP}{\texttt{SIMILAR TO}} operator extends \texttt{LIKE} to provide expression-based matching.
+In addition to \texttt{\%} and \texttt{\_} it provides:
+
+\begin{description}
+\item[Alternation (OR construct)] using \texttt{|}
+\item[Repetition]:
+  \begin{description}
+  \item[Zero or more] times \texttt{*}
+  \item[One or more] times \texttt{+}
+  \item[None or one] time \texttt{?}
+  \end{description}
+\item[Grouping] using parentheses \texttt{( )}
+\item[Allowed characters] using a so-called \textit{bracket expression} 
+\end{description}
+
+\subsection{Textual search limitations}
+
+The textual search capabilities discussed thus far have some significant limitations:
+
+\begin{itemize}
+\item No linguistic support (no support for derived words)
+\item No ranking of search results based on similarity (or other metric)
+\item Slow (as they need to scan entire data set)
+\end{itemize}
+
+\section{Full-text search} 
+
+The full-text search capabilities of PostgreSQL extend beyond the simpler text-based queries, effectively providing a rudimentary search engine.
+Full-text search capabilities are not standardised in ANSI SQL, and each database differs in what facilities (if any) are provided.
+
+\subsection{Processing}
+
+Full text indexing preprocesses documents to create an index saved for searching:
+There are three steps:
+\begin{description}
+\item[Parse documents into tokens] by classifying tokens (separated by whitespace) as numbers, words (various types), email addresses, other constructs.
+\item[Convert tokens to lexemes] normalised to:
+  \begin{enumerate}
+  \item coerce to lower case
+  \item remove suffixes
+  \item eliminate / ignore so-called stop words
+  \end{enumerate}
+\item[Storing lexemes for searching] as ranked array.
+\end{description}
+Normalisation of tokens may include:
+\begin{description}
+\item[Stop words] that should not be indexed are removed
+\item[Map synonyms] to a single word
+\item[Map phrases] to a single word
+\item[Map different variations] of a word to \textbf{canonical form}
+\end{description}
+
+
+A full text search requires two operands:
+\begin{itemize}
+\item The query as a \texttt{tsquery}
+\item The documents to be searched as \texttt{tsvector}
+\end{itemize}
+
+
+\subsection{Search vector}
+
+In PostgreSQL, preprocessed documents are represented as the \texttt{tsvector} datatype.
+All text searching operations are peformed against this. 
+
+Preprocessing the relevant text creates a \texttt{tsvector}.
+\begin{minted}{postgresql}
+SELECT to_tsvector('cat');
+SELECT to_tsvector('The cat has no hat.');
+\end{minted}
+The \texttt{tsvector} may be constructed dynamically, or constructed and stored as a field in a row (column in table).
+
+\subsection{Search queries}
+
+The query must be in \texttt{tsvector}.
+\begin{minted}{postgresql}
+SELECT to_tsquery('cat hat');
+\end{minted}
+
+
+\subsection{Search operator}
+
+PostgreSQL defines the \texttt{@@} operator for full-text searching.
+It requires a \texttt{tsquery} and set of \texttt{tsvector}s as operands (in any order).
+Normally the operator would appear in a \mintinline{postgresql}{WHERE} clause.
+
+\subsection{Search vector dependence}
+
+The search vector may be based on a simple column, e.g. a product name.
+Alternatively it may be based on multiple columns, e.g. an event title and summary, by concatenation. 
+There are a number of options to create and maintain the search vector:
+
+\subsubsection{Manually}
+
+Search vectors can be created within \mintinline{postgresql}{INSERT} or \mintinline{postgresql}{UPDATE} operations like any other datatype.
+Danger of falling out of sync if updates not performed.
+
+\subsubsection{Batch create tsvector}
+
+It is possible to create / update search vector column for an entire table using update command.
+
+\subsubsection{Generated column}
+
+An alternative is to make the search vector a generated column, so that it is updated automatically when the row is updated.
+\begin{minted}{postgresql}
+ALTER TABLE products
+ADD COLUMN search_vector tsvector
+GENERATED ALWAYS AS (to_tsvector(description)) STORED; 
+\end{minted}
+Generated column can be used for any column that needs to be kept automatically up to date (not just tsvector).
+A row level equivalent of a view.
+
+
+
+
+
+\end{document}
+

@@ -1,0 +1,127 @@
+Module Id,Module Code,Module Title,Module Long Title,Field of Study,Valid From,Module Status,Credits,Version,Level
+52788,52788,Data Communications,Data Communications,481, SEP 2014,Draft,5,1.0,7
+56077,COMP C7014,Cloud Foundations,Cloud Foundations,481, JUN 2019,Approved,5,1.0,7
+56090,COMP C7015,Cloud Technologies,Cloud Technologies,481, JUN 2019,Approved,5,1.0,7
+56159,COMP C9010,Human Computer Interaction,Human Computer Interaction,481, JUN 2019,Approved,7.5,4.0,9
+52651,COMP C9013,Medical Visualisation,Medical Visualisation,481, SEP 2013,Draft,5,2.0,9
+53269,COMP C9016,Pervasive & Mobile Computing,Pervasive & Mobile Computing,481, SEP 2014,Approved,15,1.0,9
+53944,COMP C9016,Pervasive & Mobile Computing,Pervasive & Mobile Computing,481, FEB 2016,Draft,15,2.0,9
+56690,COMP C9022,Embedded Systems,Embedded Systems,481, JUN 2019,Approved,7.5,1.0,9
+57157,COMP C9023,Cloud Architecture,Cloud Architecture,481, SEP 2020,Approved,7.5,2.0,9
+56692,COMP C9024,Secure Architecture,Secure Architecture,481, JUN 2019,Approved,7.5,1.0,9
+56691,COMP C9025,Computer Vision and AI,Computer Vision and AI,481, JUN 2019,Approved,7.5,1.0,9
+56573,COMP I8001,Virtual Server Technology,Virtual Server Technology,481, JUN 2019,Approved,5,3.0,8
+56574,COMP I8003,Data Storage Technologies,Data Storage Technologies,481, JUN 2019,Approved,5,2.0,8
+55142,COMP I8004,Data Centre Infrastructure,Data Centre Infrastructure,481, JUN 2019,Approved,5,2.0,8
+56218,COMP I8010,Cloud Architecture,Cloud Architecture,481, JUN 2019,Approved,10,3.0,8
+57158,COMP I8010,Cloud Architecture,Cloud Architecture,481, SEP 2020,Draft,10,4.0,8
+54215,CSYS C7006,Computer Hardware,Computer Hardware,481, SEP 2016,Approved,5,2.0,7
+56922,DATA C9001,Data Architecture,Data Architecture,48, JUN 2019,Approved,10,1.0,9
+56923,DATA C9002,Statistics,Statistics,46, JUN 2019,Approved,10,1.0,9
+57283,DATA C9002,Statistics,Statistics,46, SEP 2020,Draft,10,2.0,9
+56924,DATA C9003,Data Visualisation and Insight,Data Visualisation and Insight,48, JUN 2019,Approved,5,1.0,9
+56927,DATA C9004,Machine Learning,Machine Learning,48, JUN 2019,Approved,10,1.0,9
+56974,DATA C9005,Time Series Analysis,Time Series Analysis,48, JUN 2019,Approved,5,1.0,9
+56975,DATA C9006,Ethics in Data Analytics ,Ethics in Data Analytics ,48, JUN 2019,Approved,5,1.0,9
+54209,DBMS C7004,Database Development,Database Development,481, SEP 2016,Approved,5,2.0,7
+56069,DBMS C7005,Database Management Systems,Database Management Systems,481, JUN 2019,Draft,5,3.0,7
+56083,DBMS C7006,Database Administration,Database Administration,481, JUN 2019,Approved,5,3.0,7
+56993,DBMS C7008,Database Management,Database Management,481, JUN 2019,Approved,5,1.0,7
+54212,DBMS C8Z07,Digital Systems,Digital Systems,481, SEP 2016,Approved,7.5,2.0,7
+55457,DBMS C8Z07,Digital Systems,Digital Systems,48, JUN 2019,Draft,5,3.0,6
+56810,DISS C9001,Dissertation ,Dissertation ,481, JUN 2019,Approved,30,3.0,9
+56929,DISS C9002,Dissertation,Dissertation,48, JUN 2019,Approved,30,1.0,9
+56082,NETW C7024,Broadband Technologies,Broadband Technologies,481, JUN 2019,Approved,5,2.0,7
+56050,PROG C7016,Programming for System Administration and Networking,Programming for System Administration and Networking,481, JUN 2019,Approved,5,1.0,6
+56039,PROG C7Z24,Introduction to Scripting,Introduction to Scripting,481, JUN 2019,Approved,5,1.0,6
+52839,PROG C8048,Parallel & Multicore Programming,Parallel & Multicore Programming,481, SEP 2014,Approved,5,1.0,8
+56925,PROG C9001,Programming for Data Analytics,Programming for Data Analytics,48, JUN 2019,Approved,10,1.0,9
+57284,PROG C9001,Programming for Data Analytics,Programming for Data Analytics,48, SEP 2020,Draft,10,2.0,9
+56501,RESA C9007,Research Methods and Innovation,Research Methods and Innovation,481, JUN 2019,Approved,7.5,3.0,9
+56973,RESA C9009,Research Process for Data Analytics,Research Process for Data Analytics,48, JUN 2019,Approved,5,1.0,9
+54216,SWRD C7003,Technical Problem Solving,Technical Problem Solving,481, SEP 2016,Approved,5,2.0,7
+56237,SWRD C9004,Software Process Management,Software Process Management,481, JUN 2019,Approved,7.5,3.0,9
+53945,SWRD C9008,Medical Device Software,Medical Device Software,481, FEB 2016,Approved,15,2.0,9
+56632,SWRD C9009,Software Design ,Software Design ,481, JUN 2019,Approved,7.5,3.0,9
+52654,,Medical Signal Processing,Medical Signal Processing,481, SEP 2013,Draft,5,1.0,9
+55511,,Operating Systems,Operating Systems,48, JUN 2019,Draft,5,1.0,6
+56592,,Medical Device Software,Medical Device Software,481, JUN 2019,Draft,7.5,3.0,9
+57030,,Communication & Presentation Skills,Communication & Presentation Skills,481, SEP 2020,Draft,5,1.0,6
+57031,,Bias and Ethics in Society ,Bias and Ethics in Society ,481, FEB 2021,Conditional Approval,5,1.0,6
+57032,,Study Design,Study Design,481, FEB 2021,Conditional Approval,5,1.0,6
+57033,,Project Management,Project Management,481, SEP 2020,Conditional Approval,5,1.0,6
+57034,,Research Methodology,Research Methodology,481, FEB 2021,Reviewed,5,1.0,8
+57035,,Ethics and Professional Practice in Data Science,Ethics and Professional Practice in Data Science,481, FEB 2021,Reviewed,5,1.0,8
+57036,,Data Visualisation and Insight,Data Visualisation and Insight,481, FEB 2021,Reviewed,5,1.0,7
+57037,,Data Science Fundamentals  ,Data Science Fundamentals  ,481, FEB 2021,Conditional Approval,5,1.0,6
+57038,,Tools for Software Development,Tools for Software Development,481, FEB 2021,Conditional Approval,5,1.0,6
+57039,,Database Systems,Database Systems,481, FEB 2021,Conditional Approval,5,1.0,6
+57040,,Big Data Systems,Big Data Systems,481, FEB 2021,Conditional Approval,5,1.0,6
+57041,,Distributed Data Systems ,Distributed Data Systems ,481, FEB 2021,Reviewed,5,1.0,7
+57042,,Machine Learning,Machine Learning,481, FEB 2021,Reviewed,10,1.0,8
+57043,,Introduction to Programming for Data Analytics,Introduction to Programming for Data Analytics,481, FEB 2021,Conditional Approval,10,1.0,6
+57044,,Object Oriented Programming for Data Analytics,Object Oriented Programming for Data Analytics,481, FEB 2021,Conditional Approval,10,1.0,6
+57045,,Artificial Intelligence ,Artificial Intelligence ,481, FEB 2021,Reviewed,5,1.0,7
+57046,,Data Mining ,Data Mining ,481, FEB 2021,Reviewed,5,1.0,8
+57047,,Time Series Analysis,Time Series Analysis,481, FEB 2021,Reviewed,5,1.0,8
+57048,,Probability & Statistics,Probability & Statistics,481, FEB 2021,Conditional Approval,10,1.0,6
+57049,,Statistics ,Statistics ,481, SEP 2020,Conditional Approval,10,1.0,6
+57050,,Applied Probability,Applied Probability,481, FEB 2021,Reviewed,5,1.0,7
+57051,, Advanced Statistics 1, Advanced Statistics 1,461, FEB 2021,Reviewed,5,1.0,8
+57052,,Algebra and Functions,Algebra and Functions,481, FEB 2021,Conditional Approval,5,1.0,6
+57053,,Linear Algebra,Linear Algebra,481, FEB 2021,Conditional Approval,5,1.0,6
+57054,,Analysis 1,Analysis 1,481, FEB 2021,Conditional Approval,5,1.0,6
+57055,,Analysis 2,Analysis 2,481, FEB 2021,Conditional Approval,5,1.0,6
+57056,,Analysis 3,Analysis 3,481, FEB 2021,Reviewed,5,1.0,7
+57058,,Mathematical Modelling ,Mathematical Modelling ,481, FEB 2021,Reviewed,5,1.0,8
+57059,,Differential Equations,Differential Equations,481, FEB 2021,Reviewed,5,1.0,8
+57060,,Discrete Mathematics,Discrete Mathematics,481, FEB 2021,Conditional Approval,5,1.0,6
+57061,,Logic,Logic,481, SEP 2020,Draft,5,1.0,6
+57062,,Geometry ,Geometry ,481, FEB 2021,Conditional Approval,5,1.0,6
+57063,,Number Theory  ,Number Theory  ,461, FEB 2021,Conditional Approval,5,1.0,6
+57064,,Cryptography,Cryptography,481, FEB 2021,Reviewed,5,1.0,7
+57065,,Project,Project,481, FEB 2021,Reviewed,10,1.0,8
+57166,,Advanced Statistics 2,Advanced Statistics 2,461, FEB 2021,Reviewed,5,1.0,8
+57170,, Introduction to Programming , Introduction to Programming ,481, SEP 2020,Draft,10,1.0,6
+57171,,Object-Oriented Programming,Object-Oriented Programming,481, SEP 2020,Draft,10,1.0,6
+57172,,Algorithms,Algorithms,481, FEB 2020,Draft,5,1.0,7
+57173,,Microservices,Microservices,481, SEP 2020,Draft,5,1.0,8
+57174,,Front-End Development,Front-End Development,481, SEP 2020,Draft,5,1.0,6
+57175,, Operating Systems , Operating Systems ,481, SEP 2020,Draft,5,1.0,8
+57176,,Introduction to System Administration,Introduction to System Administration,48, SEP 2020,Draft,10,1.0,8
+57177,, Computer Hardware , Computer Hardware ,481, FEB 2020,Draft,5,1.0,6
+57178,, Mathematics for Computing  , Mathematics for Computing  ,481, SEP 2020,Draft,5,1.0,6
+57179,,Dev Ops Lifecycle,Dev Ops Lifecycle,48, SEP 2020,Draft,5,1.0,6
+57180,,Virtualization,Virtualization,48, SEP 2020,Draft,5,1.0,8
+57181,,Server Development,Server Development,48, SEP 2020,Draft,5,1.0,7
+57182,,Cloud Platform Services ,Cloud Platform Services ,48, SEP 2020,Draft,5,1.0,8
+57183,,Cloud Infrastructure ,Cloud Infrastructure ,48, SEP 2020,Draft,5,1.0,8
+57184,,Networking,Networking,481, SEP 2020,Draft,5,1.0,6
+57185,,Routing and Switching,Routing and Switching,48, SEP 2020,Draft,10,1.0,6
+57187,,Network Protocols,Network Protocols,48, SEP 2020,Draft,5,1.0,7
+57188,,Programmable Networks,Programmable Networks,481, SEP 2020,Draft,10,1.0,8
+57189,, Databases, Databases,481, SEP 2020,Draft,5,1.0,6
+57190,, Database Systems, Database Systems,481, SEP 2020,Draft,5,1.0,6
+57191,,Data Warehousing,Data Warehousing,481, SEP 2020,Draft,5,1.0,6
+57192,,Data Analysis ,Data Analysis ,481, SEP 2020,Draft,5,1.0,6
+57193,,System Testing and Continuous Integration,System Testing and Continuous Integration,48, SEP 2020,Draft,5,1.0,6
+57195,,Development Management,Development Management,481, SEP 2020,Draft,5,1.0,7
+57196,,Solutions Architecture,Solutions Architecture,48, SEP 2020,Draft,10,1.0,8
+57198,, Database Administration, Database Administration,481, FEB 2020,Draft,5,1.0,7
+57199,,Full-Stack Web Development,Full-Stack Web Development,48, SEP 2020,Draft,5,1.0,6
+57200,,Software Design,Software Design,48, SEP 2020,Draft,5,1.0,8
+57201,,DevOps Project,DevOps Project,48, SEP 2020,Draft,5,1.0,7
+57202,,Research Methods ,Research Methods ,481, SEP 2020,Draft,5,1.0,7
+57203,,Production Process,Production Process,48, SEP 2020,Draft,5,1.0,8
+57204,,Application Security,Application Security,48, SEP 2020,Draft,5,1.0,8
+57205,, Project , Project ,481, SEP 2020,Draft,10,1.0,8
+57206,,"Project Management - Compliance, Legal & Ethics","Project Management - Compliance, Legal & Ethics",481, SEP 2020,Draft,5,1.0,8
+57207,,Advanced Data Systems,Advanced Data Systems,48, SEP 2020,Draft,5,1.0,8
+57208,,Project Management,Project Management,48, SEP 2020,Draft,5,1.0,8
+57305,, Scripting , Scripting ,481, FEB 2021,Draft,2.5,1.0,8
+57308,,Cloud Technologies ,Cloud Technologies ,481, FEB 2021,Draft,5,1.0,8
+57310,,Data Storage Technologies,Data Storage Technologies,481, FEB 2021,Draft,5,1.0,8
+57340,,Onsite Server Environments,Onsite Server Environments,48, FEB 2021,Draft,5,1.0,8
+57360,,Deployment,Deployment,48, SEP 2020,Draft,5,1.0,8
+57373,,Cloud Services ,Cloud Services,481, SEP 2020,Draft,5,1.0,8
+57374,,Cloud Architecture,Cloud Architecture,481, SEP 2020,Draft,5,1.0,8
