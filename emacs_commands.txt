@@ -1,0 +1,16 @@
+Starting emacs with file
+emacs filename.txt/py/sql etc.
+
+Select a region of text
+Ctrl-Space then arrow keys
+
+Cut highlighted text
+Ctrl-W
+
+Paste previously cut text
+Ctrl-Y
+
+Saving a file:
+Ctrl-X Ctrl-S
+
+
