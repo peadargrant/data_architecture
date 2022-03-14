@@ -1,0 +1,5 @@
+Ideas for 2022/23:
+=================
+
+Re-sequence: 1 week Text LIKE & Regex ; 2nd week Full-text search
+

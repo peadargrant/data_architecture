@@ -1,0 +1,194 @@
+\documentclass{pgnotes}
+
+\title{Automation}
+
+\begin{document}
+
+\maketitle
+
+This class is designed to assist you with CA1.
+
+\section{PSQL input}
+
+\subsection{Shell redirection}
+
+Imagine we have a file \texttt{setup.sql} with the following commands:
+\begin{minted}{postgresql}
+-- make a table for staff
+CREATE TABLE staff ( 
+id bigserial primary key,
+surname text not null,
+firstname text not null,
+unique(firstname,surname)
+);
+-- make a table for projects
+CREATE TABLE projects ( 
+id bigserial primary key,
+description text not null unique,
+project_lead bigint references staff
+);
+\end{minted}
+
+We can run this file without actually going into \texttt{psql} by using the shell redirection operator:
+
+\begin{minted}{bash}
+# using default (own name) database
+psql < setup.sql
+
+# using other DB (sales) to which have access
+psql sales < setup.sql
+\end{minted}
+
+\subsection{Psql \textbackslash i}
+
+We can use the the \textbackslash i command within psql to read commands from a file:
+\begin{minted}{postgresql}
+-- run commands from setup.sql as if typed here
+\i setup.sql
+\end{minted}
+
+\subsection{Run SQL script from bash via psql}
+
+As displayed by \texttt{psql --help}, we can run commands in a text file \texttt{setup.sql} from bash thus:
+\begin{minted}{bash}
+psql -f setup.sql 
+\end{minted}
+
+\subsection{Run single SQL command from bash}
+
+As displayed by \texttt{psql --help}, we can run a single command straight from bash:
+\begin{minted}{bash}
+# run select statement and exit
+psql -c 'SELECT * FROM staff;' 
+\end{minted}
+
+\section{PSQL output}
+
+\subsection{Output shell redirection}
+
+If we start psql using the shell redirection operator we will send all results out to a file:
+\begin{minted}{bash}
+# default DB
+psql > output.txt
+
+# or any DB 
+psql sales > output.txt
+\end{minted}
+No output will be shown in output window. 
+
+\subsection{Psql \textbackslash o}
+
+Alternatively once in psql we can use the \textbackslash o command to send all query results to a file:
+\begin{minted}{postgresql}
+\o output.txt
+
+-- sql queries
+select * from staff;
+
+-- or, inbuilt commands
+\dt
+
+-- both will get written to output.txt, not shown on screen
+\end{minted}
+
+\section{Table copy}
+
+Table copy operations below will not copy constraints or indices.
+
+\subsection{Copying table definition and data}
+
+\begin{minted}{postgresql}
+-- a table w/ columns
+TABLE staff;
+
+-- create a copy of table w/ data
+CREATE TABLE people AS
+TABLE staff;
+\end{minted}
+
+
+\subsection{Copying table definition without data}
+
+\begin{minted}{postgresql}
+CREATE TABLE people AS
+TABLE staff 
+WITH NO DATA;
+\end{minted}
+
+\subsection{Copying table definition w/ partial data}
+
+\begin{minted}{postgresql}
+CREATE TABLE people AS
+SELECT * FROM staff
+WHERE office IS NOT NULL;
+\end{minted}
+
+\subsection{Table copy from select statement}
+
+Tables can be created and populated from the output of a select statement.
+\begin{minted}{postgresql}
+-- a query composed of two tables
+-- types:      text           int              text                int
+SELECT staff.fullname, staff.salary, department.name, department.building
+FROM staff
+LEFT JOIN department ON department.id=staff.department;
+
+-- would create table w/ types of each col in query
+-- and insert data from query
+CREATE TABLE staffdirectory AS
+SELECT staff.fullname, staff.salary, department.name, department.building
+FROM staff
+LEFT JOIN department ON department.id=staff.department;
+
+\end{minted}
+
+\section{Generated columns}
+
+\href{https://www.postgresql.org/docs/current/ddl-generated-columns.html}{Generated columns} are the columar equivalent of a view.
+Syntax: 
+\begin{minted}{postgresql}
+CREATE TABLE participant (
+    name text primary key,
+    height_cm numeric,
+    height_in numeric GENERATED ALWAYS AS (height_cm / 2.54) STORED
+);
+\end{minted}
+PostgreSQL only supports STORED generated columns. 
+
+
+\section{Idempotency}
+
+Issues can arise when the same script is run more than once in succession.
+An idempotent operation is one that where it is repeated will have no further effect.
+
+\subsection{Create table if not exists}
+
+
+\begin{minted}{postgresql}
+-- make a table for staff if required
+CREATE TABLE IF NOT EXISTS staff ( 
+id bigserial primary key,
+surname text not null,
+firstname text not null,
+unique(firstname,surname)
+);
+\end{minted}
+
+
+\subsection{Drop table if exists}
+
+\begin{minted}{postgresql}
+-- delete table if already there
+DROP TABLE IF EXISTS staff;
+-- make a table for staff
+CREATE TABLE  staff ( 
+id bigserial primary key,
+surname text not null,
+firstname text not null,
+unique(firstname,surname)
+);
+\end{minted}
+
+
+\end{document}
+
