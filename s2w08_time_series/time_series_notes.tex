@@ -1,0 +1,174 @@
+\documentclass{pgnotes}
+
+
+\title{Time Series}
+
+\begin{document}
+
+\maketitle
+
+\section{Time series data}
+
+A time series consists of data points indexed in time order.
+Encountered in many contexts.
+Examples: 
+
+\begin{enumerate}
+\item Stock price of a given stock or consolidated index at the close of business each day.
+\item Number of entries and exits recorded by a car park barrier system as logged at 11PM each night.
+\item Air temperature, pressure, UV and humidity recorded every 15 minutes at 20 unmanned weather stations. 
+\item Number of cancelled trains as a percentage of scheduled services on a rail line between Dublin and Belfast per year since 1920. 
+\end{enumerate}
+
+\subsection{Components}
+
+\begin{description}
+\item[Trend:] a systematic change following a linear / nonlinear path, changing over time, aperiodic.
+\item[Seasonality:] a systematic change following a linear / nonlinear path, changing over time, periodic
+\item[Cyclic:] systematic change that repeats though not fixed / indexed to time. 
+\item[Noise:] non-systematic component (i.e. not a trend or seasonal variation) within the data
+\end{description}
+
+\subsection{Analysis tools}
+
+A number of methods are available for time series analysis, including forecasting likely future behaviour.
+Practical implementations are found in R, Pandas, MATLAB and other packages.
+However, it is also possible to construct these analyses within the database layer. 
+
+This class does not focus on the theory of these analysis tools.
+Rather their application / implementation within the database (as opposed to at the application layer) is discussed.
+
+\subsection{Sample Dataset}
+
+The following demonstration of time series analysis will use the \href{https://data.gov.ie/dataset/covidstatisticsprofilehpscirelandopendata1}{CovidStatisticsProfileHPSCIrelandOpenData} from \url{https://data.gov.ie}.
+
+Assume that we transform the CSV representation using \texttt{curl} to \texttt{covid.csv} using:
+\begin{minted}{bash}
+./get_covid_data.sh
+\end{minted}
+
+Then we simplify the CSV to produce a summary using pandas (to just select certain fields):
+\inputminted{python}{summarise_covid_data.py}
+
+Table setup in PostgreSQL:
+\begin{minted}{postgresql}
+-- table setup
+create table covid ( 
+  report_date date not null primary key,
+  confirmed_cases bigint,
+  confirmed_deaths bigint
+);
+
+-- load
+\copy covid from 'covid_summary.csv' delimiter ',' csv header;
+\end{minted}
+
+\section{Window functions}
+
+We have already met aggregate functions: sum, min, max, others. 
+These normally reduce a number of rows to a single row, or perhaps more if \texttt{GROUP BY} is present.
+
+Time series analyses depend usually on rows relative to the current row. 
+Examples:
+\begin{itemize}
+\item A cumalative sum of a particular expression
+\item A moving average of a particular expression
+\item The row number in the result set
+\item The rank order of a particular row with respect to a particular expression. Includes numerical rank, percentage rank, percentage/normalised ranks, percentiles.
+\item Value at a row offset before / after the current row.
+\item First / last value in the window frame. 
+\end{itemize}
+
+
+\href{https://www.postgresql.org/docs/13/tutorial-window.html}{Window functions} are like aggregate functions except that the aggregation occurs over a defined \textbf{window frame}, or set of rows relative to the current row, rather than over the whole table.
+Generally all aggregate functions can be used over a window, but there are some additional aggregate functions that only make sense over a window. 
+
+A window function can be recognised by the \mintinline{postgresql}{OVER} clause, which may contain subclauses:
+\begin{description}
+\item[ORDER BY] to  (not mandatory but usually required)
+\item[Frame clause] to define the window frame relative to the start / end.  If unspecified, it's by default from start to the current row.
+\item[PARTITION BY] to break the analysis down by another column / expression
+\end{description}
+
+\subsection{OVER clause}
+
+Consider a situation where we wish to compute a cumalative sum with respect to each date.
+In the sample dataset, we wish to provide a running total of the \texttt{confirmed\_cases} column.
+The following SQL would realise this: 
+
+\begin{minted}{postgresql}
+SELECT report_date, confirmed_cases,
+SUM(confirmed_cases) OVER ( ORDER BY report_date ASC ) as total_confirmed_cases
+ORDER BY report_date asc ;
+\end{minted}
+Points to note:
+\begin{itemize}
+\item
+  We want to use the \texttt{SUM} aggregate function \texttt{OVER} the case total to date.
+  This means that we have an \texttt{ORDER BY} within the \texttt{OVER} clause.
+\item 
+  The main \texttt{ORDER BY} clause is independent of that in the \texttt{OVER} clause.
+  Although often the same as that within the \texttt{OVER} clause(s) it can differ.
+\end{itemize}
+
+\subsection{Frame specification}
+
+Consider now that we want the moving average.
+This is similar to the cumulative sum, except we must define a particular window over which the average is computed.
+For example, a 6-point moving average: 
+\begin{minted}{postgresql}
+SELECT report_date, confirmed_cases, 
+CAST(
+AVG(confirmed_cases) 
+OVER (ORDER BY report_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW ) 
+as integer ) as ma7d
+FROM covid
+ORDER BY report_date ASC ;
+\end{minted}
+Points to note: 
+\begin{itemize}
+\item The \textbf{frame specification} \mintinline{postgresql}{ROWS BETWEEN 6 PRECEDING AND CURRENT ROW}  defines the window frame, or set of rows related to the current row, to be used for the window / aggregate function. 
+\item We use \mintinline{postgresql}{CAST} to coerce the floating point average back to an integer. May / may not be required depending on situation of interest.
+\end{itemize}
+
+\subsection{Named window frame}
+
+We may wish to compute multiple metrics over the same window.
+For example: 
+\begin{minted}{postgresql}
+SELECT report_date, confirmed_cases,
+SUM(confirmed_cases) OVER ( ORDER BY report_date ASC ) as total_confirmed_cases,
+SUM(confirmed_deaths) OVER ( ORDER BY report_date ASC ) as total_confirmed_deaths 
+FROM covid 
+ORDER BY report_date asc ;
+\end{minted}
+Notice here that window is the same.
+Instead of defining it each time we can created a named window. 
+\begin{minted}{postgresql}
+SELECT report_date, confirmed_cases,
+SUM(confirmed_cases) OVER reports_to_date as total_confirmed_cases,
+SUM(confirmed_deaths) OVER reports_to_date as total_confirmed_deaths 
+FROM covid 
+WINDOW reports_to_date AS ( ORDER BY report_date ASC ) 
+ORDER BY report_date asc ;
+\end{minted}
+
+Multiple named window frames can be defined and used within the same query.
+Pay attention to syntax for multiple windows: 
+\begin{minted}{postgresql}
+SELECT report_date, confirmed_cases,
+CAST( AVG(confirmed_cases) OVER last_7_days as integer ) as cases_7d,
+CAST( AVG(confirmed_cases) OVER last_14_days as integer ) as cases_14d,
+CAST( AVG(confirmed_deaths) OVER last_7_days as integer ) as deaths_7d,
+CAST( AVG(confirmed_deaths) OVER last_14_days as integer ) as deaths_14d
+FROM covid 
+WINDOW
+last_7_days AS (ORDER BY report_date ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW ), 
+last_14_days AS (ORDER BY report_date ASC ROWS BETWEEN 13 PRECEDING AND CURRENT ROW ) 
+ORDER BY report_date ASC ;
+\end{minted} 
+
+
+
+
+\end{document}
