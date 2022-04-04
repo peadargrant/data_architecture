@@ -1,0 +1,138 @@
+\documentclass{pgnotes}
+
+\title{Non-relational databases}
+
+\begin{document}
+
+\maketitle
+
+\section*{Recommended reading}
+
+\begin{enumerate}
+\item \href{https://www.mongodb.com/nosql-explained}{What is NoSQL? by MongoDB}
+\item \href{https://www.zoomdata.com/master-class/architecture-and-deployment/everything-old-new-again-sql-relational-database/}{Everything Old is New Again: Before SQL Relational Database}
+\item BASE: an ACID alternative \citep{pritchett:2008:base}
+\end{enumerate}
+
+\section{Historical context}
+
+Databases have existed in various forms almost as long as mainframe computers have existed.
+For our discussion here, we will assume a database to be a distinct software component that manages its own files and is used by higher-level application programs.
+(i.e. we will ignore file-based storage)
+
+\subsection{Pre-relational}
+
+\subsubsection{Hierarchical model}
+
+The earliest databases were based on a hierarchical model, \autoref{fig:hierarchical-model}.
+IBM Information Management System (IMS) would be a typical example that is still used today. 
+
+\autoimage{hierarchical_model}{Hierarchical model}{hierarchical-model}
+
+\subsubsection{Network model}
+
+The hierarchical model was extended somewhat to become a network model, \autoref{fig:network-model}, where nodes had multiple parents.
+
+\autoimage{network_model}{Network model}{network-model}
+
+\subsubsection{CODASYL model}
+
+The network model became the basis of the CODASYL model, \autoref{fig:codasyl-model}, that formed the basis of a number of commerical database products.
+Almost all are obsolete by this now. 
+
+\autoimage{codasyl_model}{CODASYL model}{codasyl-model}
+
+\newpage
+\subsection{Relational databases}
+
+By 1980's interest primarily was in relational databases, \autoref{fig:relational-model}.
+
+\autoimage{relational_model}{Relational model}{relational-model}
+
+\begin{itemize}
+\item Largely complied (though none completely) with \href{https://en.wikipedia.org/wiki/Codd\%27s_12_rules}{Codd's 12 rules}.
+\item Majority, though not all, support Structured Query Language (SQL) as their primary DML and DDL.
+\end{itemize}
+
+
+\subsection{Relational model limitations}
+
+\begin{itemize}
+\item Not all data fits the relational model optimally  
+\item Pre-defined schema can be problematic in some contexts
+  \begin{itemize}
+  \item Perception (perhaps incorrect) that relational databases are ``not agile''
+  \end{itemize}
+\item Horizontal scaling difficult due to ACID compliance
+  \begin{itemize}
+  \item Read-replica can help, but not suited for write-heavy applications.
+  \end{itemize}
+\end{itemize}
+
+\section{Non-relational databases}
+
+Non-relational databases as the name suggests eschew the relational model.
+Aside from that, modern non-relational databases differ widely in their data representation and access patterns.
+Some characteristics are explored here.
+
+
+\subsection{Query languages}
+
+SQL is closely tied to the components and ideas of a relational database: tables, joins, foreign keys etc.
+Non-relational databases are sometimes referred to as NoSQL in light of the fact that they don't use SQL. 
+
+Most NoSQL databases follow a similar client-server pattern to their RDBMS counterparts:
+\begin{itemize}
+\item Database listens at a network port
+\item Database may have a textual query language. Usually DB-dependent. Not standardised like SQL.
+\item Bindings / drivers / libraries are usually used to access the database from programming languages.
+\end{itemize}
+
+\subsection{BASE consistency model}
+
+According to the CAP theorem: impossible to have both consistency and availability in a partition-tolerent distributed system.
+Already met the ACID consistency model.
+ACID compliance prefers consistency over availability.
+
+\citet{pritchett:2008:base} proposed an alternative, BASE:
+
+\begin{description}
+\item[Basic availability:]
+  basic reading and writing operations are available as much as possible (using all nodes of a database cluster). No consistency guarantees:
+    \begin{itemize}
+    \item writes might not persist after conflicts are reconciled
+    \item read may not get the latest write
+    \end{itemize}
+  \item[Soft-state:] within interval after write, probability $<1$ of knowing the final state, since it may not yet have converged
+  \item[Eventual consistency:] when system functioning and after sufficient interval after any given set of inputs, know what the state of the database is. Any further reads will be consistent with our expectations. 
+\end{description}
+
+Most, not all, non-relational databases tend towards a BASE consistency model. 
+
+\section{Common non-relational databases}
+
+\subsection{Key-Value database}
+
+A \href{https://en.wikipedia.org/wiki/Key-value_database}{key-value database} maintains a very simple mapping of keys to values.
+Example: memcached, redis
+
+\subsection{Document databases}
+
+Model is the document.
+Works well for storing data that's easily encapsulated into a single logical object.
+Example: mongodb (has a lot of facilities that mirror those of a relational DB)
+
+\subsection{Graph databases}
+
+Model is nodes and relationships, both having attributes.
+Designed for ease of traversal among nodes.
+Example: neo4j
+
+\subsection{Others}
+
+There are many other types of NoSQL database.
+
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
+
+\end{document}
