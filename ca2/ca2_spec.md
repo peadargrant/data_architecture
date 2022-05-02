@@ -4,6 +4,12 @@ title: CA2
 
 **THIS IS SUBJECT TO SIGNIFICANT REVISION. DO NOT START WORK ON THIS**
 
+**Proposal due:** as displayed on Moodle
+
+**Final submission due:** as displayed on Moodle
+
+**Weight:** 35%
+
 Introduction
 ============
 
@@ -12,7 +18,7 @@ Architecture during Semester 2. It is a joint project with Time Series
 Analysis. You will be using the same dataset for both.
 
 You are required to submit your proposed dataset and a brief description
-of the project to Moodle before 23:55 on 21st March. There may be a
+of the project to Moodle. There may be a
 review meeting with each student in the week beginning 22nd March to
 establish the suitability of the chosen project. *This should be the
 same as your submission for Time Series Analysis module.*
