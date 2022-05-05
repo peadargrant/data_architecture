@@ -2,10 +2,6 @@
 title: CA2
 ---
 
-**THIS IS SUBJECT TO SIGNIFICANT REVISION. DO NOT START WORK ON THIS**
-
-**Proposal due:** as displayed on Moodle
-
 **Final submission due:** as displayed on Moodle
 
 **Weight:** 35%
@@ -16,12 +12,6 @@ Introduction
 This CA is designed to showcase and integrate your work in Data
 Architecture during Semester 2. It is a joint project with Time Series
 Analysis. You will be using the same dataset for both.
-
-You are required to submit your proposed dataset and a brief description
-of the project to Moodle. There may be a
-review meeting with each student in the week beginning 22nd March to
-establish the suitability of the chosen project. *This should be the
-same as your submission for Time Series Analysis module.*
 
 Deliverables
 ============
@@ -49,7 +39,7 @@ In the file `dataset.txt` you should provide:
 3.  Summary of what types of data they contain and what queries/analyses
     you plan on performing on that data.
 
-Database architecture (20%) {#sec:database-architecture}
+Database architecture (25%) {#sec:database-architecture}
 ---------------------------
 
 In the file `architecture.pdf` (max 1 page) you should show:
@@ -65,35 +55,24 @@ In the file `architecture.pdf` (max 1 page) you should show:
 
 5.  Connections to/from the database for Time Series Analysis module
 
-Database system setup (20%)
----------------------------
+Database setup (25%)
+--------------------
 
-Setup commands required to setup your database must be given in
-`setup.sh/.sql/.py`. This should match the architecture described in .
+Setup commands required to setup your database and load data must be given in
+`setup.sh/.sql/.py`. 
 
-Analysis integration (20%)
---------------------------
+Analysis (30%)
+--------------
 
 You are required to replicate at least two analyses from your Time
 Series Analysis using Database Programming (e.g. stored procedures).
 Analysis should be demonstrated from `analysis1.sh/.py/.sql` and
 `analysis2.sh/.py/.sql`
 
-Real-time adaptation (20%)
---------------------------
-
-Assume in this section that the dataset you have chosen is a “live”
-dataset.
-
-In the file `realtime.pdf`, you are required to develop the architecture
-from to incorporate realtime updates.
-
-(You are NOT required to implement this section in code.)
-
 Reflection (10%)
 ----------------
 
-In the file `reflection.txt` you should cite 3 changes you would make to
+In the file `reflection.txt` you should state 3 changes you would make to
 the technical or organisational aspects of this project if you were
 completing it again.
 
@@ -111,8 +90,3 @@ Feedback
 Written feedback will be supplied with your grade. Verbal feedback is
 available upon request.
 
-Queries
-=======
-
-Queries on this CA should be addressed to the module Q&A forum on
-Moodle.
