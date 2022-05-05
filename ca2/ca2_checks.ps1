@@ -1,4 +1,5 @@
-﻿# File check script
+#!/usr/bin/env pwsh
+# File check script
 Write-Host checks for data architecture ca2
 
 $requiredfiles = @(
@@ -8,7 +9,6 @@ $requiredfiles = @(
 @('setup.sh','setup.sql','setup.py'),
 @('analysis1.sh','analysis1.sql','analysis1.py'),
 @('analysis2.sh','analysis2.sql','analysis2.py'),
-@('realtime.pdf'),
 @('reflection.txt')
 )
 
