@@ -17,7 +17,7 @@ $requiredCommands = @("ssh", "git")
 
 $problems = $False
 
-Write-Host 'System check for Tools for SD' -ForegroundColor Cyan
+Write-Host 'System check for Data Architecture' -ForegroundColor Cyan
 
 foreach ( $command in $requiredCommands ) {
     Write-Host "checking for $command ... " -NoNewLine
