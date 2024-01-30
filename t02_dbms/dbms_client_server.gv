@@ -1,0 +1,15 @@
+digraph G {
+
+	subgraph cluster_ServerHost {
+		   label="Server host";
+		   DBMSServer [ label="DBMS Server" ];
+		   }
+
+	subgraph cluster_ClientHost {
+		   label="Client host";
+		   DBMSClient [ label="DBMS client" ];
+		   }
+
+		   DBMSClient -> DBMSServer;
+
+}

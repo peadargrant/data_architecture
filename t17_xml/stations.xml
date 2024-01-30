@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<route>
+  <station>
+    <name>London Paddington</name>
+    <connectiontime>10</connectiontime>
+    <travelalert>London Underground Delays - allow time for transfers</travelalert>
+  </station>
+  <station>
+    <name>Winchester</name>
+    <amenity>Pub</amenity>
+  </station>
+  <station>
+    <name>Basingstoke</name>
+  </station>
+  <station>
+    <name>Reading</name>
+  </station>
+  <station>
+    <name>Oxford</name>
+    <carspaces>20</carspaces>
+    <bikespaces type="outdoor">548</bikespaces>
+  </station>
+  <station>
+    <name>Banbury</name>
+  </station>
+  <station>
+    <name>Leamington Spa</name>
+  </station>
+  <station>
+    <name>Birmingham New Street</name>
+    <connectiontime>10</connectiontime>
+    <amenity>Shopping</amenity>
+    <amenity>Pub</amenity>
+    <connection>Birmingham International Airport</connection>
+    <connection>Holyhead Ferry Terminal</connection>
+    <bikespaces />
+    <carspaces />
+  </station>
+  <station>
+    <name>Tamworth</name>
+  </station>
+  <station>
+    <name>Burton On Trent</name>
+    <amenity>Pub</amenity>
+  </station>
+  <station>
+    <name>Derby</name>
+    <travelalert>Refurbishment in process - expect delays</travelalert>
+  </station>
+  <station>
+    <name>Chesterfield</name>
+  </station>
+  <station>
+    <name>Sheffield</name>
+  </station>
+  <station>
+    <name>Doncaster</name>
+  </station>
+  <station>
+    <name>York</name>
+    <connectiontime>1</connectiontime>
+    <carspaces>679</carspaces>
+    <bikespaces>446</bikespaces>
+    <taxirank />
+    <amenity>Pub</amenity>
+  </station>
+</route>

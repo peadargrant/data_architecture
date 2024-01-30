@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<teams>
+	<name>Premier League 2020/21</name>
+	<clubs><!-- clubs not needed as in JSON -->
+		<club>
+			<name>Burnley FC</name>
+			<code>BUR</code>
+			<country>England</country>
+			<note>This team has a note.</note>
+		</club>
+		<club>
+			<name>Manchester United FC</name>
+			<code>MUN</code>
+			<country>England</country>
+			<note />
+		</club>
+	</club>
+</teams>

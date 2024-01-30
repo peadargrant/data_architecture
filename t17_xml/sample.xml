@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<product>
+<description>Birthday card</description>
+<price>5</price>
+<colour>red</colour>
+<variants>
+<variant>cat</variant>
+<variant>dog</variant>
+<variant>sheep</variant>
+</variants>
+<language />
+</product>

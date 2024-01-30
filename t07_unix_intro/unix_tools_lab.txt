@@ -1,0 +1,28 @@
+Setting up PuTTY (WIndows only!)
+
+1. Install PuTTY
+	https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.77-installer.msi
+2. Run PuTTYgen
+3. Go to Conversions > Import Key
+4. Go to C:\Users\yourname\.ssh folder, pick id_rsa
+5. Go to Save Private Key and put on your Desktop. 
+6. Run PuTTY
+7. Fill in data.comp.dkit.ie for hostname
+8. Connection > Data fill in your username for Auto-login username
+9. Connection > Data > SSH > Auth - pick your key file
+10.Back on Session, fill in data.comp.dkit.ie as Saved Sessions and hit Save.
+11.Then hit Connect.
+12. Quit out of it. 
+
+Next time.
+1. Run PuTTY
+2. Click data.comp.dkit.ie and hit Load
+3. Hit Connect
+
+Use start-tmux command.
+Make 2 windows
+Named: 
+main
+chat
+Chat window - start the chat program
+

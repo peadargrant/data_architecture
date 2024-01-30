@@ -1,0 +1,897 @@
+\documentclass[slides]{pgnotes}
+
+\title{XML}
+\newcommand{\entityref}[1]{\&#1;}
+
+\tikzstyle{cpt} = [fill=black, text=white, draw=none, rounded corners, rectangle, minimum width=2.5cm, minimum height=1.5cm]
+\tikzstyle{ml} = [draw=black, ultra thick, rounded corners, rectangle, minimum width=2.75cm, minimum height=1.5cm] 
+\tikzstyle{subset} = [draw=black, ultra thick, ->, dashed] 
+\tikzstyle{application} = [draw=black, ultra thick, ->] 
+\tikzstyle{bizr} = [anchor=south, text=white] 
+
+
+\begin{document}
+
+\maketitle
+
+% \section*{Aims}
+
+% \begin{enumerate}
+%   \item Explain the essential structures and rules of an XML document.
+%   \item Distinguish well-formed XML from non-well-formed XML. Use tools to diagnose non-well-formed XML.
+%   \item Construct vocabularies to capture structured information using XML.
+% \end{enumerate}
+
+
+\section{eXtensible Markup Language}
+
+Extensible Markup Language (XML) is a \textbf{markup} language that defines a set of rules for encoding documents in a format that is both human-readable and machine-readable.
+It's a subset of SGML, of which HTML is also an \textit{application}. 
+The tag names are up to you. 
+
+\subsection{SGML}
+
+Standard Generalised Markup Language (SGML) originated as a means to store and transfer US government and military documents in machine-readable form, over a timespan of several decades.
+SGML uses \textbf{tags} to mark up a document.
+One of the best known examples of SGML is HTML.
+
+\inputminted{html}{htmlpage.html}
+
+For many applications, SGML was too complicated, and so XML was designed.
+Apart from HTML and Document Type Declarations, you are unlikely to encounter SGML in its non-XML form very frequently.
+XML documents themselves are valid SGML, but have additional restrictions on their layout.
+(SGML documents are not valid XML.)
+ 
+
+\subsection{Sample XML document}
+
+\inputminted{xml}{intro.xml}
+
+\subsection{Design Goals}
+
+\begin{enumerate}
+\item XML shall be straightforwardly usable over the Internet.
+\item XML shall support a wide variety of applications.
+\item XML shall be compatible with SGML.
+\item It shall be easy to write programs which process XML documents.
+\item The number of optional features in XML is to be kept to the absolute minimum, ideally zero.
+\item XML documents should be human-legible and reasonably clear.
+\item The XML design should be prepared quickly.
+\item The design of XML shall be formal and concise.
+\item XML documents shall be easy to create.
+\item Terseness in XML markup is of minimal importance.
+\end{enumerate}
+
+ 
+
+\subsection{Benefits of XML}
+
+\begin{enumerate}
+\item You define the \textbf{vocabulary}, so it provides flexibility.
+\item XML is \textbf{simple} and used widely.
+\item Machine and \textbf{human readable}.
+\item \textbf{Lots of APIs} and parsers to handle XML. 
+\item XML Data \textbf{can be checked} for correctness.
+\end{enumerate}
+
+\subsection{Issues with XML}
+
+\begin{enumerate}
+\item XML documents require more storage than fixed length or comma delimited files.
+  \begin{itemize}
+  \item But, they compress well!
+  \end{itemize}
+\item Can help but not does not solve the politics of competing formats (multiple vocabs).
+\item Definitions can be overly nested and made too complex.
+\end{enumerate}
+ 
+\section{Structure of an XML doc}
+
+XML has a Directed Acyclic Graph tree structure, built from \textbf{nested} tree of \textbf{Elements} delimited by \textbf{tags}.
+Elements are \textbf{case-sensitive}.
+
+\inputminted{xml}{closed.xml}
+
+\subsection{Nesting rules} 
+
+\begin{itemize}
+\item Elements nested inside a \textit{parent} element are called \textit{child} elements. 
+\item Elements must be nested correctly. Child elements must be enclosed within their parent elements.
+\item All elements must be nested within a single document or root element.
+\item There can be only one \textbf{root} element in a document.
+\item Indentation, while helpful, is just visual.  
+\end{itemize}
+
+
+\subsection{XML declaration}
+
+The XML declaration is always the first line of code in an XML document, and tells the \textbf{processor} that what follows is XML.
+It can also provide information about how the parser should interpret the document.
+
+For now, the version is always 1.0.
+This attribute allows the program (or person) reading the document to read older versions if specifications change. 
+
+
+\subsection{XML comments}
+
+Comments may appear anywhere after the declaration.
+The syntax for comments is:
+
+\inputminted{xml}{comment.xml}
+
+Two or more dashes should not appear one after the other in a comment.
+
+
+\subsection{Free-format}
+
+XML documents are free-format.
+For example, the document:
+
+\inputminted{xml}{free-format-condensed.xml}
+  
+is the exact same as:
+  
+\inputminted{xml}{free-format-expanded.xml}
+
+
+\section{Attributes}
+
+An attribute is a feature or characteristic of an element. Attributes are text strings and must be placed in single or double quotes. 
+Use that which makes most sense in deciding whether to store the main data in an element or attribute.
+Often an element is a better choice.
+
+\inputminted{xml}{attribute.xml}
+
+
+\subsection{Mixing elements and attributes}
+
+\inputminted{xml}{mixing.xml}
+
+
+
+\section{Well-formed XML}
+
+When XML text satisfies the syntactic rules as laid out in the XML specification, we say that it is well-formed \citep{goldfarb:2003:the-xml-handbook}.
+
+\subsection{Criteria}
+
+\begin{enumerate}
+\item All XML elements must have a closing tag, except empty elements. 
+\item Tags are case sensitive.
+\item All elements must be properly nested.
+\item Documents must have one single root element.
+\item Attribute values must be quoted.
+\item Certain characters must be replaced with \textit{Entity References}. 
+\end{enumerate}
+
+
+\subsection{Entity references}
+
+Entity references replace certain characters as detailed in \autoref{tab:entity-reference-xml}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l l}
+    \toprule
+    \textbf{Normal symbol} & \textbf{Meaning} & \textbf{Replace with} \\
+    \midrule
+    $<$ & less than & \entityref{lt} \\
+    $>$ & greater than & \entityref{gt} \\
+    \& & ampersand & \entityref{amp} \\
+    ' & apostrophe & \entityref{apos} \\
+    '' & quotation mark & \entityref{quot} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Entity References}
+  \label{tab:entity-reference-xml}
+\end{table}
+
+
+\subsection{Non well-formed XML}
+
+Non well-formed XML will cause errors in applications and parsers that expect strict XML syntax.
+
+\subsection{Line termination}
+
+By convention, different OSes use different delimiters to signal the end of a line in a text file, \autoref{tab:newline}.
+XML specifies that new lines are \textbf{always} stored as LF, regardless of the operating system. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Operating system} & \textbf{Delimiters} \\
+    \midrule
+    Windows & CR LF \\
+    Unix, Mac OS X & LF \\
+    Mac (System 9 and below) & CR \\ 
+    \bottomrule
+  \end{tabular}
+  \caption{Newline characters}
+  \label{tab:newline}
+\end{table}
+
+\subsection{Checking for well-formed XML}
+
+The \texttt{xmllint} utility can check XML well-formedness.
+
+\begin{minted}{bash}
+# consult manpage
+man xmllint
+
+# basic usage
+xmllint filename.xml 
+\end{minted}
+ 
+  
+
+
+
+
+
+
+
+
+\section{Vocabulary}
+
+Although the structure and syntax of XML documents is rigorously specified, you are free to choose a suitable vocabulary of element and attribute names for the application of interest.
+Some common vocabularies are listed in \autoref{tab:common-vocabularies}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Vocabulary} & \textbf{Description} \\
+    \midrule
+    XHTML & a variant of HTML that complies with XML restrictions \\
+    SOAP & message format for web services \\
+    OpenOffice XML & Microsoft's current office word-processing format \\
+    Opendoc & standard formats for (non-Microsoft Office) office documents \\
+    Docbook XML & markup for writing (primarily) technical documentation  \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Common standardised XML vocabularies}
+  \label{tab:common-vocabularies}
+\end{table}
+
+In addition, there are pre-existing vocabularies for many specialised applications.
+It's always good to use a pre-existing vocabulary if possible. 
+
+\subsection{Developing an XML vocabulary}
+
+The process is:
+
+\begin{enumerate}
+\item List out the possible fields (tag names).
+\item Draw a tree diagram.
+\item Markup some sample XML data.
+\item Factor in potential business rules and add them to our tree diagram. 
+\item Optionally formalise the vocabulary in a machine-readable form.
+\end{enumerate}
+
+\subsection{Worked example}
+
+As an example, we will develop a vocabulary that would let you specify address data for a person.
+
+\subsubsection{Possible fields}
+Start with:
+\begin{itemize}
+\item firstname
+\item secondname
+\item address1
+\item address2
+\item city
+\item country
+\end{itemize}
+
+Each of these can be specified as tags like
+\begin{minted}{xml}
+<firstname></firstname>
+\end{minted}
+
+But: a person's name is not really part of an address.
+What happens if a person has multiple addresses?
+So we really need a nested structure:
+\begin{minted}{xml}
+<person>
+  <address>
+  </address>
+</person>
+\end{minted}
+
+
+\subsubsection{Diagram}
+
+The nested structure of our document is then laid out as a \textbf{tree diagram}, \autoref{fig:tree-diagram}. 
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+  \node (person) [cpt] {person};
+  \node (firstname) [cpt, below left=of person] {firstname};
+  \draw (person) to (firstname);
+  \node (secondname) [cpt, below=of person] {secondname};
+  \draw (person) to (secondname);
+  \node (address) [cpt, below right=of person] {address};
+  \draw (person) to (address); 
+  \node (street) [cpt, below left=of address] {street};
+  \draw (address) to (street); 
+  \node (city) [cpt, below=of address] {city};
+  \draw (address) to (city); 
+  \node (country) [cpt, below right=of address] {country}; 
+  \draw (address) to (country); 
+  \end{tikzpicture}
+  \caption{Tree diagram for address example}
+  \label{fig:tree-diagram}
+\end{figure}
+
+\subsubsection{Sample data}
+
+\inputminted{xml}{sampledata.xml}
+
+\subsubsection{Rules}
+
+We then decide on a number of business rules to determine if an element is optional, and if there are any constraints on its \textbf{multiplicity}: 
+
+\begin{itemize}
+\item Person can have multiple first names.
+\item Person can have only one second names.
+\item Person can have multiple addresses.
+\item An address can have a few streets (lets say between 1 and 3).
+\end{itemize}
+
+These rules are then added to the tree diagram, \autoref{fig:tree-diagram-with-rules}. 
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+  \node (person) [cpt] {person};
+  \node (firstname) [cpt, below left=of person, fill=DarkBlue] {firstname};
+  \node [bizr] at (firstname.south) {min=1 max=*};  
+  \draw (person) to (firstname);
+  \node (secondname) [cpt, below=of person] {secondname};
+  \draw (person) to (secondname);
+  \node (address) [cpt, below right=of person, fill=DarkBlue] {address};
+  \node [bizr] at (address.south) {min=1 max=*};  
+  \draw (person) to (address); 
+  \node (street) [cpt, below left=of address, fill=DarkGreen] {street};
+  \node [bizr] at (street.south) {min=1 max=3};  
+  \draw (address) to (street); 
+  \node (city) [cpt, below=of address] {city};
+  \draw (address) to (city); 
+  \node (country) [cpt, below right=of address] {country}; 
+  \draw (address) to (country); 
+  \end{tikzpicture}
+  \caption{Tree diagram with business rules for address example}
+  \label{fig:tree-diagram-with-rules}
+\end{figure}
+ 
+\section{XPath}
+
+XPath expressions allow us to easily retrieve the contents of elements and attributes in an XML document, by writing expressions.  
+
+The XPath expression language is standardised and works similarly in many languages - Java, C\#, C++/libxml/JavaScript etc.
+
+XPath uses \textbf{expressions} and standard \textbf{functions} to return \textbf{nodes} that are \textbf{related} to other nodes. 
+
+
+\subsection{Expressions}
+
+XPath uses path expressions to select nodes or node-sets in an XML document.
+These expressions are very similar in theory to file paths or URLs:
+Examples:
+\begin{itemize}
+\item \texttt{/Users/peadar/Intro.pdf}
+\item \texttt{/Users/peadar/Documents/Intro.pdf}
+\item \url{http://xyz.com/dir/file2.xml}
+\item \url{http://xyz.com/dir/sd/file2.xml}
+\end{itemize}
+
+
+\subsection{Standard functions}
+
+XPath includes over 100 built-in functions.
+There are functions for string values, numeric values, date and time comparison, Boolean values, and more complex manipulations.
+  
+Functions usually \textbf{operate} on nodes or node-sets returned using an expression. 
+
+
+\subsection{Nodes}
+
+In XPath, there are seven kinds of nodes:
+
+\begin{enumerate}
+\item \textbf{Element}
+\item \textbf{Attribute}
+\item \textbf{Text}
+\item Namespace (see later)
+\item Processing instruction 
+\item Comment
+\item \textbf{Document}
+\end{enumerate}
+
+
+\subsection{Relationships}
+
+Effective use of XPath requires a firm understanding of the relationships present between various nodes, \autoref{tab:relationships}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Relationship} & \textbf{Meaning} \\
+    \midrule
+    Parent & Each element and attribute has one parent. \\
+    Children & Element nodes may have zero, one or more children. \\
+    Siblings & Nodes that have the same parent. \\
+    Ancestors & A node's parent, parent's parent, etc. \\
+    Descendants & A node's children, children's children, etc. \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Important relationships between nodes}
+  \label{tab:relationships} 
+\end{table}
+
+
+\section{Basic selection expressions}
+
+XPath uses path expressions to select nodes or node-sets in an XML document.
+The node is selected by following a path or steps.
+The most useful path expressions are listed in \autoref{tab:xpath-expressions}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    \textit{elementname} &  all ``elementname'' elements\\
+    / & from root node / previous node \\
+    // & from anywhere in the document \\
+    .. & parent of the current node \\
+    @attribname & attribute ``attribname'' \\
+    text() & text content of current node\\
+    \bottomrule
+  \end{tabular}
+  \caption{XPath expressions}
+  \label{tab:xpath-expressions}
+\end{table}
+
+\subsection{Writing path expressions}
+
+A location path can be absolute or relative.
+An absolute location path starts with a slash ( / ) and a relative location path does not.
+In both cases the location path consists of one or more steps, each separated by a slash:
+
+\begin{verbatim}
+An absolute location path:
+
+/step/step/...
+
+A relative location path:
+
+step/step/...
+\end{verbatim}
+
+Each step is evaluated against the nodes in the current node-set.
+
+
+\subsection{Example}
+
+Using the bookstore document, a number of XPath expressions are shown in \autoref{tab:expressions-example}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    \texttt{bookstore} & all elements named ``bookstore'' \\
+    \texttt{/bookstore} & root element bookstore \\
+    \texttt{bookstore/book} & child books of bookstore \\
+    \texttt{//book} & all books in document \\
+    \texttt{bookstore//book} & descendant books of bookstore\\
+    \bottomrule
+  \end{tabular}
+  \caption{Expressions on \texttt{bookstore.xml} document}
+  \label{tab:expressions-example}
+\end{table}
+
+
+\subsubsection{Selecting text content}
+
+Note that we must use the \texttt{text()} function to get just the text content of an element, rather than the element itself:
+\begin{itemize}
+\item \texttt{/bookstore/book/title} = title element of each book
+\item \texttt{/bookstore/book/title/text()} = title text content of each book
+\end{itemize}
+
+\section{Tooling}
+
+\subsection{Command-line}
+
+The \texttt{xmllint} tool can evaluate XPath expressions at the command-line.
+
+\begin{minted}{bash}
+xmllint --xpath '/route/station[amenity]' stations.xml
+\end{minted}
+
+
+\subsection{Python}
+
+Python's \texttt{lxml} library can work with XPath expressions:
+\begin{minted}{python}
+import lxml.etree as ET
+
+root = ET.parse('stations.xml')
+for name in root.xpath('/route/station/name/text()'):
+    print(name)
+\end{minted}
+
+
+
+\section{Predicates}
+
+Predicates are used to find a \textbf{specific node} or a \textbf{node containing a specific value}.
+
+They are embedded in square brackets after the element name to which they refer.
+Examples:
+\begin{itemize}
+\item \texttt{/element/element[predicate]}
+\item \texttt{/element[predicate]/element}
+\item \texttt{/element[p1]/element[p2]}
+\end{itemize}
+
+
+\subsection{Posessive predicates}
+
+Posessive predicates select elements that have matching children, \autoref{tab:posessive-predicates}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    \textbf{//parent[@attribute]} &  all ``parent'' elements with  ``attribute'' \\
+    \textbf{//gp/parent[child]} & all ``parent'' elements with ``child'' \\
+    \textbf{//gp/parent[child]/child2} &  all ``child2'' of above... \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Posessive predicates}
+  \label{tab:posessive-predicates}
+\end{table}
+
+\subsection{Value-based predicates}
+
+Value-based predicates select elements based on whether they or their child elements or attributes match specific values, \autoref{tab:value-based-predicates}. 
+
+  \begin{table}[htbp]
+    \centering
+    \begin{tabularx}{1.0\linewidth}{l X}
+      \toprule
+      \textbf{Expression} & \textbf{Selects} \\
+      \midrule
+      \texttt{//parent[@attribute='value']} &  all ``parent'' elements with ``attribute''==value \\
+      \texttt{//gp/parent[child$<v$]} &  all ``parent'' elements where ``child'' element has value $<v$ \\
+      \texttt{//gp/parent[child$<v$]/child2} &  all ``child2'' of above... \\
+      \bottomrule
+    \end{tabularx}
+    \caption{Value-based predicates}
+    \label{tab:value-based-predicates}
+  \end{table}
+
+\subsection{Positional predicates}
+
+Positional predicates allow selections based on element ordering usually using XPath functions, \autoref{tab:positional-predicates}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    /parent/child[$n$] & the $n$th child element of the parent. \\
+    /parent/child[last()] & the last child element of the parent. \\
+    /parent/child[last()-$n$] & the last but $n$ child element of the parent. \\
+    /parent/child[position()$<n$] & the first $n-1$ child elements of the parent. \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Positional predicates}
+  \label{tab:positional-predicates}
+\end{table}
+
+\subsection{Other predicates}
+
+There are a lot more things you can do with predicates --- see online tutorials for more details \cite{w3-schools:2013:xpath}. 
+
+\subsection{Combining two node sets}
+
+To combine two node sets, we use the $\vert$ (vertical bar) operator between two separate XPath expressions.
+Example: 
+
+\begin{verbatim}
+    \texttt{/path/path[predicate] $\vert$ /path2/path2[predicate]}
+\end{verbatim}
+
+
+
+\subsection{Operators}
+
+When writing a predicate we can use any of the usual binary comparison operators, \autoref{tab:operators}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Operator} & \textbf{Meaning} \\
+    \midrule
+    = & equal \\
+    != & not equal \\
+    $<, >$ & less than, greater than \\
+    $<=, >=$ & less/greater than or equal to \\
+    or, and & or/and \\
+    \bottomrule
+  \end{tabular}
+  \caption{XPath operators}
+  \label{tab:operators}
+\end{table}
+
+You can use math operators in your comparisons, but \textbf{be careful of division}, \autoref{tab:math-operators}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Operator} & \textbf{Meaning} \\
+    \midrule
+    $+$ & addition \\
+    $-$ & subtraction \\
+    * & multiplication \\
+    div & division \\
+    mod & modulus / division remainder\\
+    \bottomrule
+  \end{tabular}
+  \caption{XPath operators}
+  \label{tab:math-operators}
+\end{table}
+
+
+\section{Wildcards}
+
+XPath wildcards can be used to select unknown XML elements, \autoref{tab:xpath-wildcards}
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Expression} & \textbf{Matches} \\
+    \midrule
+    \texttt{*} &  any element node \\
+    \texttt{@*} &  any attribute node \\
+    \texttt{node()} & any node of any kind \\
+    \bottomrule
+  \end{tabular}
+  \caption{XPath wildcards}
+  \label{tab:xpath-wildcards}
+\end{table}
+
+
+
+
+
+\section{Axes}
+
+An axis defines a node-set relative to the current node.
+
+\subsection{Direct axes}
+
+Direct axes specify the node itself, its parent or children, or its attributes, \autoref{tab:direct-axes}. 
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Axis} & \textbf{Selects} \\
+    \midrule
+    self & the current node \\
+    parent & the parent of the current node \\
+    child & all children of the current node \\
+    attribute & all attributes of the current node \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Direct axes}
+  \label{tab:direct-axes}
+\end{table}
+
+
+\subsection{Cross-generational axes} 
+
+Cross-generational axes allow us to specify nodes ancestral or descending nodes, \autoref{tab:cross-generational-axes}. 
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Axis} & \textbf{Selects} \\
+    \midrule
+    ancestor & all ancestors (parent, grandparent, etc.) of the current node \\
+    ancestor-or-self & current node and all of its ancestors \\
+    descendant & all descendants (children, grandchildren, etc.) of the current node \\
+    descendant-or-self & current node and all descendents \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Cross-generational axes}
+  \label{tab:cross-generational-axes}
+\end{table}
+
+
+
+
+\subsection{Positional axes} 
+
+Positional axes allow us to select nodes before or after other nodes in the document, \autoref{tab:positional-axes}. 
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Axis} & \textbf{Selects} \\
+    \midrule
+    following & everything in the document after the closing tag of the current node \\
+    following-sibling & all siblings after the current node \\
+    preceding &  all nodes  before  current node, except ancestors, attribute nodes and namespace nodes \\
+    preceeding-sibling & all siblings before the current node \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Positional axes}
+  \label{tab:positional-axes}
+\end{table}
+
+\subsection{Writing location path expressions}
+
+With predicates and axes, a full step consists of:
+
+\begin{itemize}
+\item an axis (defines the tree-relationship between the selected nodes and the current node)
+\item a node-test (identifies a node within an axis)
+\item zero or more predicates (to further refine the selected node-set)
+\end{itemize}
+
+The syntax for a location step is:
+\begin{verbatim}
+axisname::nodetest[predicate]
+\end{verbatim}
+
+
+\subsection{Example}
+
+Here are some XPath expressions using axes for the bookstore.xml file:
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Expression} & \textbf{Selects} \\
+    \midrule
+    child::book & 	 all book nodes that are children of the current node \\
+    attribute::lang &	 the lang attribute of the current node \\
+    child::* &	 all element children of the current node \\
+    attribute::* &	 all attributes of the current node \\
+    child::text() &	 all text node children of the current node \\ 
+    child::node() &	 all children of the current node \\ 
+    descendant::book &	 all book descendants of the current node \\ 
+    ancestor::book &	 all book ancestors of the current node \\ 
+    ancestor-or-self::book &	 all book ancestors of the current node - and the current as well if it is a book node \\
+    child::*/child::price &	 all price grandchildren of the current node\\
+    \bottomrule
+  \end{tabularx}
+  \caption{XPath axes expressions example}
+  \label{tab:xpath-axes-example}
+\end{table}
+
+
+\section{XQuery}
+
+XQuery is to XML what SQL is to database tables.
+XQuery was designed to \textbf{query} rather than \textit{navigate} XML data.
+
+\subsection{Syntax}
+
+XQuery is built on top of \textbf{XPath}, and uses the \textbf{same expressions and predicates},  
+augmented by the queries made up of by the so-called \textbf{FLWOR} syntax, \autoref{tab:flwor}.
+
+\begin{table}[htbp]
+  \begin{tabularx}{1.0\linewidth}{l X}
+    \toprule
+    \textbf{Component} & \textbf{Function} \\
+    \midrule
+    \textbf{f}or & creates a sequence of nodes \\
+    \textbf{l}et & binds a sequence to a variable \\
+    \textbf{w}here & filters nodes on a boolean expression \\
+    \textbf{o}rder by & sorts the nodes \\
+    \textbf{r}eturn & evaluated once per node \\
+    \bottomrule
+  \end{tabularx}
+  \caption{FLWOR syntax}
+  \label{tab:flwor}
+\end{table}
+
+
+\subsection{Rules}
+
+\begin{enumerate}
+\item XQuery is case-sensitive
+\item XQuery elements, attributes, and variables must be valid XML names
+\item An XQuery string value can be in single or double quotes
+\item Local variables (usually to represent the current node) are preceeded by the \$ character. 
+\item XQuery comments are delimited by (: and :), e.g. (: XQuery Comment :)
+\end{enumerate}
+
+
+\subsection{Examples}
+
+We will use the following XML document:
+
+\inputminted{xml}{books.xml}
+
+
+\subsubsection{Basic selection}
+
+We are asked to:
+\begin{quotation}
+Select all the title elements under the book elements that are under the bookstore element that have a price element with a value that is higher than 30.
+\end{quotation}
+
+Write down a suitable XPath expression for this: 
+
+\vspace{\fill}
+
+This same query could be expressed using the FLWOR syntax as follows:
+
+\begin{minted}{xquery}
+for $x in /bookstore/book
+where $x/price > 30.00
+return $x/title
+\end{minted}
+
+Obviously, the XPath expression is more concise. 
+However, we have a problem if we want the returned element list to be ordered or otherwise modified:
+
+\begin{minted}{xquery}
+for $x in /bookstore/book
+where $x/price > 30.00
+order by $x/title
+return $x/title
+\end{minted}
+
+We can simplify by using XPath predicates instead of (or in addition to) the WHERE clause: 
+
+\begin{minted}{xquery}
+for $x in /bookstore/book[price>30]
+order by $x/title
+return $x/title
+\end{minted}
+
+\subsection{Counting loop iterations}
+
+The at keyword can be used to count the iteration:
+
+\begin{minted}{xquery}
+for $x at $i in /bookstore/book/title
+return {$i}. {data($x)}
+\end{minted}
+
+\subsection{Multiple order by clauses}
+
+The order by clause is used to specify the sort order of the result. Here we want to order the result by category and title:
+
+\begin{minted}{xquery}
+for $x in /bookstore/book
+order by $x/@category, $x/title
+return $x/title
+\end{minted}
+
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
+
+\end{document}
+
+
+

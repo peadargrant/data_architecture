@@ -1,0 +1,53 @@
+digraph G {
+	labelloc=t;
+	label = "Grant's Village Store EPOS System"; 
+	rankdir=LR;
+
+	edge [ label ="x1"];
+
+	subgraph cluster_Backoffice {
+		 label="Backoffice server";
+		 DB [ label = "Database" ];
+		 WSI [ label = "Online shop" , style=filled, fillcolor=lightpink1];
+		 WSI -> DB [label ="x10"]
+		 WSBO [ label = "Scale Server" ];
+		 PCS [ label="Price-Check Server" ];
+	}
+
+
+	subgraph cluster_POS {
+		 label="POS Terminals";
+		 node [ style=filled, fillcolor=cadetblue1];
+		 REG1;
+		 REG2;
+		 REG3;
+		 }
+
+	REG1 -> DB;
+	REG2 -> DB;
+	REG3 -> DB;
+	PCS -> DB;
+	WSBO -> DB;
+	subgraph cluster_WS {
+		label="Weigh scale network";
+		MW1;
+		SW1;
+		SW2;
+	}
+	
+	MW1 -> WSBO [label="RS232-COM1"];
+	SW1 -> MW1 [label="RS485"];
+	SW2 -> MW1 [label="RS485"];
+
+	PCT1 [ label="Price-Check Terminal" ];
+	PCT1->PCS [label="Telnet"];
+	
+	subgraph cluster_workstation {
+		 label="Office PC";
+		 BOSS [ label = "Back-office software", style=filled, fillcolor=darkseagreen1 ];
+		 BOSS -> DB;
+		 psql [ style=filled, fillcolor=azure2];
+		 psql -> DB;
+	}
+
+}

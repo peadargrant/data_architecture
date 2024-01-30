@@ -1,0 +1,10 @@
+digraph G {
+
+	person -> firstname;
+	person -> secondname;
+	person -> address;
+	address -> street;
+	address -> city;
+	address -> country;
+
+}

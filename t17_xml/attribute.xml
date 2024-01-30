@@ -1,0 +1,15 @@
+<doc>
+
+  <!-- attribute syntax -->
+  <element_name attribute="value"> ... </element_name>
+  
+  <!-- example: -->
+  <note id="12">This is a note...</note>
+
+  <!-- often empty elements with attributes
+       are used to store data -->
+  <items>
+    <item id="12" price="3.30" />
+  </items>
+
+</doc>

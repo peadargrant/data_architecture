@@ -1,0 +1,257 @@
+\documentclass[slides]{pgnotes}
+
+\title{Replication}
+
+\begin{document}
+
+\maketitle
+
+% \section*{Required reading}
+
+% \begin{enumerate}
+% \item PostgreSQL manual, Chapter 26 \\
+%   \url{https://www.postgresql.org/docs/13/high-availability.html}
+% \end{enumerate}
+  
+% \tableofcontents;
+
+\section{Database server}
+
+\subsection{Components}
+
+\begin{description}
+\item[Database] containing tables and other objects
+\item[Cluster] is a collection of databases stored in a common folder on the file system.
+\item[postgres process] is instance of postgresql managing a cluster.
+  \begin{itemize}
+  \item Opens a TCP port by default 5432 listening for incoming connections.
+  \item Spawns new server process to handle each client connection
+  \end{itemize}
+\end{description}
+
+\subsection{Server control}
+
+PostgreSQL will normally run as a service, using the host OS service management mechanism.
+Usually systemd on Linux or services manageer on linux. 
+Example of service unit file from Amazon Linux: 
+\inputminted{ini}{pgsql.service.txt}
+
+
+\subsection{Cluster file layout}
+
+A postgresql cluster has a data directory, with the following layout:
+
+\begin{verbatim}
+base .............. per-database contents
+global ............ global data for cluster
+pg_clog
+pg_hba.conf ....... access control config
+pg_ident.conf
+pg_log
+pg_multixact
+pg_notify
+pg_serial
+pg_snapshots
+pg_stat_tmp
+pg_subtrans
+pg_tblspc
+pg_twophase
+PG_VERSION
+pg_xlog ........... Write-Ahead Log
+postgresql.conf ... Server config
+postmaster.opts
+postmaster.pid
+
+\end{verbatim}
+
+
+\subsection{Resource provisioning}
+
+\subsubsection{On-client} 
+
+Local database server provisioned on own client device.
+Likely to run a consumer operating system (e.g. Windows 10). 
+Useful for development or personal data storage and analytics.
+
+\subsubsection{Dedicated server} 
+
+Server hardware designed for 24/7 operation.
+Normally running server OS (e.g. UNIX, Linux) and operated remotely using SSH.
+
+Ranges from large rackmount servers (multi-CPU, high RAM) down to  small single-board computers (e.g. Raspberry Pi) for field use. 
+
+\subsubsection{Data centre environments}
+
+Server hardware is normally located within data centre environments.
+May range from small server closets to multi-acre facilities.
+ 
+Data Centre Environments provide highly resilient power, cooling and connectivity.
+They are secure environments, protected against fire and security breaches.
+Redundancy in infrastructure services, delivery pathway and network connectivity aims to maximise uptime.
+
+The data centre environment may be local or remote from its clients.
+Network connectivity may be via direct links, public internet, dedicated circuits or tunneling solutions such as VPNs. 
+
+
+\subsubsection{Co-location}
+
+Often a need for data centre environment exists, but it is preferable to pay for it as a service.
+Here, the customer rents space in a co-location (co-lo) facility.
+The co-lo provides a secure location 
+
+\subsubsection{Cloud}
+
+Database requirements may be provisioned on-demand from cloud service providers.
+This may be in the form of:
+\begin{description}
+\item[Infrastructure as a Service (IaaS)] where the provider supplies virtual compute, storage and networking infrastructure.
+  The customer installs their OS and database server of choice. 
+\item[Platform as a Service (Paas)] where the provider supplies access to a database.
+  The customer provisions the required database service and then uses the native client tools to connect to the database. 
+\end{description}
+
+
+
+\section{Capacity}
+
+There are two main capcity constraints on database servers:
+\begin{description}
+\item[Storage space] for required data.
+\item[Compute bandwidth] provided by CPU capacity, available RAM and network throughput to meet client response times.
+\end{description}
+We will primarily consider provisioning of required compute bandwidth.
+Furthermore we will assume that the database design and server configuration have been optimised.
+In general, single database performance should be optimised before undertaking any scaling operations. 
+
+
+\section{Distributed systems}
+
+Once we have multiple units, we must consider some issues pertaining to distributed systems.
+
+\subsection{Fallacies of distributed computing}
+
+L. Peter Deutsch, formerly of Sun Microsystems in 1994 identified seven so-called fallacies of distributed computing.
+
+\begin{enumerate}
+\item The network is reliable
+\item Latency is zero
+\item Bandwidth is infinite
+\item The network is secure
+\item Topology doesn't change
+\item There is one administrator
+\item Transport cost is zero
+\item The network is homogeneous
+\item We all trust each other (added in 1997 by James Gosling, inventor of Java)
+\end{enumerate}
+
+\subsection{CAP theorem}
+
+Brewer's Theorem, more commonly called the CAP theorem, states that in any distributed system you can have two of the following properties: consistency, availability, partition tolerence. 
+\begin{description}
+\item[Consistency] every read request receives the most recent write, or an error. (This is a different meaning to that for ACID principles.)
+\item[Availability] every requests receives a successful response, without the guarantee that it contains the most recent write
+\item[Partition tolerence] system continues to operate despite an arbitrary number of messages being dropped or delayed by the network between nodes. 
+\end{description}
+When the system is unpartitioned by failure, we can have both consistency and availability.
+Where the part of the system fails, our choices are:
+\begin{enumerate}
+\item Cancel the operation, decreasing availability but ensuring consistency
+\item Proceed with the operation and provide availability but risk consistency
+\end{enumerate}
+ACID-compliant databases prioritise consistency over availability.
+
+\section{Replication}
+
+Assume we have two identically configured servers, \autoref{fig:master-replica}.
+Writes (\mintinline{postgresql}{UPDATE, INSERT, DELETE}, some \mintinline{postgresql}{SELECT}s) are possible only on the master.
+The replica is updated by the primary so that it has the same data as the primary.
+Reads go to the primary or to the replica.
+
+\autoimage{primary_replica}{Primary-Replica replication}{primary-replica}
+
+We can mix clients depending on whether they are read or read/write, \autoref{fig:primary-replica-clients}.
+
+\autoimage{primary_replica_clients}{Primary-Replica replication with varying clients}{primary-replica-clients}
+
+\subsection{Replication types}
+
+\begin{description}
+\item[Physical] replicates disk blocks
+  \begin{itemize}
+  \item Captures DDL (e.g. \mintinline{postgresql}{ALTER TABLE}) as well as DML
+  \item Runs at cluster (entire DB server instance) level.
+  \end{itemize}
+\item[Logical] replays commands by publishing changes to tables so that subscribers can replay them
+  \begin{itemize}
+  \item Does not capture DDL.
+  \item Runs at individual database level. 
+  \end{itemize}
+\end{description}
+We will assume physical replication from this point forward.
+
+\subsection{Mechanism}
+
+PostgreSQL writes changes to the Write-Ahead Log (WAL) before modifying the files on disk.
+It has the ability to replay a WAL, primarily to recover from abnormal termination.
+If the WAL is copied from the primary and replayed on the replica, the replica should have exactly the same data as the primary.
+This capability is leveraged to provide physical replication.
+\begin{description}
+\item[Log shipping] is where the primary copies its WAL to a known location.
+  It is transferred periodically to the replica, normally via automated file transfer.
+  There is no direct network communication between the primary and replica.
+\item[Streaming replication] is where the replica connects to the primary and receives the WAL changes in near-real-time.
+  The database user the replica connects as must have the \texttt{REPLICATION} role, \autoref{fig:streaming-replication}.
+  Technically the replica is a client of the primary.
+  If the replica temporarily stops or loses connectivity, it can ``catch up'' as long as it is not too far behind the primary.
+\end{description}
+
+\autoimage{streaming_replication}{Streaming replication showing direction of client connection initiation}{streaming-replication}
+
+\subsection{Synchronicity}
+
+\begin{description}
+\item[Asynchronous:] transaction returns from \mintinline{postgresql}{COMMIT} when written to WAL on primary. Standard mode of operation. Small possibility of data loss.
+\item[Synchronous:] a \mintinline{postgresql}{COMMIT} does not return until it has been written to the replicas. Reduced response time compared to synchronous.
+\end{description}
+
+\section{Scaling}
+
+Let a given load, $L$, require a unit, $U$, to service it. 
+This could be a standardised database server configuration, or a coffee maker.
+Consider a situation where $L$ increases to a multiple, $n \cdot L$.
+This requires an increase to $nU$ units to handle the load.
+
+We either have to scale up (vertical) or scale out (horizontal).
+The principles are easy to understand, but the best fit for a given application can be difficult to decide.
+
+\subsection{Vertical}
+
+Vertical scaling (up) involves the exchanging the $U$ unit for a $nU$ unit:
+\begin{align}
+  1 L & = 1 U \\
+  \Rightarrow n L & = 1 \times ( n U ) 
+\end{align}
+This would involve replacement of the database server hardware to increase CPU, RAM, network throughput or other performance metrics.
+
+\subsection{Horizontal}
+
+Horizontal scaling (out) involves adding additional units.
+\begin{align}
+  1 L & = 1 U \\
+  \Rightarrow n L & = n \times ( 1 U ) 
+\end{align}
+This is where additional database servers would be brought online in parallel, so as to increase the aggregate CPU, RAM, network thoughput or other performance metrics. 
+
+\subsection{Horizontally scaled replicas}
+
+Replicas can be horizontally scaled, \autoref{fig:horizontal-scaling-replicas}.
+
+\autoimage{horizontal_scaling_replicas}{Horizontal scaling with read replicas}{horizontal-scaling-replicas}
+
+\subsection{Cascading replication}
+
+A replica can itself act as an intermediate primary to other replicas, \autoref{fig:cascading-replication}.
+
+\autoimage{cascading_replication}{Cascading replication}{cascading-replication}
+
+\end{document}

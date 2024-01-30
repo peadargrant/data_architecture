@@ -1,0 +1,198 @@
+\documentclass{pgnotes}
+
+\title{UNIX tools}
+
+\begin{document}
+
+\maketitle
+
+\section{UNIX tools}\label{unix-tools}
+
+There are a few useful non-SQL tools we will need. Many of these tools work (or have equivalents) on Windows desktops too.
+The best way to learn how to use these is to use their inbuilt help or man pages.
+
+Inbuilt help is usually accessed by a switch, often \texttt{-h}.
+If a command is run with no input it will often give the help command in the error message.
+
+\subsection{Manpages}
+
+Most tools also have a manual page called a manpage:
+
+\begin{verbatim}
+# general pattern
+man commandname
+
+# example man page for curl 
+man curl
+\end{verbatim}
+
+Hit \texttt{q} to exit a manpage.
+
+\subsection{Printing file contents to screen}
+\label{printing-file-contents-to-screen}
+
+The \texttt{cat} command will print the contents of a file to the screen.
+We can use \texttt{more} to paginate it.
+
+\begin{verbatim}
+# listing the contents of the current directory
+ls
+
+# printing out the stations.csv file to the screen
+cat stations.csv
+
+# printing out the file with pagination
+cat stations.csv | more
+# using the bar | operator pipes the output of one command to another
+\end{verbatim}
+
+\section{Text editors}
+
+UNIX systems have a number of text editors available.
+Most popular ones are \texttt{nano}, \texttt{emacs} and \texttt{vim}.
+
+\subsection{nano}
+
+Nano is a simple lightweight editor.
+
+\begin{minted}{bash}
+# start nano in a new (unnamed) file
+nano
+
+# open an existing or named new file
+nano myfile.txt
+\end{minted}
+
+When open it shows shortcuts at the bottom of the screen.
+
+\subsection{emacs}
+
+Emacs is a more fully-featured editor that has a huge range of capabilities.
+It's more akin to a fully featured IDE like Eclipse, except in text mode.
+It has support for many languages.
+Basic usage is same as nano:
+
+\begin{minted}{bash}
+# start emacs in a new (unnamed) file
+emacs
+
+# open an existing or named new file
+emacs myfile.txt
+\end{minted}
+
+Emacs has pulldown menus accessible with the F10 key by default.
+Other useful commands.
+
+\begin{verbatim}
+# save file
+Ctrl-X s
+
+# quite emacs
+Ctrl-X Ctrl-C
+\end{verbatim}
+
+Emacs can handle multiple files simultaneously:
+
+\begin{verbatim}
+# open a new file
+Ctrl-X Ctrl-f
+
+# Close the current file
+Ctrl-X k
+
+# Switch to another tab
+Ctrl-X (right arrow key)
+Ctrl-X (left arrow key)
+\end{verbatim}
+
+\section{Multitasking}
+
+In a command-line environment over SSH we are restricted to running one application at a time.
+This can be problematic when we want to concurrently run a number of programs, e.g. psql, a text editor and the chat window. 
+
+You could get around this by logging in multiple times concurrently from your client.
+Instead we can use a terminal multiplexer called \texttt{tmux} to let us concurrently run multiple sessions and switch between them.
+
+\subsection{Starting tmux}
+
+I have configured the shared server so that it by default starts \texttt{tmux} on login.
+This isn't the case in most cases with Linux / UNIX but it can be very useful.
+(Tmux can be started by typing \texttt{tmux} which will spawn a new tmux session with a single window.)
+
+\subsection{Window handling}
+
+Once in a session, \texttt{tmux} is quite powerful and featured.
+It has many commands that are accessed by typing a prefix, by default \texttt{Ctrl-B} followed by another key.
+
+\begin{verbatim}
+# open a new window
+Ctrl-B c
+
+# name the current window
+Ctrl-B , 
+
+# switch to a numbered window 
+Ctrl-B 2
+
+# kill the current window
+Ctrl-B x 
+\end{verbatim}
+
+\subsection{Detach}
+
+Tmux sessions can be detached and then attached again.
+When in a session we can detach:
+\begin{verbatim}
+# detach 
+Ctrl-B d 
+\end{verbatim}
+
+We can then attach the session again:
+\begin{verbatim}
+# attach
+tmux attach
+\end{verbatim}
+
+The session is held open for us, even if we log out or lose connectivity.
+We can actually attach to the same session from multiple devices.
+The session is also detached if we lose connectivity or just terminate the SSH session.
+
+\subsection{Using CURL to download data}
+\label{using-curl-to-download-data}
+
+When we are logged into a remote server we may wish to download data
+from the internet. There are actually text-mode browsers like lynx,
+links, links2 but these have become less usable since the web's descent
+into excessive visual flourish and JavaScript-centricity.
+
+Instead we will make use of a tool called \texttt{curl} which can
+download the contents of a particular URL to a file. CURL is a very
+useful tool, and you should consult its inbuilt help or manpages
+(\texttt{man\ curl}) to learn more about its features. Basic usage:
+
+\begin{verbatim}
+# general pattern
+curl -o output_file_name url
+
+# example, download list of train stations in London
+# https://www.doogal.co.uk/london_stations.php
+# https://www.doogal.co.uk/LondonStationsCSV.ashx
+curl -o stations.csv  https://www.doogal.co.uk/LondonStationsCSV.ashx
+\end{verbatim}
+
+\section{Chat server}
+
+We have become used to the ``chat window'' in Zoom, Teams etc.
+To help share commands etc during class I have setup a chat facility on the shared server.
+Type \texttt{chat} to start it.
+
+Once you are connected to the channel you can type messages into the chatroom.
+Type \texttt{/QUIT} to quit.
+
+Internally this uses a local Internet Relay Chat (IRC) server and the \texttt{irssi} full-screen IRC client.
+There is a single channel \texttt{\#dataarch}. 
+That \texttt{chat} command sets up a simple configuration file to launch \texttt{irssi} directly into the \texttt{\#dataarch} topic. 
+
+
+\end{document}
+

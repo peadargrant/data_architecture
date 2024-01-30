@@ -1,0 +1,182 @@
+\chapter{Data Architecture Introduction}
+
+
+\section{Role of Data Architecture}
+
+\begin{description}
+\item[Persist data] in a durable and highly available way.
+\item[Query] stored data to report required information in desired formats.
+\item[Integrate] data sources, storage and consumers to meet application requirements.
+\end{description}
+
+
+\section{Database management systems (DBMS)}\label{sec:dbms}
+
+A database management system (DBMS) enables users to define, create, maintain and control access to a database.
+
+\subsection{Key concepts}
+
+\begin{description}
+\item[Schema] defines \textit{how} data is stored. Defines rules.
+\item[Records] of logically grouped data (e.g. a customer, an invoice)
+\end{description}
+
+
+\section{Functions}
+
+As a minimum, a DBMS must provide:
+
+\begin{description}
+\item[Data storage/retrieval] 
+\item[Catalog] of schema and data stored
+\item[Transaction support] for batch updates to be applied atomically
+\item[Concurrency control] to manage simultaneously connected clients
+\item[Recovery] to a working state after hardware / software failures
+\item[Authorization services] to verify connected clients identity and control access.
+\item[Data communication support] to allow usage from computers remote to the DBMS host.
+\item[Integrity services] to enforce constraints on data as defined by the user.
+\end{description}
+
+
+\subsection{Languages}
+
+\begin{description}
+\item[Data Definition Language (DDL)] to work with schema.
+\item[Data Manipulation Language(DML)] to work with data stored according to the schema.
+\item[Query language] for accessing data
+\end{description}
+
+
+\subsection{Role of database system}
+
+\begin{description}
+
+\item[OnLine Transaction Processing (OLTP)]
+ 
+\item[OnLine Analytics Processing (OLTP)]
+
+\end{description}
+
+\url{https://www.ibm.com/blog/olap-vs-oltp/}
+
+
+\subsection{Client-server}\label{client-server}
+
+Most database management systems run in a client-server model, even on the same host.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.3\linewidth]{dbms_client_server}
+  \caption{Client-Server model}
+  \label{fig:client-server-model}
+\end{figure}
+
+
+\subsection{Database host}
+
+The server process manages the data store and processes requests from
+clients. The server can be running on any of the following \emph{hosts}:
+
+\begin{itemize}
+\item
+  Standard laptop / desktop computer
+\item
+  Dedicated server computer (in a data centre environment)
+\item
+  Cloud-based virtual host, called a compute instance. (e.g.~Amazon EC2)
+\item
+  A managed database service provided by a cloud service provider
+  (e.g.~Amazon RDS, Azure, Google Cloud, IBM Cloud)
+\end{itemize}
+
+
+\subsection{Protocol}
+
+The client program accesses the server using a server-specific protocol.
+Clients normally access through IP networks using TCP on a specified
+port number. Examples of clients:
+
+\begin{itemize}
+\item
+  Most databases have a simple command-line client that can send
+  requests to the database and display results
+\item
+  Apps can be written to access database servers using a client library.
+
+  \begin{itemize}
+  
+  \item
+    Generally the text-mode client uses this library internally too!
+  \end{itemize}
+\end{itemize}
+
+Two things to note about the client:
+
+\begin{itemize}
+\item
+  The client may in some cases be running on the same host as the
+  server.
+\item
+  Software that is the client of a DBMS may itself be a server.
+
+  \begin{itemize}
+  
+  \item
+    Example: a web application is written in Python using the Flask web framework.
+    The web application is itself a client of the DBMS it accesses.
+  \end{itemize}
+\end{itemize}
+
+
+\subsection{Remote access}
+
+A particular pattern you will encounter is where the client program runs on the same host as the DBMS, and remote shell access is used to permit clients to connect to the server.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1.0\linewidth]{ssh_psql_usage}
+  \caption{SSH access to a remote database}
+  \label{fig:ssh-psql-usage}
+\end{figure}
+
+
+\subsection{Concurrency}
+\label{sec:concurrency}
+
+This also implies that there is a degree of concurrency, where multiple
+clients access the same database at the same time.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1.0\linewidth]{dbms_concurrent_access}
+  \caption{Concurrent access to a college timetable database}
+  \label{fig:concurrent-access}
+\end{figure}
+
+Clients are often heterogeneous, where different types of clients concurrently access the same data.
+
+
+\section{DBMS types}
+
+
+\subsection{Relational}
+
+Relational databases (often termed SQL databases) 
+
+
+\subsection{Non-relational}
+
+Non-relational databases (often referred to as NoSQL).
+Common types:
+\begin{description}
+\item[Key-Value stores] that associate a key with a value. (e.g. Redis)
+\item[Document databases] that store a semi-structured document identified by a key (e.g. MongoDB)
+\item[Graph databases] that store nodes and their relationships (e.g. Neo4J)
+\end{description}
+
+
+\subsection{Historic types}
+
+There are a number of historical database models, such as the hierarchical model that we will not consider in great detail. 
+
+

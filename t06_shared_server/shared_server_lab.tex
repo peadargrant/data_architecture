@@ -1,0 +1,59 @@
+\documentclass{pgnotes}
+
+\title{Shared Database Server}
+
+\begin{document}
+
+\maketitle
+
+
+The labs in this course will use a number of technologies in both command-line and graphical environments.
+Some resources will run on your local computer, others remotely on-site and others in the cloud.
+
+Here you will setup your lab PC environment and familiarise yourself with key operations we will use each week.
+The lab PCs have most of the software required already installed.
+
+
+We will use a shared Linux server for some of our work in this module.
+This will be accessed via SSH at:
+\texttt{data.comp.dkit.ie}
+
+This is accessible from eduroam WiFi and the lab network within DkIT but not outside of the campus.
+
+\section{Signup}
+
+\begin{enumerate}
+
+\item SSH to the sign-up user at:
+\begin{verbatim}
+ssh signup@data.comp.dkit.ie
+\end{verbatim}
+
+\item When you see the prompt
+\begin{verbatim}
+signup@data.comp.dkit.ie's password: 
+\end{verbatim}
+  you should use the password given by the lecturer in class.
+
+\item At the first prompt enter your desired username (should NOT be your student number).
+  No spaces, all lowercase.
+
+\item Copy your SSH key in full from:
+\begin{verbatim}
+~/.ssh/id_rsa.pub
+\end{verbatim}
+  
+\item Paste your SSH key in full at the second prompt and press enter.
+
+\item If your request is successful you'll get a confirmation message.
+  
+\end{enumerate}
+
+\section{Logging in}
+
+When you have received confirmation that your account has been created, you can log in by SSH to:
+\begin{verbatim}
+ssh yourname@data.comp.dkit.ie
+\end{verbatim}
+
+\end{document}

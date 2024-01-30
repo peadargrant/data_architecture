@@ -1,0 +1,24 @@
+digraph G {
+
+	rankdir=LR;
+
+	subgraph cluster_server {
+	label="Server environment";
+	M [label="Primary"];
+	S [label="Replica"];
+	}
+
+	subgraph cluster_client {
+	label="Client environment";
+	C [label="Client (read/write)"];
+	Cs [label="Client (simple)"];
+	Cr [label="Client (read only)"];
+	}
+
+	M -> S [label="updates"];
+	C -> M [label="updates"];
+	Cs -> M [label="reads+updates"];
+	C -> S [label="reads"];
+	Cr -> S [label="reads"];
+
+}

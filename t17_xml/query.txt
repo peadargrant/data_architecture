@@ -1,0 +1,1 @@
+for $station in /route/station return $station/name/text()

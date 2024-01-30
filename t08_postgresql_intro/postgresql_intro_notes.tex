@@ -1,0 +1,176 @@
+\documentclass{pgnotes}
+
+\title{PostgreSQL intro}
+
+\begin{document}
+
+\maketitle
+
+\section{Database basics}\label{database-basics}
+
+Make sure you can connect to the shared SSH server.
+
+\subsection{Running psql}\label{running-psql}
+
+Once logged in, we can use the \texttt{psql} command-line client to connect to the PostgreSQL server.
+Each server can host a number of databases independently of each other.
+Today we are going to use a database called \texttt{population}.
+
+\begin{verbatim}
+psql population
+\end{verbatim}
+
+Note the DBMS didn't ask us for a username/password.
+This is because it is setup to trust local connections with the same name as the login username.
+Generally a DBMS will ask for a username/password.
+
+Once logged in you should see a prompt similar to:
+
+\begin{verbatim}
+psql (9.2.24)
+Type "help" for help.
+
+population=> 
+\end{verbatim}
+
+There are two types of command we will encounter:
+
+\begin{itemize}
+\item
+  SQL statements to be executed by the server
+\item
+  Client commands (that sometimes get expanded into server-side SQL).
+  These are usually prefixed with a backslash.
+\end{itemize}
+
+You can get a list of all client commands using \textbackslash{}?.
+
+\subsection{Listing all tables}\label{listing-all-tables}
+
+A database in its simplest form is like an Excel workbook.
+Just as an excel workbook has one or more sheets, a database may have one or more tables in it.
+To find out the tables (and other objects) in our DB we can ask the database to describe the tables:
+
+\begin{verbatim}
+\dt
+\end{verbatim}
+
+Our population database has 1 table:
+
+\begin{verbatim}
+           List of relations
+ Schema |    Name    | Type  |  Owner   
+--------+------------+-------+----------
+ public | population | table | ec2-user
+(2 rows)
+\end{verbatim}
+
+\subsection{Describing a table}\label{describing-a-table}
+
+A table consists of a number of columns. Each row is a record. We can
+find out the schema definition using the client command
+\texttt{tablename}. To find out more about the \texttt{population} table
+we could say:
+
+\begin{verbatim}
+\d population
+\end{verbatim}
+
+\href{https://www.postgresql.org/docs/13/datatype.html}{Refer to
+datatypes in the PostgreSQL manual}
+
+\section{SELECT queries}\label{select-queries}
+
+We will review basic querying operations in SQL.
+If you have experience already with relational databases (MySQL, Microsoft SQL, Oracle) you will find most of this section familiar.
+You should refer to the \href{https://www.postgresql.org/docs/13/queries.html}{queries section of the PostgreSQL manual} for further detail on the examples below.
+
+\subsection{Entire table}\label{entire-table}
+
+Selecting an entire table using the asterisk (*) to pick all columns.
+
+\begin{verbatim}
+select * from population ;
+\end{verbatim}
+
+Note that statements need to be terminated with the semicolon (;). If
+you omit the semicolon the prompt will change from
+\texttt{=\textgreater{}} to \texttt{-\textgreater{}}.
+
+In PostgreSQL we can also use the shortened version
+
+\begin{verbatim}
+table directions;
+\end{verbatim}
+
+\subsection{Sorting}\label{sorting}
+
+Unlike a spreadsheet, the order of rows in result sets from database
+queries is non-deterministic by default. They are \emph{not} necessarily
+alphabetical order, insertion order or any other pattern. We use the
+\texttt{ORDER\ BY} clause to enforce ordering:
+
+The order direction is either \texttt{asc} for ascending or
+\texttt{desc} for descending.
+
+See \href{https://www.postgresql.org/docs/13/queries-order.html}{sorting
+page of PostgreSQL manual} for further details.
+
+\subsection{Where clause}\label{where-clause}
+
+The \texttt{WHERE} clause limits the output
+
+
+Text is best compared using the \texttt{LIKE} operator which allows
+\texttt{\%} to represent any text.
+
+
+\subsection{Column specification}\label{column-specification}
+
+We can specify specific column names
+
+
+\subsection{Column expressions}\label{column-expressions}
+
+PostgreSQL supports powerful expressions that combine the values of
+different columns. The columns themselves need not be selected in the
+result set.
+
+
+\subsection{Column labels}\label{column-labels}
+
+Columns in the result set receive automatic names. These are normally
+the name of the column or are derived from an expression. We can assign
+specific names using the \texttt{AS} keyword.
+
+
+See
+\href{https://www.postgresql.org/docs/13/queries-select-lists.html\#QUERIES-COLUMN-LABELS}{column
+labels in PostgreSQL manual}.
+
+\section{Aggregate functions}\label{aggregate-functions}
+
+Mastering aggregate functions will significantly improve your
+capabilities to query databases. You should refer to the
+\href{https://www.postgresql.org/docs/13/functions-aggregate.html}{aggregate
+functions section of the PostgreSQL manual} as you review the following
+examples.
+
+\subsection{Count}\label{count}
+
+The simplest aggregate function is \texttt{COUNT} to return the number
+of rows matched by a specific query. At its simplest, we can tell the
+number of rows in a table.
+
+\begin{verbatim}
+select count(*) from population; 
+\end{verbatim}
+
+Count is often used with where to obtain the number of rows matching a
+specific condition.
+
+\end{document}
+
+
+
+

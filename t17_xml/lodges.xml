@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<accomodations>
+
+  <rental type="house">
+    <title>Berlinhaus</title>
+    <description>Converted guard house.</description>
+    <sleeps>5</sleeps>
+    <facility>barbeque</facility>
+    <facility usage="charged">laundry</facility>
+    <facility>garden</facility>
+    <lodging currency="EUR">695</lodging>
+    <deposit currency="EUR">80</deposit>
+  </rental>
+
+  <rental type="house">
+    <title>Bergfrieden</title>
+    <description>Lovely and peacefully located between the forests and elms.</description>
+    <sleeps>4</sleeps>
+    <facility>barbeque</facility>
+    <facility>laundry</facility>
+    <lodging currency="EUR">750</lodging>
+    <deposit currency="EUR">100</deposit>
+  </rental>
+
+  <rental type="apartment">
+    <title>Apartment Daniela</title>
+    <description>Self-contained holiday apartment in Mayrhofen. Stunning location, all year round skiing, summer walking, activity holidays.</description>
+    <sleeps>6</sleeps>
+    <facility>barbecue</facility>
+    <facility>boot dryers</facility>
+    <facility>cot</facility>
+    <facility>garden</facility>
+    <facility usage="charged">laundry</facility>
+    <lodging currency="EUR">800</lodging>
+    <deposit currency="EUR">120</deposit>
+  </rental>
+
+  <accomodation type="guesthouse">
+    <title>Gastehaus Innerwiesn</title>
+    <description>A holiday in the Apart Garni Innerwiesn or a farm holiday in the Landhaus Schösser-Brandler!</description>
+    <facility usage="charged">laundry</facility>
+    <room>
+      <title>Standard room</title>
+      <sleeps>3</sleeps>
+      <sleeps guest="child">1</sleeps>
+      <lodging currency="EUR">300</lodging>
+      <deposit currency="EUR">10</deposit>
+    </room>
+    <room>
+      <title>Superior room</title>
+      <sleeps>2</sleeps>
+      <sleeps guest="child">1</sleeps>
+      <lodging currency="EUR">350</lodging>
+      <deposit currency="EUR">10</deposit>
+    </room>
+  </accomodation>
+
+  <accomodation type="guesthouse">
+    <title>Gastehaus Gunther Murphys</title>
+    <description>Guesthouse associated with the famous Irish Pub!</description>
+    <facility>garden</facility>
+    <facility>laundry</facility>
+    <room>
+      <title>Standard room</title>
+      <sleeps>3</sleeps>
+      <sleeps guest="child">1</sleeps>
+      <lodging currency="EUR">280</lodging>
+      <deposit currency="EUR">20</deposit>
+    </room>
+    <room>
+      <title>Group room</title>
+      <sleeps>6</sleeps>
+      <lodging currency="EUR">450</lodging>
+      <deposit currency="EUR">50</deposit>
+    </room>
+  </accomodation>
+
+</accomodations>

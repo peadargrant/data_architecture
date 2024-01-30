@@ -1,0 +1,52 @@
+\documentclass[slides]{pgnotes}
+
+\title{Datatypes}
+
+\begin{document}
+
+\maketitle
+
+\section*{Recommended reading}
+
+By far the best resource is the PostgreSQL manual \href{https://www.postgresql.org/docs/current/datatype.html}{Chapter 8}.
+You should be using it regularly!
+
+\section{Numeric data}
+
+Numeric data largely falls into the categories of: integer, fixed precision and arbitary precision data.
+
+\subsection{Integers}
+
+Integers have an allowable range according to the datatype.
+\begin{itemize}
+\item Generally choose from \texttt{smallint, int, bigint} depending on the expected value range. 
+\item \texttt{bigint} may suit incrementing ids in long-running systems.
+\end{itemize}
+
+\subsection{Floating point}
+
+\subsection{Fixed precision}
+
+\section{Textual data}
+
+Recommend to use \texttt{text} only.
+Use contraints to control length if required. 
+
+\section{Good practices}
+
+\begin{enumerate}
+  
+\item Do not store numbers as text.
+
+\item Do not store boolean true / false ( or any synonyms ) as text.
+
+\item Do not sure enumerated types as text. Either use an ENUM and/or a foreign-keyed table.
+
+\item Anything where you need absolute precision after the decimal point must be NUMERIC, not FLOAT. 
+  
+\item Do not be tempted to store a single logical date/time as separate date and time columns.
+  Always use a single timestamp for this. 
+  
+\end{enumerate}
+
+\end{document}

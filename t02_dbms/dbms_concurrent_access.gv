@@ -1,0 +1,27 @@
+digraph G {
+
+	subgraph cluster_SysadminWorkstation {
+		 label="Sysadmin workstation";
+		 SysadminClient [label="DBMS client"];	 
+	}
+
+	subgraph cluster_AnalystWorkstation {
+		 label="Data analyst laptop";
+		 AnalystClient [label="DBMS client"];
+		 AnalystProgram [label="Python program"];
+	}
+
+	subgraph cluster_TimetableServer {
+		 label="Timetable server";
+		 DBMSServer [ label="DBMS server" ];
+		 WebServer [ label="Web server" ];
+		 WebServer -> DBMSServer;
+
+	}
+
+	AnalystClient -> DBMSServer;
+	AnalystProgram -> DBMSServer;
+	SysadminClient -> DBMSServer;	
+	
+
+}

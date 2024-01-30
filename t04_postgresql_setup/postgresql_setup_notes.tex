@@ -1,0 +1,156 @@
+\documentclass{pgnotes}
+
+\title{PostgreSQL setup}
+
+\begin{document}
+
+\maketitle
+
+These instructions install the PostgreSQL DBMS locally on our own computer.
+This is very handy for development and personal projects.
+This WILL NOT work on Lab Desktop machines!
+
+The instructions here assume you are using a Windows computer.
+Follow the instructions further down the page for Mac or Linux.
+
+\section{Windows}
+\label{sec:postgresql-setup-windows}
+
+\subsection{PostgreSQL Server Installation}
+
+\begin{enumerate}
+
+\item
+	Download the PostgreSQL 16 installer from:
+	\url{https://www.enterprisedb.com/downloads/postgres-postgresql-downloads}
+
+\item
+	Double click to start the installation.
+	You should see \textit{Welcome to the PostgreSQL Setup Wizard}.
+	Click Next.
+	
+\item 
+	Leave the \textbf{Installation} Directory at the default.
+	Click next.
+	
+\item In \textbf{Select Components} leave all selected.
+	Click next.
+	
+\item In \textbf{Data Directory} leave all selected.
+	Click next.
+	
+\item In \textbf{Password} you need to provide a password for the database superuser.
+	PostgreSQL (and other DBMSs) have internal usernames / passwords for access control (we will meet later on).
+	It is best NOT to use your computers' or DkIT password.
+	Note the password down in a text file on your computer.
+	Click next.
+
+\item In \textbf{Port} leave it at 5432.
+	Click next.
+	
+\item In \textbf{Advanced Options} leave \textit{Locale} at its default.
+	Click next.
+
+\item \textbf{Pre-installation} summary should be similar to:
+\begin{verbatim}
+Installation Directory: C:\Program Files\PostgreSQL\16
+Server Installation Directory: C:\Program Files\PostgreSQL\16
+Data Directory: C:\Program Files\PostgreSQL\16\data
+Database Port: 5432
+Database Superuser: postgres
+Operating System Account: NT AUTHORITY\NetworkService
+Database Service: postgresql-x64-16
+Command Line Tools Installation Directory: C:\Program Files\PostgreSQL\16
+pgAdmin4 Installation Directory: C:\Program Files\PostgreSQL\16\pgAdmin 4
+Stack Builder Installation Directory: C:\Program Files\PostgreSQL\16
+Installation Log: C:\Users\grantp\AppData\Local\Temp\install-postgresql.log
+\end{verbatim}
+
+\item On the \textbf{Ready to Install} screen click Next.
+	The installation process will take a few minutes.
+	
+\item Finally you will see \textit{Completing the PostgreSQL setup wizard}.
+	You will see \textit{Launch Stack Builder at Exit}.
+	Turn this off.
+	Click Finish.
+	
+%\item \textbf{Stack Builder} will open then. %
+%	Drop the menu box down to \texttt{PostgreSQL 16 (x64) on port 5432}.
+%	Click next.
+
+\end{enumerate}
+	
+\subsection{PATH setup}
+
+\begin{enumerate}
+
+\item
+	Search for \textit{Advanced System Settings} in the start menu.
+	
+\item 
+	Click the \textit{Advanced} tab at the top.
+	
+\item 
+	Click the \textit{Environment Variables} button.
+	
+\item 
+	Under \textit{User Variables} click \textit{PATH} and then textit{Edit}.
+	
+\item 
+	Click \textit{New} and type exactly:\\
+\begin{verbatim}
+	C:\Program Files\PostgreSQL\16\bin
+\end{verbatim}
+
+\item 
+	Click \textit{OK} to leave this box, \textit{OK} again to leave the Environment Variables box and \textit{OK} a third time to leave the Advanced System Settings box.
+
+\item
+	Open a New PowerShell windows.
+	Type \texttt{psql} and press enter.
+	It should request a password, just Ctrl-C to exit it.
+
+\end{enumerate}
+
+\subsection{PostgreSQL User setup}
+
+\begin{enumerate}
+
+\item
+	Open a New PowerShell window.
+
+\item
+  Type:
+\begin{verbatim}
+createuser -s -P -U postgres your-windows-username-here
+\end{verbatim}
+  and press Enter. 
+  Enter the superuser password you stored earlier.
+
+\item
+  Now we need to create a default database for your user.
+  To do this, type:
+\begin{verbatim}
+createdb your-windows-username-here
+\end{verbatim}
+	
+\item 
+  Now try \texttt{psql} again, enter your password and you should be connected to your database.
+  To confirm everything is working we can type
+\begin{verbatim}
+SELECT 1;
+\end{verbatim}
+  and press enter.
+  You should see something like:
+\begin{verbatim}
+ ?column?
+----------
+        1
+(1 row)
+\end{verbatim}
+
+\end{enumerate}
+
+\end{document}
+
+
