@@ -1,13 +1,16 @@
-1.  Obtain the code for these exercises in the file `xml_code.zip` using
-    `curl` (on shared server) or `Invoke-WebRequest` on PowerShell.
+XML Lab
+=======
 
-2.  Confirm using `xmllint` that the `hits.xml` file is not well formed.
-    Use a text editor to fix the file so that it is well formed. Repeat
-    using `xmllint` to confirm it now is well-formed.
+1.  Copy (not move!) hits.xml, bathe_cat.xml to the Desktop.
 
-3.  Confirm using `xmllint` that the `bathe_cat.xml` file is not well
-    formed. Use a text editor to fix the file so that it is well formed.
-    Repeat using `xmlllint` to confirm that it is now well formed.
+2.  Confirm using `xmllint` or PowerShell that the `hits.xml` file is not well formed.
+    Use a text editor to fix the file so that it is well formed.
+	Repeat to confirm it now is well-formed.
+
+3.  Confirm using `xmllint` or PowerShell that the `bathe_cat.xml` file is not well
+    formed.
+	Use a text editor to fix the file so that it is well formed.
+    Repeat to confirm that it is now well formed.
 
 4.  Consider the following data: a DJ mix of different tracks, each
     track having information about the title, artist, remix (where
