@@ -13,7 +13,7 @@ $XmlFileName="sample.xml"
 
 # 2)
 # Parsing XMl document into Powershell
-$doc = [xml](Get-Conent $XmlFileName)
+$doc = [xml](Get-Content $XmlFileName)
 
 # 3)
 # Selecting elements
