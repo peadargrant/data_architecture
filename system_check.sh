@@ -5,6 +5,7 @@ if ! command -v pwsh &> /dev/null
 then
     echo "PowerShell could not be found"
     echo "Install from Package Manager or Microsoft Online"
+    echo "Installation script at: ./install_powershell.sh will do it"
     echo "Recommend you talk to your lecturer for help!"
     exit 1
 fi
