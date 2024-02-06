@@ -8,3 +8,4 @@ _minted*
 auto/
 *.bbl
 *.blg
+*.toc
