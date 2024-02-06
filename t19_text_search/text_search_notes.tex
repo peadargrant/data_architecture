@@ -177,19 +177,13 @@ There are a number of options to create and maintain the search vector.
 \begin{itemize}
 \item Search vectors can be created within \mintinline{postgresql}{INSERT} or \mintinline{postgresql}{UPDATE} operations like any other datatype.
 \item Danger of falling out of sync if updates not performed.
-\item It is possible to create / update search vector column for an entire table using update command.
 \end{itemize}
 
-\subsubsection{Generated column}
+\subsubsection{Batch}
 
-An alternative is to make the search vector a generated column, so that it is updated automatically when the row is updated.
-\begin{minted}{postgresql}
-ALTER TABLE products
-ADD COLUMN search_vector tsvector
-GENERATED ALWAYS AS (to_tsvector(description)) STORED; 
-\end{minted}
-Generated column can be used for any column that needs to be kept automatically up to date (not just tsvector).
-A row level equivalent of a view.
+\begin{itemize}
+\item It is possible to create / update search vector column for an entire table using update command.
+\end{itemize}
 
 
 \end{document}
