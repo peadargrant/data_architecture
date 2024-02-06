@@ -1,5 +1,7 @@
 # Full-text search lab exercises
 
-1. Use `module_load.sql` via `psql -f module_load.sql` to populate the modules table.
-2. Construct a tsvector column for 1 column using the generated columns feature.
-3. Construct a tsvector column for multiple columns using the generated columns feature.
+1. Use git clone / git pull to get copy of module notes / code on server.
+2. Use `module_load.sql` via `psql -f module_load.sql` to populate the modules table.
+3. Add a column type tsvector.
+4. Populate tsvector column based on module title.
+5. Explore queries. 
