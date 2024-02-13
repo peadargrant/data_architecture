@@ -1,0 +1,32 @@
+digraph G {
+
+rankdir=LR;
+
+subgraph cluster_clients {
+	label="Clients";
+	counter [label="Counter", shape=box, style=filled, fillcolor=lightyellow];
+	sco [label="Self checkout", shape=box, style=filled, fillcolor=lightyellow];
+	catalogue [label="Catalogue terminal", shape=box, style=filled, fillcolor=lightyellow];
+	web [label="Web", shape=box, style=filled, fillcolor=lightyellow];
+}
+
+subgraph cluster_database {
+	label="Library database";
+	subgraph cluster_functions {
+		label="User-defined functions";
+	fines_due [ label="fines_due(borrower_id)", shape=cds, style=filled, fillcolor=palegreen ];
+	pay_fine [ label="pay_fine(borrower_id, amount)", shape=cds, style=filled, fillcolor=palegreen];
+	}
+	db [label="Tables", shape=cylinder, style=filled, fillcolor=lightblue];
+}
+
+counter -> fines_due;
+sco -> fines_due;
+catalogue -> fines_due ;
+web -> fines_due ; 
+fines_due -> db ;
+pay_fine -> db;
+counter -> pay_fine ;
+web -> pay_fine;
+	
+}

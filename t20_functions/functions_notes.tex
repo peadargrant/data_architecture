@@ -1,14 +1,81 @@
 \documentclass[slides]{pgnotes}
 
+\title{User-Defined Functions}
+
 \begin{document}
 
 \maketitle
+
+\section{User-defined functions}
+
+\begin{itemize}
+\item So far, all of the \textbf{business logic} has come from the database client, either directly from us or a program we've written.
+\item We have \textbf{already used} functions: (e.g. \texttt{CONCAT, COUNT, SUM})
+\item Can be confusing when starting out! 
+\end{itemize}
+
+\section{Motivation}
+
+\subsection{Shared logic}
+
+User-defined Functions let us \textbf{share logic among different clients}:
+\begin{itemize}
+\item May be disparate, written in different languages.
+\item \textbf{Avoid duplication} of business logic across different clients:
+  \begin{itemize}
+  \item Consistency of logic across different access channels
+  \item Avoids re-implementation in different systems
+  \item Easier to update as can be done centrally.
+  \end{itemize}
+\item Databases \textbf{often outlast client} systems connecting to them. 
+\end{itemize}
+Consider library system with functions to show and pay fines, \autoref{fig:library}.
+
+
+\autoimage{library}{Library system}{library}
+
+\subsection{Triggers}
+
+Triggers let us run user-defined code in response to \texttt{INSERT}s, \texttt{UPDATE}s and \texttt{DELETE}s in the database:
+\begin{itemize}
+\item Check or modify an incoming change:
+  \begin{itemize}
+  \item Enforce validity (above standard database constraints)
+  \item Clean or Modify data for consistency
+  \end{itemize}
+\item Take some action based on incoming change:
+  \begin{itemize}
+  \item Log change for audit or historical purposes to another table
+  \item Notifying changes to external systems (e.g. pub/sub)
+  \end{itemize}
+\end{itemize}
+\textbf{Triggers use functions to perform actions.}
+
+\section{Languages}
+
+User-defined functions can be written in:
+\begin{description}
+\item[SQL] ~ 
+  \begin{itemize}
+  \item Standard SQL statements as you are used to using!
+  \item Can be limiting as little/no control structures
+  \end{itemize}
+\item[PL/PLGSQL:] Procedural SQL language
+  \begin{itemize}
+  \item Builds on SQL language to include standard programming constructs
+  \item \textit{Generally start with this!}
+  \end{itemize}
+\item[Other languages:] TCL, Perl, Python available as standard
+  \begin{itemize}
+  \item Implementation causes some restrictions on normal usage!
+  \end{itemize}
+\end{description}
 
 \section{Programming constructs}
 
 \subsection{Structure}
 
-\inputminted{python}{km_to_miles.sql}
+\inputminted{postgresql}{km_to_miles.sql}
 
 \subsection{Variables}
 
@@ -16,6 +83,6 @@
 
 \subsection{Conditionals}
 
-\inputminted{postgresql}{outcome.sql}
+\inputminted{postgresql}{conditionals.sql}
 
 \end{document}
