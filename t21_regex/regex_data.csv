@@ -1,0 +1,16 @@
+code,code_type,remark
+EI105,flight,this is/was an Aer Lingus Flight
+48A,bus,this was a bus route in dublin
+100X,bus,this is a regional bus route
+FR116,flight,this is/was a Ryanair flight
+FR???,invalid,looks like a flight number but isn't
+0871234567,phone,Irish mobile number
++353876331729,phone,Irish mobile number in international format
+192.168.0.1,ip,IP address
+127.0.0.1,ip,IP address of local machine
+4921000000000000,card,Visa card number
+5432000000000000,card,Mastercard number
+492100029100000,invalid,like a Visa card but 15 digits
+54320000000000002,invalid,like a Mastercard but 17 digits
+A91Y667,eircode,valid eircode
+A91Y0000,invalid,like an eircode but extra char
