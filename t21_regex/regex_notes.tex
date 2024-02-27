@@ -1,0 +1,75 @@
+\documentclass[slides]{pgnotes}
+
+\title{Regular expressions (Regex)}
+
+\begin{document}
+
+\maketitle
+
+\section{Regular expressions (regex)}\label{regex}
+
+Tool to search text for specific patterns:
+\begin{itemize}
+\item Very flexible.
+\item Similar implementations in many languages, slightly different dialects.
+\item Python has the \texttt{re} package as standard.
+\item Supported by PostgreSQL using the \texttt{\textasciitilde{}} operator.
+\end{itemize}
+  
+\section{Building a regex}\label{building-a-regex}
+
+\subsection{Anchors}\label{anchors}
+
+Without an anchor, \texttt{\^{}} or \texttt{\$}, the regex will return true if the specified text exists.
+
+\begin{itemize}
+\item Use a preceeding \texttt{\^{}} for matches \emph{starting with} the specified pattern.
+\item Use a terminating \texttt{\$} for matches \emph{ending with} the specified pattern.
+\item Use both \texttt{\^{}} and \texttt{\$} to match a specific string exactly. (Could just use \texttt{LIKE} or \texttt{=}!)
+\end{itemize}
+
+\section{PostgreSQL}\label{postgresql}
+
+\subsection{Regex matching operators}\label{regex-matching-operators}
+
+The Regex matching operators allow regex matching in queries:
+
+\begin{verbatim}
+~    regex matches, case sensitive
+~*   regex matches, case insensitive
+!~   regex does not match, case sensitive
+!~*  regex does not match, case insensitive
+\end{verbatim}
+
+\subsection{CHECK constraint}\label{check-constraint}
+
+The CHECK constraint can force a TEXT column to conform to a particular regex:
+
+\begin{verbatim}
+CHECK (columnname ~ 'regex_expression_here')
+\end{verbatim}
+
+\subsection{DOMAIN}\label{domain}
+
+A DOMAIN allows us to define a particular datatype in terms of:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A base type
+\item
+  A CHECK constraint
+\end{enumerate}
+
+Pattern:
+
+\begin{verbatim}
+CREATE DOMAIN domainname AS TEXT CHECK ( VALUE ~ 'regex_here' )
+\end{verbatim}
+
+Generally NOT a good idea to force NOT NULL on a DOMAIN as limits
+flexibility.
+
+\end{document}
+
