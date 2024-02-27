@@ -1,0 +1,8 @@
+# Graph Database Exercise
+
+1. Sign up for free Neo4j at https://neo4j.com/
+
+2. Create new empty instance. 
+
+3. Attempt to recreate the scenario shown on the board. 
+

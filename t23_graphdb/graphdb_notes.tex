@@ -1,0 +1,56 @@
+\documentclass[slides]{pgnotes}
+
+\title{Graph databases}
+
+\begin{document}
+
+\maketitle
+
+\section*{Recommended reading}
+
+\begin{enumerate}
+\item \href{https://en.wikipedia.org/wiki/Graph_database}{Wikipedia article on graph databases}
+\item \href{https://neo4j.com/docs/getting-started/current/}{Neo4j getting started guide}
+\end{enumerate}
+
+\section{Graph databases}
+
+Graph databases are a NoSQL database that focus on entities and the relationships between them:
+\begin{itemize}
+\item We will look at Neo4j as an example.
+\end{itemize}
+
+\subsection{Conceptual model}
+
+\begin{description}
+\item[Nodes] correspond to entities / rows.
+  A node may have:
+  \begin{description}
+  \item[Properties] for storing information (e.g. age, name)
+  \item[Label(s)] for grouping it into a set (e.g. Person, Group)
+  \end{description}
+\item[Edges / relationships] connect two nodes. Contrasts to a relational (or other noSQL DB) in that relationships are explicitly stored. 
+  \begin{itemize}
+  \item May have a direction:
+    \begin{description}
+    \item[Undirected graph] has no directionality implied between the two nodes. (e.g. Friends)
+    \item[Directed graph] implies a directionality between the two nodes. (e.g. Manages)
+    \end{description}
+  \item Edges may have properties independent of the nodes connecting them (e.g. Friend since)
+  \end{itemize}
+\end{description}
+
+\subsection{Connectivity}
+
+Neo4J supports two access methods: HTTP and Bolt.
+
+\subsection{Query language}
+
+Neo4j uses its own Cypher query language:
+\begin{itemize}
+\item SQL is to Postgresql as Cypher is to Neo4j.
+\end{itemize}
+
+
+
+\end{document}
