@@ -1,0 +1,39 @@
+Graph DB exercise
+=================
+
+Setup
+-----
+
+1. Login to Neo4J Online
+
+2. Connect to your Neo4J instance.
+
+3. Delete all existing nodes and relationships from your instance.
+
+4. Consult the rail_map.pdf.
+
+
+Simplified exercise
+-------------------
+
+1. Build the rail map in Neo4J as follows:
+   - Include the terminal stations (shown with circular dot, e.g. Tralee)
+   - Ignore all except 1 intermediate station (shown with a tick)
+   - For name you can just use the basic names like 'Cork' rather than 'Cork Kent'.
+   - Label each station as 'TrainStation'.
+   - Label each relationship as 'Train'.
+
+2. Add a relationship 'Train' from 'Waterford' to 'Rosslare Europort'.
+
+3. Add a relationship 'Bus' from Connolly to Heuston.
+
+4. Add a relationship 'Luas' from Connolly to Heuston.
+   (LUAS is Dublin's Light-Rail Tram system.)
+
+5. Count the number of station nodes. 
+
+6. Count the number of train connections. 
+
+7. List all nodes with more than 1 relationships incoming.
+
+8. List all nodes with more than 2 relationships incoming.
