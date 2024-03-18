@@ -1,0 +1,154 @@
+\documentclass[slides]{pgnotes}
+
+\title{Document databases}
+
+\begin{document}
+
+\maketitle
+
+\section*{Required reading}
+
+\begin{enumerate}
+\item \citet[Chapter 3]{perkins:2018:seven}
+\end{enumerate}
+
+\section{Document database characteristics}
+
+Within a single \textbf{instance}, a \textbf{database} may have 1 or more \textbf{collections} ($\approx$ tables) each with 1 or more \textbf{documents} ($\approx$ rows).
+
+
+We will focus on MongoDB:
+\begin{itemize}
+\item Can be installed locally and as-a-service on the cloud.
+\item Query language: JavaScript
+\item Conceptually stores documents as JSON, internally BSON.
+\item The document is the unit of storage and recall.
+\end{itemize}
+
+
+\section{Basic operations}
+
+Connection using \texttt{mongo} client program.
+\begin{minted}{bash}
+# use mongo <dbname> to connect to <dbname> database
+mongo blog 
+mongo shop 
+\end{minted}
+Usable via Python / other code using driver.
+
+Once connected, database is in scope as \texttt{db}.
+
+\subsection{Creation}
+
+We can insert a document into a collection, creating the collection if it does not already exist:
+
+\begin{minted}{javascript}
+# insert the document into the products collection
+db.products.insertOne({
+    "name": "Wooden train set",
+    "description": "Wooden train set painted in the Irish Rail colours.",
+    "price": 10000
+})
+\end{minted}
+
+Nested data possible within document:
+
+\begin{minted}{javascript}
+db.products.insertOne({
+    "name": "Wooden train set",
+    "description": "Wooden train set painted up to match operator colours.",
+    "price": 10000,
+    "variants": [
+        "Irish",
+        "British Rail",
+        "Trenitalia"
+    ]
+});
+
+\end{minted}
+
+\subsection{List all documents in collection}
+
+We can use the collection's \texttt{find()} method to get all documents in the collection.
+\begin{minted}{javascript}
+db.products.find()
+\end{minted}
+
+\subsection{Finding specific object by ID}
+
+When each object is created, it receives a system-generated ID.
+\begin{minted}{javascript}
+db.product.find({"_id":ObjectId("6087fb3e7f26283da1384e45")});
+\end{minted}
+
+\subsection{Number of objects in collection}
+
+\begin{minted}{javascript}
+db.product.count();
+\end{minted}
+
+\subsection{Finding object by field values}
+
+Can extend the find-by-id idea to get any other field.
+\begin{minted}{javascript}
+db.product.find({"price":500})
+\end{minted}
+
+\subsection{Remove a document}
+
+Removing a \textit{document} is almost identical to the find operation.
+
+\begin{minted}{javascript}
+// remove a single document
+db.product.remove({"_id":ObjectId("6087fb3e7f26283da1384e45")});
+
+// remove all that match a query
+db.product.remove({"price": 500});
+\end{minted}
+
+\section{Python access}
+
+MongoDB uses the PyMongo driver that maps well to python structures.
+Only basic usage is shown here.
+Consult other sources for detailed examples. 
+
+\subsection{Connection}
+
+PyMongo driver provides Connection:
+\begin{minted}{python}
+# driver
+from pymongo import MongoClient
+
+# connect to dbname database
+client = MongoClient("mongodb://localhost/dbname")
+\end{minted}
+
+\subsection{Insert}
+
+Insert uses the standard python dictionary and list structures.
+
+\begin{minted}{python}
+# python dictionary with values
+new_post = {
+    "title":"Bring back dialup",
+    "author": "Peadar Grant",
+    "themes": ["history","internet"]
+}
+
+# insert
+db.posts.insert_one(new_post)
+\end{minted}
+
+\subsection{Finding}
+
+Finding follows the same idiom as direct connection.
+JSON List / dictionary structures are transparently converted to their Python equivalents.
+
+\subsection{Remove}
+
+Removal follows same pattern as JavaScript. 
+
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
+
+\end{document}
