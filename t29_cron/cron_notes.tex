@@ -1,0 +1,113 @@
+\documentclass[slides]{pgnotes}
+
+\title{cron scheduler}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Unattended execution}
+
+There are many scenarios where a program needs to run unattended:
+
+\begin{enumerate}
+  
+\item A Python script should be run every hour.
+  It retrieves weather information and stores it in a database management system.
+
+\item A bash script e-mails a report at 5PM each day using the \texttt{msmtp} program.
+
+\item A Git repository needs to be \texttt{git pull}ed once a day at 6PM. 
+  
+\item A backup routine should be run every evening at 9PM.
+  
+\item A rogue employee wishes to send a mail at 6PM this evening with their resignation and post a tweet disparaging their employer!
+  
+\end{enumerate}
+
+
+\subsection{Requirements}
+
+We require that our command can run:
+\begin{enumerate}
+\item Without direct intervention at the shell
+\item Without any user even logged in at all
+\item Also we require that the program(s) will be run as required even if the system is restarted.   
+\end{enumerate}
+
+The command in question might be: 
+\begin{enumerate}
+\item A shell script (in Bash or another language)
+\item A program installed from the package manager
+\item A program we've written ourselves
+\item Any combination thereof that we can write at the shell prompt!
+\end{enumerate}
+
+\subsection{Program requirements}
+
+If a command is going to be run unattended, we need to make sure that:
+\begin{enumerate}
+\item Employs only \textbf{standard text-based} input / output
+  \begin{itemize}
+  \item Rules out ``full screen'' terminal-based programs. 
+  \end{itemize}
+\item Runs from start to finish in a relatively \textbf{linear path}
+\item It \textbf{does not prompt} for or require interactive user input.
+  Can sometimes use command-arguments to:
+  \begin{itemize}
+  \item Supply information that's normally prompted for
+  \item Bypass confirmation questions 
+  \end{itemize}
+\item It doesn't hang (get stuck) in the event of errors.
+  \begin{itemize}
+  \item Can cause stuck runs to ``pile up'' consuming memory. 
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Options}
+
+Scheduled execution generally falls into two distinct but similar scenarios:
+
+\begin{description}
+\item[Periodic] execution according to a repeating rule.
+  \begin{itemize}
+  \item Use the \texttt{cron} scheduler
+  \end{itemize}
+\item[One shot] execution at some point in the future.
+  \begin{itemize}
+  \item Use the \texttt{at} scheduler
+  \item May also employ \texttt{cron} if a rule can be written.
+  \end{itemize}
+\end{description}
+
+\section{cron scheduler}
+
+The \textbf{cron} scheduler is a standard part of Linux and UNIX.
+\begin{itemize}
+\item It is controlled by means of the \texttt{crontab} file.
+\item Can schedule execution based on:
+  \begin{itemize}
+  \item Date(s)
+  \item Day of week
+  \item Time (to 1 minute precision)
+  \end{itemize}
+\end{itemize}
+
+\subsection{cron job}
+
+A scheduled task is colloquially referred to as a ``cron job''.\\
+We need to know:
+\begin{enumerate}
+\item The command to run
+\item The working directory required
+\item When the command is to be scheduled for execution at.
+\end{enumerate}
+Cron jobs normally execute as the user who creates them.
+\begin{itemize}
+\item Some cron jobs will need to run as root.
+\end{itemize}
+
+\end{document}
+
