@@ -1,0 +1,6 @@
+select date_part('year',date) as year, sum(confirmedcovidcases) from cases group by year order by year
+asc ;
+
+select date, sum(confirmedcovidcases) over l6d as sum_last_6_days, avg(confirmedcovidcases) over l6d ::integer as average_last_6_days from cases window l6d as ( order by date asc rows between 6 preceding and current row ) ;
+
+
