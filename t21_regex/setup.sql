@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS regexdata;
 DROP TYPE IF EXISTS code_type;
 
 -- type
-CREATE TYPE code_type AS ENUM ('invalid', 'card', 'flight','bus','phone','ip');
+CREATE TYPE code_type AS ENUM ('invalid', 'card', 'flight','bus','phone','ip', 'eircode');
 
 -- re-create table
 CREATE TABLE regexdata (
