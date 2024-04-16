@@ -1,6 +1,7 @@
 Lab tasks:
 
-Use MongoDB on the shared server to put together a simple DB following the examples from the notes.
+Use MongoDB on the shared server (use mymongo to avoid clashing with other students) to put together a simple DB following the examples from the notes.
+
 Choose any of the following ideas, or one of your own: 
 
 1. Task manager
