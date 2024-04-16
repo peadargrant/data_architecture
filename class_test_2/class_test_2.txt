@@ -1,8 +1,6 @@
-*** NEEDS UPDATING FOR 2023 - DISREGARD UNTIL THIS NOTICE IS REMOVED. **
-
 Data Architecture Class Test 2
 
-Date: Wednesday 3rd May
+Date: Tuesday 26th April
 Time: 14:00 - 15:00
 Room: P1153
 
