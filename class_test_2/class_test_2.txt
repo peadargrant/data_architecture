@@ -1,17 +1,24 @@
-Data Architecture Class Test 2
+# Data Architecture Class Test 2
 
-Date: Tuesday 30th April
-Time: 14:00 - 15:00
-Room: P1153
+**Weight:** 15%
 
-Time allowed: 1 hour. 
+**Date:** Tuesday 30th April
+
+**Time:** 14:00 - 15:00
+
+**Room:** P1153
+
+**Time allowed:** 1 hour. 
 
 Students must attend on the date / time specified in person.
 It is not possible to reschedule nor take the test remotely.
 
+
+## Format
+
 The exam will take the form of a Moodle Quiz.
 
-Approx 30 questions.
+Approx 15 questions.
 
 Closed-book / notes. 
 May not have anything open except Web Browser w/ moodle. 
