@@ -17,8 +17,6 @@ You can use PostgreSQL, Neo4J or MongoDB or any combination of them for the exer
 Deliverables
 ============
 
-Supply a single ZIP file `ca2.zip` (not .rar) with the necessary files
-included.
 Your submission must be in a git repository named `data_arch_ca2` on the gitlab server https://gitlab.comp.dkit.ie/ .
 You must add `grantp` as a Developer on the repository in advance of the deadline.
 Submissions will be collected from gitlab after the deadline has passed.
