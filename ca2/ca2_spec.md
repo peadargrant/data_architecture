@@ -4,6 +4,8 @@
 
 **Weight:** 35%
 
+This project is to be done individually.
+
 Introduction
 ============
 
