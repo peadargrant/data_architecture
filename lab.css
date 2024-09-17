@@ -1,0 +1,43 @@
+/*
+CSS file for automation module documents
+Peadar Grant
+*/
+
+body {
+    font-family: sans-serif;
+    font-size: 125%;
+    background-color: rgb(255,255,237);
+}
+
+#TOC {
+    background-color: palegreen;
+    padding: 10px;
+}
+
+h1.title {
+    background-color: black;
+    color: white;
+    padding: 5px;
+    font-size: 150%;
+}
+
+h1 {
+    background-color: lightcyan;
+    padding: 5px;
+    font-size: 120%;
+}
+
+h2 {
+    color: darkblue;
+    font-size: 100%;
+}
+
+h3 {
+    color: darkgreen;
+    font-size: 100%;
+}
+
+pre, code {
+    font-size: 120%;
+    font-weight: bold;
+}

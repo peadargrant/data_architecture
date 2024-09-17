@@ -1,0 +1,9 @@
+*.pdf
+*~
+_minted-*/
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
