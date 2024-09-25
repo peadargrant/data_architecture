@@ -1,0 +1,34 @@
+digraph G {
+	rankdir=LR;
+
+	subgraph cluster_client {
+		label="Client (e.g. laptop, tablet)";
+		clientterminal [label="Terminal"];
+		client [label="SSH client"];
+		clientterminal -> client;
+		putty [label="Graphical\nSSH\nclient"];
+	}
+
+	subgraph cluster_mobile {
+		label="Tablet / phone";
+		clientapp [label="SSH app"];
+	}	
+
+	subgraph cluster_host {
+		label="Host";
+		server [label="SSH\nserver"];
+		shell [label="Shell"];
+		server -> shell;
+		p1 [label="App 1"];
+		shell -> p1;
+		p2 [label="App 2"];
+		shell -> p2;
+		p3 [label="App 3"];
+		shell -> p3;
+	}
+
+	client -> server;
+	putty -> server;
+	clientapp -> server;
+	
+}

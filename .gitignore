@@ -7,3 +7,6 @@ _minted-*/
 *.toc
 *.lof
 *.lot
+*.fdb_latexmk
+*.fls
+*.dvi

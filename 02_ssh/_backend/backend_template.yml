@@ -1,0 +1,100 @@
+# CloudFormation template for SSH VPC Lab
+# Peadar Grant
+
+Parameters:
+
+  LatestLinuxAmiId:
+    Type:  'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+
+Resources:
+
+  Vpc:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      Tags:
+        - Key: 'Name'
+          Value: 'SSH_LAB_VPC'
+
+  Subnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId: !Ref Vpc
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: 'Name'
+          Value: 'SSH_LAB_SUBNET'
+
+  Gateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: 'Name'
+          Value: 'SSH_LAB_GATEWAY'
+
+  GatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref Gateway
+
+  RouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: 'Name'
+          Value: 'SSH_LAB_ROUTE_TABLE'
+          
+  Route:
+    Type: 'AWS::EC2::Route'
+    DependsOn: GatewayAttachment
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref Gateway
+
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref Subnet
+
+      
+  LinuxInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: 't2.nano'
+      SecurityGroupIds: [!GetAtt [InstanceSecurityGroup, GroupId]]
+      KeyName: 'primary'
+      ImageId: !Ref 'LatestLinuxAmiId'
+      SubnetId: !Ref Subnet
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash
+            yum -y update
+            adduser student
+            echo "1password" | passwd student --stdin
+            echo done
+      Tags:
+        - Key: Name
+          Value: SSH_LAB_LINUX_EC2
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref Vpc
+      GroupDescription: SSH lab ssh access
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+
+Outputs:
+  LinuxIP:
+    Description: Linux Public IP
+    Value: !GetAtt [LinuxInstance, PublicIp]

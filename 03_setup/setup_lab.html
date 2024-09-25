@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Data architecture setup lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Data architecture setup lab</h1>
+</header>
+<p>This lab sets up your client environment for the majority of this
+module.</p>
+<p>The labs in this course will use a number of technologies in both
+command-line and graphical environments. Some resources will run on your
+local computer, others remotely on-site and others in the cloud.</p>
+<p>Here you will setup your lab PC environment and familiarise yourself
+with key operations we will use each week. The lab PCs have most of the
+software required already installed.</p>
+<p>We will use a shared Linux server for some of our work in this
+module. This will be accessed via <em>SSH</em> at
+<code>data.comp.dkit.ie</code>.</p>
+<h1 id="task-1-ssh-key-pair-generation">Task 1: SSH key pair
+generation</h1>
+<p>Instead of a password, we’ll use a key pair to access the shared
+server. To create a key pair on the local machine you should use:</p>
+<pre><code>ssh-keygen -t ed25519</code></pre>
+<p>Just press enter and let it create the key pair. No need for a
+passphrase (unless you want to).</p>
+<h1 id="task-2-sign-up-for-account-on-server">Task 2: Sign-up for
+account on server</h1>
+<h2 id="connect-to-the-sign-up-account">Connect to the sign-up
+account</h2>
+<p>SSH to the sign-up user at:</p>
+<pre><code>ssh signup@data.comp.dkit.ie</code></pre>
+<p>Wait until you see the prompt</p>
+<pre><code>signup@data.comp.dkit.ie&#39;s password: </code></pre>
+<p>Enter the password given by the lecturer in class. This will
+<em>not</em> echo to the screen.</p>
+<h2 id="accept-the-usage-conditions">Accept the usage conditions</h2>
+<p>Enter <code>y</code> to accept the usage conditions.</p>
+<h2 id="choose-desired-username">Choose desired username</h2>
+<p>At the first prompt enter your desired username (should NOT be your
+student number). No spaces, all lowercase.</p>
+<h2 id="paste-your-public-key-in">Paste your public key in</h2>
+<p>Copy your SSH key in full from:</p>
+<pre><code>~/.ssh/id_rsa.pub</code></pre>
+<p>You can do this using:</p>
+<pre><code>Get-Content ~/.ssh/id_rsa.pub | Set-ClipBoard</code></pre>
+<p>Paste your SSH key in full at the second prompt and press enter.</p>
+<h2 id="complete-the-request">Complete the request</h2>
+<p>If your request is successful you’ll get a confirmation message.</p>
+<h1 id="task-3-wait-for-approval">Task 3: Wait for approval</h1>
+<p>The account creation process is manual. The lecturer will tell you
+when this is complete.</p>
+<h1 id="task-4-log-in-to-server">Task 4: Log in to server</h1>
+<p>When you have received confirmation from the lecturer that your
+account has been created, you can log in by SSH to:</p>
+<pre><code>ssh yourname@data.comp.dkit.ie</code></pre>
+<p>Once you have this done you can close the window.</p>
+</body>
+</html>
