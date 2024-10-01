@@ -1,0 +1,415 @@
+\documentclass[slides]{pgnotes}
+
+\title{Single Table}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+\label{sec:introduction}
+
+This week's class covers the setup and usage of a basic single-table database.
+
+As a data analyst:
+
+\begin{itemize}
+\item You will often encounter situations where you will run queries on databases that already exist.
+\item Other times you will be tasked with setting up a database to conduct one-off or ongoing analyses.
+\end{itemize}
+  
+We will therefore look at how data needs to be modelled for a \textbf{single table}, focusing on:
+\begin{enumerate}
+\item Column names
+\item Data types
+\item Constraints to improve data integrity.
+\end{enumerate}
+
+
+
+
+\subsection{Prerequisities}
+\label{sec:prerequisities}
+
+Before starting make sure that you:
+
+\begin{itemize}
+\item
+  created your SSH public/private key-pair.
+\item
+  can login over SSH to the shared server.
+\end{itemize}
+
+\begin{redbox}{If not}
+  Talk to me immediately!
+\end{redbox}
+
+
+\section{Single-table databases}
+
+Recall that:
+
+\begin{itemize}
+\item A PostgreSQL \textit{cluster} provides:
+\item One or more \textbf{databases} that each have
+\item (One or more \textbf{schemas} that each hold)
+\item One or more \textbf{tables}
+\end{itemize}
+
+where each table:
+
+\begin{itemize}
+\item has separate \textbf{columns} holding individual attribute values
+\item stores data each record in \textbf{rows}
+\end{itemize}
+
+
+\subsection{Data definition language}
+
+Key concepts will be easily learned through repeated practice and
+reference to
+
+\begin{description}
+\item[CREATE table]
+  to define table name, columns (type, constraints)
+\item[ALTER table]
+  for incremental changes.
+\item[DROP table]
+  without warning!
+\end{description}
+
+Sometimes it's easiest to specify information up front in the \texttt{CREATE} statement.
+
+Often it's better to start with a workable definition and amend using\texttt{ALTER}.
+
+\subsection{Sample problem}
+
+We will mainly do this by example.
+
+\begin{greenbox}{Example}
+  Mary is a local crafter who makes her own pottery.
+  She runs a small shop where she sells her own wares.
+
+  At the moment she writes down all sales in a book:
+  \begin{itemize}
+  \item Date and sometimes time
+  \item Description of what sold
+  \item Quantity
+  \item Price
+  \item Total
+  \end{itemize}
+
+  Having done a database class, she realises that she could easily put together a table to replace the book.
+\end{greenbox}
+
+\subsection{Table names}
+
+Following a consistent and workable pattern with table names will help a lot:
+
+\begin{enumerate}
+\item names should be \textbf{descriptive}
+  \begin{itemize}
+  \item decide on a sensible structure on pluralisation
+  \end{itemize}
+\item try to keep names reasonablly \textbf{short}
+  \begin{itemize}
+  \item You will be typing them a lot!
+  \end{itemize}
+\item do not use spaces, use the underscore instead (\_)
+  \begin{itemize}
+  \item spaces in most text-based systems are a receipe for disaster!
+  \end{itemize}
+\item table names are \textbf{case insensitive}
+\end{enumerate}
+
+Table names \textit{can} be changed afterwards.
+
+Our table will be called \textbf{sales}.
+
+
+\subsection{Column names}
+
+Similar set of rules for columns as for tables:
+
+Again following a consistent and workable pattern with column names will help a lot:
+
+\begin{enumerate}
+\item names should be \textbf{descriptive}
+\item try to keep names reasonablly \textbf{short}
+\item do not use spaces, use the underscore instead (\_)
+\end{enumerate}
+
+Column names \textit{can} be changed afterwards.
+
+\newpage
+
+\begin{greenbox}{Example}
+
+  In our example, we'll choose the following column names:
+
+  \begin{enumerate}
+  \item \texttt{timestamp}
+  \item \texttt{description}
+  \item \texttt{quantity}
+  \item \texttt{total\_price}
+  \end{enumerate}
+
+\end{greenbox}
+
+\section{Datatypes and constraints} 
+
+\textbf{Choosing the correct datatypes is vitally important for making a usable database!}
+
+\begin{description}
+\item[TEXT] for text (only!)
+  \begin{itemize}
+  \item Other database systems use CHAR, VARCHAR etc. Avoid!
+  \end{itemize}
+\item Numeric data largely falls into the categories of: integer, fixed precision and arbitary precision data.
+  \begin{description}
+  \item[INT] for integers
+    \begin{itemize}
+    \item Also have \texttt{SMALLINT, BIGINT} etc for range
+    \end{itemize}
+  \item[NUMERIC] for numeric data incl. decimals and currency
+    \begin{itemize}
+    \item Easy to make mistakes choosing float instead!
+    \end{itemize}
+  \end{description}
+\end{description}
+
+\subsection{Good practices}
+
+\begin{enumerate}
+  
+\item Do not store numbers as text.
+
+\item Do not store boolean true / false ( or any synonyms ) as text.
+
+\item Do not sure enumerated types as text. Either use an ENUM and/or a foreign-keyed table.
+
+\item Anything where you need absolute precision after the decimal point must be NUMERIC, not FLOAT. 
+  
+\item Do not be tempted to store a single logical date/time as separate date and time columns.
+  Always use a single timestamp for this. 
+  
+\end{enumerate}
+
+
+\subsection{NOT NULL}\label{not-null}
+
+The NOT NULL constraint prevents a particular column value being null.
+Writes will fail if set to NULL or if unspecified unless default column value specified.
+
+\begin{verbatim}
+-- During table creation:
+CREATE TABLE tasks (
+   description text not null,
+   /* other columns */
+);
+\end{verbatim}
+
+\newpage
+\subsubsection{Changing NOT NULL status}
+
+Whether NULL should be allowed depends on problem of interest.
+By default NULL is allowed.
+Must specify NOT NULL if not.
+
+Can modify the column's NULLable status afterwards:
+\begin{verbatim}
+-- make a column NOT NULL
+ALTER TABLE tasks ALTER COLUMN description SET NOT NULL
+
+-- remove the NOT NULL constraint from a column
+ALTER TABLE tasks ALTER COLUMN description DROP NOT NULL
+\end{verbatim}
+
+\begin{greenbox}{Example}
+  In our example we will set all columns to not null, as none are optional.
+\end{greenbox}
+
+
+\subsection{UNIQUE}\label{unique}
+
+The UNIQUE constraint prohibits two rows from having an equal set of
+attribute values for the columns specified:
+
+\begin{itemize}
+\item Use UNIQUE after column definition if column should be unique
+\item Use UNIQUE(col1, col2) if two or more columns should be unique after the column definitions
+\end{itemize}
+
+\newpage
+
+\begin{verbatim}
+-- During table creation:
+CREATE TABLE tasks (
+   description text unique,
+   /* other columns as necessary */
+   project_code text,
+   subproject_code text,
+   unique(project,subproject)
+); 
+\end{verbatim}
+
+\begin{greenbox}{Example}
+  In our example we've no UNIQUE columns (yet!)
+\end{greenbox}
+
+\newpage
+\subsubsection{Modifying UNIQUE afterwards}
+
+Just as with NOT NULL we can modify UNIQUE later on:
+
+\begin{verbatim}
+-- Afterwards
+ALTER TABLE tasks ADD UNIQUE (project, subproject);
+\end{verbatim}
+
+
+\subsection{Default values}
+\label{sec:default-values}
+
+Default values are automatically inserted when unspecified in INSERT
+statement.
+Often used in conjunction with NOT NULL.
+Can be static value or based on functions (see later).
+
+\begin{verbatim}
+-- when creating a table
+CREATE TABLE sales (
+    /* other columns  */
+    quantity smallint not null default 1;
+    timestamp timestamp not null default now(); 
+);
+\end{verbatim}
+
+
+\newpage
+\subsubsection{Altering DEFAULT}
+
+\begin{verbatim}
+-- afterwards
+ALTER TABLE tasks ALTER COLUMN description SET default 'xyz'
+ALTER TABLE tasks ALTER COLUMN description DROP default
+\end{verbatim}
+
+
+\section{Primary key}
+\label{sec:primary-key}
+
+\textbf{Primary key} value is a \textbf{unique} AND \textbf{not null}.
+
+Unambiguously identifies each row.
+
+Every table should have 1 primary key.
+Cannot have more than 1. 
+
+Most DBMS do not enforce this, but you should consider it mandatory.
+Use PRIMARY KEY if column is the primary key. 
+
+\begin{greenbox}{Example}
+  In our example, we \textit{could} use the timestamp as the primary key.
+
+  But it would be much better to make an autoincrementing integer \texttt{id} column.
+\end{greenbox}
+
+\newpage
+
+\begin{verbatim}
+-- specifying primary key
+CREATE TABLE accounts ( 
+    account_number bigint primary key
+    /* other columns as necessary */
+);
+
+-- primary key covering two columns
+CREATE TABLE accounts (
+    branch bigint, -- not null automatic
+    account_number bigint,  -- not null automatic
+    /* other columns */
+    primary key (branch, account_number)
+    /* other constraints etc. */
+)
+\end{verbatim}
+
+\subsection{Auto-increment column}
+\label{sec:auto-increment-column}
+
+We can use the column types SERIAL or BIGSERIAL for auto-incrementing columns.
+Generally prefer SERIAL or BIGSERIAL.
+
+Shorthand for default value based on \textit{sequence generator} (later on).
+
+\begin{verbatim}
+CREATE TABLE sales ( 
+    id BIGSERIAL PRIMARY KEY,
+    /* other columns & constraints */
+);
+\end{verbatim}
+
+
+\section{Transaction control}
+\label{sec:transaction-control}
+
+\href{https://www.postgresql.org/docs/15/tutorial-transactions.html}{PostgreSQL
+transaction control} can be used in simplest form to give basic ``undo''
+capability:
+
+\begin{verbatim}
+-- start a new transaction
+BEGIN;
+
+/* execute SQL statements then either: */
+
+COMMIT; /* save the changes */
+-- or
+ROLLBACK; /* undo the changes */
+\end{verbatim}
+
+\subsection{Error handling}
+\label{sec:error-handling}
+
+If we don't BEGIN a transaction we implicitly BEGIN before the statement
+and COMMIT after it. Errors (e.g.~syntax) will abort the transaction,
+requiring a ROLLBACK before any more statements will be accepted.
+
+\subsection{Savepoints}\label{savepoints}
+
+\begin{verbatim}
+BEGIN;
+
+/* sql statement block 1 */
+
+-- define a savepoint
+SAVEPOINT sp1;
+
+/* sql statement block 2 */
+
+-- rollback to the savepoint undoes block 2; 
+ROLLBACK TO sp1;
+
+-- then either:
+COMMIT; /* or ROLLBACK */
+\end{verbatim}
+
+\section{DML operations}
+
+The main \textbf{Data Manipulation Language} operations you'll use are grouped into:
+
+\begin{description}
+\item[INSERT]
+  rows populating specified columns with data given.
+\item[UPDATE]
+  table, optionally select rows with \texttt{WHERE}.
+\item[DELETE]
+  rows from a table, optionally select rows with \texttt{WHERE}.
+\end{description}
+
+We'll mainly cover these by example!
+
+\end{document}
+

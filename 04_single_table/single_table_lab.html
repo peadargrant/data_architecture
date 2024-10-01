@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Single-table lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Single-table lab</h1>
+</header>
+<p>You must closely refer to the and chapters of the through this week’s
+exercises.</p>
+<p>As this is a MSc-level course it is expected that you will be able to
+construct SQL statements by researching documentation for yourself! The
+best way to learn is by trying!</p>
+<h1 id="task-1-connection">Task 1: Connection</h1>
+<p>For today’s lab login to the shared server:</p>
+<pre><code>ssh username@data.comp.dkit.ie</code></pre>
+<p>Once connected then run:</p>
+<pre><code>psql</code></pre>
+<p>You should be connected to a database with the same name as your
+username.</p>
+<p>See <a
+href="https://www.postgresql.org/docs/14/tutorial-accessdb.html%7D%7BAccessing">Accessing
+a database</a> in the PostgreSQL manual.</p>
+<h1 id="task-2-sales-table">Task 2: Sales table</h1>
+<ol type="1">
+<li>Implement the sales table example yourself from the class.</li>
+<li>Try to insert some sample data into it.</li>
+</ol>
+<h1 id="task-3-design-exercise">Task 3: Design exercise</h1>
+<p>Setup a simple table to keep track of your tasks / expenses / other
+data. Your table should at least have a description and due date. Add in
+other columns (such as priority, e-mail to notify when done) as
+necessary.</p>
+<ul>
+<li>Keep a track of which columns need to be there.</li>
+<li>Make clear decisions around NULL / NOT NULL.</li>
+<li>Decide what column(s) is/are to make up the primary keys.</li>
+</ul>
+</body>
+</html>
