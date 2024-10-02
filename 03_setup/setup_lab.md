@@ -50,11 +50,11 @@ At the first prompt enter your desired username (should NOT be your student numb
 
 Copy your SSH key in full from:
 
-	~/.ssh/id_rsa.pub
+	~/.ssh/id_ed25519.pub
 	
 You can do this using:
 
-	Get-Content ~/.ssh/id_rsa.pub | Set-ClipBoard
+	Get-Content ~/.ssh/id_ed25519.pub | Set-ClipBoard
   
 Paste your SSH key in full at the second prompt and press enter.
 
