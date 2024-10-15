@@ -1,0 +1,21 @@
+digraph {
+
+    rankdir = LR;
+
+    subgraph cluster_database {
+
+	label="sales db";
+
+	producer [ shape=record, style=filled, fillcolor=lightpink, label="PRODUCER |<id>id (serial) | { name (text) }" ];
+
+	sale [ shape=record, style=filled, fillcolor=palegreen, label="SALE|{id (serial)}|{timestamp (timestamp) }|<producer> producer (int) |{description (text)}|{quantity (int)}|total_price (amount) |<tender> payment (int)" ];
+
+	tender [shape=record, style=filled, fillcolor=lightyellow, label="TENDER|<id>id (serial)| name (text) | fee (percentage)"];
+
+	sale:tender -> tender:id [label="paid by (m:1)" ];
+	sale:producer -> producer:id [ label="produced by (m:1)" ];
+	
+    }
+
+    
+}

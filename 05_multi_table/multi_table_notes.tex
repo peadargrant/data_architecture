@@ -1,0 +1,188 @@
+\documentclass[slides]{pgnotes}
+
+\title{Multi-table Databases}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+
+\section{Scenario}
+
+A group of local artisan producers operate a popup stall for a 3-month period.
+They contract a local IT expert to build a simple sales tracking and reporting system.
+
+\begin{bluebox}{Main requirements}
+  \begin{enumerate}
+  \item Sales must be numbered and timestamped.
+  \item Every sale is separate (no concept of a ``basket'' for simplicity!)
+  \item Stall accepts cash and card tender.
+    \begin{itemize}
+    \item Card payments have a 1.68\% processor fee (which may vary).
+    \item May be requirement to accept additional payment types during period.
+    \end{itemize}
+  \item Sale must capture producer, description, quantity sold, amount paid and tender.
+  \item Everyone will be paid at the end of the 3-month period.
+  \item Database must be able to produce the following reports:
+  \end{enumerate}
+\end{bluebox}
+
+
+\subsection{Implementation with 3 tables}
+
+\begin{center}
+\includegraphics[width=0.6\linewidth]{scenario}
+\end{center}
+
+\subsection{Key decisions}
+
+\begin{enumerate}
+\item \textbf{Auto-numbered} \texttt{id} column using \texttt{SERIAL}.
+\item \textbf{Primary key} will be the auto-numbered \texttt{id} column.
+\item All fields will be \textbf{not null}.
+\item Every sale must match a valid:
+  \begin{description}
+  \item[producer] from the \texttt{producer} table.
+  \item[tender] from the \texttt{tender} table.
+  \end{description}
+\item Storage of numerical values:
+  \begin{description}
+  \item[Amounts] as \texttt{NUMERIC(6,2)} typed \texttt{amount}.
+  \item[Rate] as \texttt{NUMERIC(6,2)} typed \texttt{rate}. 
+  \end{description}
+\end{enumerate}
+
+\section{Domains}\label{sec:domains}
+
+\href{https://www.postgresql.org/docs/13/domains.html}{Domains} are
+user-defined types based on underlying type. Defaults to NULL allowed,
+best to define any NOT NULL conditions on the underlying columns. CHECK
+constraints can be defined.
+
+\begin{minted}{postgresql}
+/* Number to hold 1-10 user rating */
+CREATE DOMAIN rating AS integer CHECK ( VALUE >= 1 AND VALUE <=10 );
+
+/* Just use the domain as type when creating table */
+CREATE TABLE restaurants (
+    id bigserial primary key,
+    /* creating two columns using our domain: */
+    visitor_rating rating not null,
+    reviewer_rating rating, 
+    /* other columns */
+);
+\end{minted}
+
+
+
+\section{Foreign keys}\label{foreign-keys}
+
+\href{https://www.postgresql.org/docs/13/ddl-constraints.html\#DDL-CONSTRAINTS-FK}{Foreign
+keys} require that values in a column (or a group of columns) must match
+the values appearing in some row of another table. This maintains the
+referential integrity.
+
+\begin{minted}{postgresql}
+/* each employee must be in a valid department */
+
+CREATE TABLE department (
+id bigserial primary key,
+name text not null unique
+/* other fields as required */
+);
+
+CREATE TABLE employee (
+id bigserial primary key,
+surname text not null,
+firstname text not null,
+department bigint not null REFERENCES department
+/* other fields as required */
+)
+\end{minted}
+
+\subsection{DELETE / UPDATE behaviour}\label{delete-update-behaviour}
+
+Possible behaviours: NO ACTION, CASCADE, SET NULL.
+
+\begin{minted}{postgresql}
+CREATE TABLE product ( 
+/* other fields */
+
+department bigint references departments, 
+/* NO ACTION is the default, prohibits conflicting delete */
+
+supplier bigint references suppliers ON DELETE CASCADE,
+/* DELETE in suppliers deletes linked products */
+
+policy bigint references policies ON DELETE SET NULL,
+/* SETS product.policy to NULL when row in policies deleted  */
+
+);
+\end{minted}
+
+\section{JOIN}\label{join}
+
+The JOIN operation permits queries across more than one table. See both
+the
+\href{https://www.postgresql.org/docs/current/tutorial-join.html}{JOIN
+tutorial} and the
+\href{https://www.postgresql.org/docs/13/queries-table-expressions.html}{Table
+expressions} section from Postgres manual for full details.
+
+Assume R1 to be a row of Table T1. Similarly R2 for T2. Normally should
+explicitly specify columns required and use table prefix to avoid
+ambiguity.
+
+\subsection{INNER JOIN}\label{inner-join}
+
+For each row R1 of T1, the joined table has a row for each row in T2
+that satisfies the join condition with R1.
+
+\subsection{LEFT JOIN}\label{left-join}
+
+Same as INNER JOIN except that output also includes any row in T1 that
+does not match one or more rows in T2. Null values are substituted for
+T2 in the output row.
+
+\subsection{RIGHT JOIN}\label{right-join}
+
+Similar to LEFT JOIN. Same as INNER JOIN, except any row in T2 that does
+not match \(\ge 1\) rows in T1 will be output. Null values are
+subtituted for T1 columns in the otuput row.
+
+\subsection{FULL JOIN}\label{full-join}
+
+Similar to combination of LEFT and RIGHT JOIN. INNER JOIN performed.
+Then rows in T1 without corresponding T2 output with nulls for T2. Same
+again, rows in T2 without corresponding T1 rows output with nulls for
+T1.
+
+
+\section{Views}\label{sec:views}
+
+\href{https://www.postgresql.org/docs/13/tutorial-views.html}{Views} are
+defined by @connolly:2015:database as:
+
+\begin{quote}
+The dynamic result of one or more relational operations operating on the
+base relations to produce another relation. A view is a virtual relation
+that does not necessarily exist in the database but can be produced upon
+request by a particular user, at the time of the request.
+\end{quote}
+
+\begin{minted}{postgresql}
+/* Creation syntax: */
+CREATE VIEW my_view AS
+SELECT ... ;
+/* select statement can be any valid select */
+
+/* VIEW can be selected like any other table */
+SELECT * FROM my_view ; 
+\end{minted}
+
+
+
+\end{document}
+

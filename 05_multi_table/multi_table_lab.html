@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Multi table databases lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Multi table databases lab</h1>
+</header>
+<h1 id="task-0-connect">Task 0: Connect</h1>
+<p>Connect to the database server using SSH:</p>
+<pre><code>ssh yourname@data.comp.dkit.ie</code></pre>
+<p><em>These instructions won’t be repeated any more!</em></p>
+<h1 id="task-1-preparation">Task 1: Preparation</h1>
+<p>Run <code>psql</code> to connect to your own database.</p>
+<p>Use <code>\d</code> to list out all tables.</p>
+<p>For every table, drop it using <code>DROP TABLE tablenamehere;</code>
+so that you have a clean database to start from. For example, to delete
+last week’s <code>sale table</code> we write:</p>
+<pre><code>DROP TABLE sale;</code></pre>
+<p>Make sure that the DB response is <code>DROP TABLE</code>. If it says
+nothing at all you might have forgotten the semi-colon at the end.</p>
+<h1 id="task-2-create-the-producer-table">Task 2: Create the producer
+table</h1>
+<p>Start off by creating the <code>producer</code> table using the
+<code>CREATE TABLE</code> command.</p>
+<pre><code>CREATE TABLE producer (id serial primary key, name text not null unique );</code></pre>
+<p>Use <code>\d producer</code> to <em>describe</em> your producer
+table. When you are finished, your producer table’s description should
+look like:</p>
+<pre><code>grantp=# \d producer
+                        Table &quot;public.producer&quot;
+Column |  Type   | Collation | Nullable |               Default
+-------+---------+-----------+----------+--------------------------------------
+id     | integer |           | not null | nextval(&#39;producer_id_seq&#39;::regclass)                                                       name   | text    |           | not null |
+Indexes:
+    &quot;producer_pkey&quot; PRIMARY KEY, btree (id)
+    &quot;producer_name_key&quot; UNIQUE CONSTRAINT, btree (name)</code></pre>
+<p>Notice the two indexes that maintain the two constraints: the primary
+key on the <code>id</code> column and the unique key on the
+<code>name</code> column.</p>
+<h1 id="task-3-create-the-rate-type">Task 3 : Create the rate type</h1>
+<p>The <code>tender</code> table will be be no more complex than the
+<code>producer</code> table, but we must create the <code>rate</code>
+type first.</p>
+<pre><code>CREATE DOMAIN rate numeric(6,4);</code></pre>
+<p>Make sure that we get the <code>CREATE DOMAIN</code> response.</p>
+<h1 id="task-4-create-the-tender-table">Task 4: Create the tender
+table</h1>
+<p>Use the example from the producer table to create the tender
+table.</p>
+<pre><code>create table tender ( id serial primary key, name text not null unique, rate rate not null default 0 ) ;</code></pre>
+<p>We’ve made some additions: - The <code>rate</code> column for card
+charges uses our new user-defined type. - We set a default value on it
+to make data maintenance easier</p>
+<p>Make sure that <code>\d tender</code> returns:</p>
+<pre><code>grantp=# \d tender
+    Table &quot;public.tender&quot;
+ Column |  Type   | Collation | Nullable |              Default
+--------+---------+-----------+----------+------------------------------------
+ id     | integer |           | not null | nextval(&#39;tender_id_seq&#39;::regclass)
+ name   | text    |           | not null |
+ rate   | rate    |           | not null | 0
+Indexes:
+    &quot;tender_pkey&quot; PRIMARY KEY, btree (id)
+    &quot;tender_name_key&quot; UNIQUE CONSTRAINT, btree (name)</code></pre>
+<h1 id="task-5-create-the-amount-type">Task 5: Create the amount
+type</h1>
+<p>We must create the <code>amount</code> type for the sale table.</p>
+<pre><code>CREATE DOMAIN rate numeric(6,2);</code></pre>
+<p>Make sure that we get the <code>CREATE DOMAIN</code> response.</p>
+<p>Use the <code>\dD</code> command to show all <em>domains</em> and
+ensure that looks like:</p>
+<pre><code>grantp=# \dD
+                             List of domains
+ Schema |  Name  |     Type     | Collation | Nullable | Default | Check
+--------+--------+--------------+-----------+----------+---------+-------
+ public | amount | numeric(6,2) |           |          |         |
+ public | rate   | numeric(6,4) |           |          |         |
+(2 rows)</code></pre>
+<h1 id="task-6-create-the-sale-table">Task 6: Create the sale table</h1>
+<p>The sale table is the most complex, as it involves a number of
+different parts. To begin let’s just create the table with its
+<code>id</code>, <code>description</code>, <code>quantity</code> and
+<code>total_price</code> columns and we’ll add it to it.</p>
+<pre><code>CREATE TABLE sale ( id serial primary key, timestamp timestamp not null default now(), description text not null, quantity int not null default 1, total_price amount not null ) ; 
+
+ALTER TABLE sale ADD COLUMN timestamp timestamp not null default now(); </code></pre>
+<p>If you make a mistake there are a number of commands to help you,
+like:</p>
+<pre><code>DROP TABLE ... ; 
+ALTER TABLE ... ; 
+ALTER TABLE xyz ALTER COLUMN abc ... ; </code></pre>
+<p>Then we’ll add the timestamp column defaulting to now:</p>
+<h2 id="foreign-key-for-producer">Foreign key for producer</h2>
+<p>Every sale is for a producer, let’s add this now:</p>
+<pre><code>ALTER TABLE sale ADD COLUMN producer int not null references producer ; </code></pre>
+<p>The <code>references producer</code> is the key part - this encodes
+the foreign key link inthe database.</p>
+<h2 id="foreign-key-for-tender">Foreign key for tender</h2>
+<p>Every sale is paid with a particular tender type, let’s add this
+now:</p>
+<pre><code>ALTER TABLE tender ADD COLUMN tender int not null references tender ;</code></pre>
+<h2 id="confirm-sale-table">Confirm sale table</h2>
+<p>Use <code>\d sale</code> to confirm that the sale table is as below
+(note that the column order does not matter):</p>
+<pre><code>grantp=# \d sale
+                               Table &quot;public.sale&quot;
+   Column    |  Type   | Collation | Nullable |             Default
+-------------+---------+-----------+----------+----------------------------------
+ id          | integer |           | not null | nextval(&#39;sale_id_seq&#39;::regclass)
+ timestamp   | timestamp without t | not null | now()
+ producer    | integer |           | not null |
+ description | text    |           | not null |
+ quantity    | integer |           | not null | 1
+ total_price | amount  |           | not null |
+ tender      | integer |           | not null |
+Indexes:
+
+&quot;sale_pkey&quot; PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    &quot;sale_producer_fkey&quot; FOREIGN KEY (producer) REFERENCES producer(id)
+    &quot;sale_tender_fkey&quot; FOREIGN KEY (tender) REFERENCES tender(id)</code></pre>
+<h1 id="task-7-insert-sample-data">Task 7: Insert sample data</h1>
+<h2 id="producers">Producers</h2>
+<p>First let’s insert some sample data into the producer table,
+e.g.:</p>
+<pre><code>insert into producer (name) values (&#39;Maeve&#39;);</code></pre>
+<p>Now insert at least 3 more producers. List out the table contents
+using:</p>
+<pre><code>select * from producer ; </code></pre>
+<p>It should look like:</p>
+<pre><code>grantp=# select * from producer ;
+ id | name
+----+-------
+  1 | Maeve
+  2 | Jim
+  3 | Pat
+(3 rows)</code></pre>
+<h2 id="tenders">Tenders</h2>
+<p>Sometimes a system will have some data that’s intrinsic to its
+functionality. Although we could use enumerated types (or similar), the
+foreign key to another table provides the most flexibility.</p>
+<p>Insert tenders named, <code>Cash</code>, <code>Card</code> and
+<code>Revolut</code>. Use the same pattern as above to construct the
+statement.</p>
+<p>Set the rate on card to be <code>0.0168</code> using:</p>
+<pre><code>UPDATE tender set rate=0.0168 where name like &#39;Card&#39;;</code></pre>
+<p>Issue the command:</p>
+<pre><code>SELECT * FROM tender; </code></pre>
+<p>Make sure that it resembles the following:</p>
+<pre><code>grantp=# select * from tender ;
+ id |  name   |  rate
+----+---------+--------
+  1 | Cash    | 0.0000
+  2 | Card    | 0.0000
+  3 | Revolut | 0.0000
+(3 rows)</code></pre>
+<h2 id="sales">Sales</h2>
+<p>Insert approx 10 sample sales for differing amounts, quantities,
+prices etc. Assign at least 1 sale to each type of tender. Assign at
+least 1 sale to each producer.</p>
+<h1 id="task-7-foreign-key-test">Task 7: Foreign Key Test</h1>
+<p>The aim of a foreign key is to ensure <em>referential
+integrity</em>.</p>
+<p>What happens if you try to delete a producer? Use a
+<code>DELETE</code> statement with a <code>WHERE</code> clause to pick
+out a single producer to delete:</p>
+<pre><code>DELETE FROM producer WHERE id=1;</code></pre>
+<p>Similarly, what happens if you try to delete a tender? Construct the
+command from the producer example above.</p>
+<h1 id="task-8-basic-querying">Task 8: Basic querying</h1>
+<h2 id="tender-totals">Tender totals</h2>
+<p>From the data you have entered, you can produce a summary of the
+total card, cash and Revolut amounts:</p>
+<pre><code>SELECT tender, SUM(total_price) as total FROM sale GROUP BY tender ; </code></pre>
+<p>The problem here is that the names aren’t visible. To do this, we
+<code>JOIN</code> the query to the tender table.</p>
+<pre><code> SELECT tender.name, SUM(total_price) as total FROM sale JOIN tender ON tender.id=sale.tender GROUP BY tender.id ORDER BY tender.id ;
+ </code></pre>
+<p>Let’s modify the query to restrict the totals to today only:</p>
+<pre><code> SELECT tender.name, SUM(total_price) as total
+ FROM sale
+ JOIN tender ON tender.id=sale.tender
+ WHERE timestamp::date=now()::date
+ GROUP BY tender.id
+ ORDER BY tender.id ;
+ </code></pre>
+<p>We’ll learn a lot more about JOINS when we look at advanced
+queries.</p>
+<h2 id="producer-totals">Producer totals</h2>
+<p>Now, you try to produce a query showing the producer totals based on
+the example above for tender types.</p>
+<h1 id="task-9-views">Task 9: Views</h1>
+<p>Encapsulate both queries above as views.</p>
+</body>
+</html>
