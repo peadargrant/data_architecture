@@ -106,8 +106,6 @@ To begin let's just create the table with its `id`, `description`, `quantity` an
 
 	CREATE TABLE sale ( id serial primary key, timestamp timestamp not null default now(), description text not null, quantity int not null default 1, total_price amount not null ) ; 
 	
-	ALTER TABLE sale ADD COLUMN timestamp timestamp not null default now(); 
-
 If you make a mistake there are a number of commands to help you, like:
 
 	DROP TABLE ... ; 
@@ -129,7 +127,7 @@ The `references producer` is the key part - this encodes the foreign key link in
 
 Every sale is paid with a particular tender type, let's add this now:
 
-	ALTER TABLE tender ADD COLUMN tender int not null references tender ;
+	ALTER TABLE sale ADD COLUMN tender int not null references tender ;
 
 ## Confirm sale table 
 

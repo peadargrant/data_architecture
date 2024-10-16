@@ -104,9 +104,7 @@ ensure that looks like:</p>
 different parts. To begin let’s just create the table with its
 <code>id</code>, <code>description</code>, <code>quantity</code> and
 <code>total_price</code> columns and we’ll add it to it.</p>
-<pre><code>CREATE TABLE sale ( id serial primary key, timestamp timestamp not null default now(), description text not null, quantity int not null default 1, total_price amount not null ) ; 
-
-ALTER TABLE sale ADD COLUMN timestamp timestamp not null default now(); </code></pre>
+<pre><code>CREATE TABLE sale ( id serial primary key, timestamp timestamp not null default now(), description text not null, quantity int not null default 1, total_price amount not null ) ; </code></pre>
 <p>If you make a mistake there are a number of commands to help you,
 like:</p>
 <pre><code>DROP TABLE ... ; 
@@ -121,7 +119,7 @@ the foreign key link inthe database.</p>
 <h2 id="foreign-key-for-tender">Foreign key for tender</h2>
 <p>Every sale is paid with a particular tender type, let’s add this
 now:</p>
-<pre><code>ALTER TABLE tender ADD COLUMN tender int not null references tender ;</code></pre>
+<pre><code>ALTER TABLE sale ADD COLUMN tender int not null references tender ;</code></pre>
 <h2 id="confirm-sale-table">Confirm sale table</h2>
 <p>Use <code>\d sale</code> to confirm that the sale table is as below
 (note that the column order does not matter):</p>
