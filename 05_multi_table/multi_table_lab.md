@@ -83,7 +83,7 @@ Make sure that `\d tender` returns:
 
 We must create the `amount` type for the sale table.
 
-	CREATE DOMAIN rate numeric(6,2);
+	CREATE DOMAIN amount numeric(6,2);
 	
 Make sure that we get the `CREATE DOMAIN` response.
 
