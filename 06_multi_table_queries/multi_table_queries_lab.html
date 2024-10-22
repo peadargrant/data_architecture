@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Multi-table Queries lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Multi-table Queries lab</h1>
+</header>
+<h1 id="france">France</h1>
+<ol type="1">
+<li><p>Use <code>psql</code> to connect to the <code>france</code>
+database.</p></li>
+<li><p>Use the client command <code>\d</code> to describe all the
+database objects.</p></li>
+<li><p>Use the <code>\d towns</code> command to describe the
+<code>towns</code> table. Do the same for the other two tables. From the
+foreign key / referencing information, draw the relationship between the
+tables on paper.</p></li>
+<li><p>Write a query to count the number of towns. Similarly the number
+of regions and departments.</p></li>
+<li><p>Construct a query to summarise the number of towns, regions and
+departments in a single result set. Use the <code>UNION</code> clause to
+combine similar result sets. Use the <code>AS</code> clause to name
+columns as needed. The output should be:</p>
+<pre><code>    entity    | count
+ -------------+-------
+  towns       | 36684
+  regions     |    26
+  departments |   100
+  (3 rows)</code></pre></li>
+<li><p>Construct a query to list the regions by id ascending showing
+only the <code>id</code>, <code>code</code> and <code>name</code> for
+regions with <code>id</code> less than 7, ordered by
+<code>region_name</code>. You will need to use an <code>ORDER BY</code>
+clause. Output must be exactly:</p>
+<pre><code> region_id | region_code |    region_name
+-----------+-------------+-------------------
+         6 | 21          | Champagne-Ardenne
+         1 | 01          | Guadeloupe
+         3 | 03          | Guyane
+         5 | 11          | Île-de-France
+         4 | 04          | La Réunion
+         2 | 02          | Martinique
+(6 rows)</code></pre>
+<p><span id="step:region-list" label="step:region-list"></span></p></li>
+<li><p>Write down the column names that link the
+<code>departments</code> and <code>regions</code> tables.</p></li>
+<li><p>Modify the query from Step <a href="#step:region-list"
+data-reference-type="ref"
+data-reference="step:region-list">[step:region-list]</a> to show the
+number of departments in each region. You will need to use a
+<code>JOIN</code> clause.</p>
+<pre><code> region_id | region_code |    region_name    |  department_name
+-----------+-------------+-------------------+-------------------
+         6 | 21          | Champagne-Ardenne | Ardennes
+         6 | 21          | Champagne-Ardenne | Aube
+         6 | 21          | Champagne-Ardenne | Haute-Marne
+         6 | 21          | Champagne-Ardenne | Marne
+         1 | 01          | Guadeloupe        | Guadeloupe
+         3 | 03          | Guyane            | Guyane
+         5 | 11          | Île-de-France     | Essonne
+         5 | 11          | Île-de-France     | Hauts-de-Seine
+         5 | 11          | Île-de-France     | Paris
+         5 | 11          | Île-de-France     | Seine-et-Marne
+         5 | 11          | Île-de-France     | Seine-Saint-Denis
+         5 | 11          | Île-de-France     | Val-de-Marne
+         5 | 11          | Île-de-France     | Val-d&#39;Oise
+         5 | 11          | Île-de-France     | Yvelines
+         4 | 04          | La Réunion        | La Réunion
+         2 | 02          | Martinique        | Martinique
+(16 rows)</code></pre>
+<p><span id="step:regions-and-departments"
+label="step:regions-and-departments"></span></p></li>
+<li><p>Starting with your query from Step <a
+href="#step:regions-and-departments" data-reference-type="ref"
+data-reference="step:regions-and-departments">[step:regions-and-departments]</a>,
+modify so that it counts the number of departments per region. You will
+need use the <code>GROUP BY</code> clause. Output should be exactly:</p>
+<pre><code> region_id | region_code |    region_name    | number_of_departments
+-----------+-------------+-------------------+-----------------------
+         6 | 21          | Champagne-Ardenne |                     4
+         1 | 01          | Guadeloupe        |                     1
+         3 | 03          | Guyane            |                     1
+         5 | 11          | Île-de-France     |                     8
+         4 | 04          | La Réunion        |                     1
+         2 | 02          | Martinique        |                     1
+(6 rows)</code></pre>
+<p><span id="step:number-of-departments-per-region"
+label="step:number-of-departments-per-region"></span></p></li>
+<li><p>Modify the query from Step <a
+href="#step:number-of-departments-per-region" data-reference-type="ref"
+data-reference="step:number-of-departments-per-region">[step:number-of-departments-per-region]</a>
+to exclude regions with less than 2 departments. You will need to use a
+<code>HAVING</code> clause. Output should be exactly:</p>
+<pre><code> region_id | region_code |    region_name    | number_of_departments
+-----------+-------------+-------------------+-----------------------
+         6 | 21          | Champagne-Ardenne |                     4
+         5 | 11          | Île-de-France     |                     8
+(2 rows)</code></pre>
+<p><span id="step:number-of-departments-per-region-not-1"
+label="step:number-of-departments-per-region-not-1"></span></p></li>
+<li><p>Modify the query from Step <a
+href="#step:number-of-departments-per-region-not-1"
+data-reference-type="ref"
+data-reference="step:number-of-departments-per-region-not-1">[step:number-of-departments-per-region-not-1]</a>
+so that it shows instead the number of towns in each region from the
+entire set of regions, ordered to show regions with the highest number
+of towns first. You will need an additional <code>JOIN</code> clause.
+Output should be exactly:</p>
+<pre><code> region_id | region_code |     region_name      | number_of_towns
+-----------+-------------+----------------------+-----------------
+        20 | 73          | Midi-Pyrénées        |            3020
+        22 | 82          | Rhône-Alpes          |            2879
+        13 | 41          | Lorraine             |            2339
+        19 | 72          | Aquitaine            |            2296
+         7 | 22          | Picardie             |            2292
+        11 | 26          | Bourgogne            |            2046
+         6 | 21          | Champagne-Ardenne    |            1948
+         9 | 24          | Centre               |            1842
+        10 | 25          | Basse-Normandie      |            1812
+        15 | 43          | Franche-Comté        |            1786
+        12 | 31          | Nord-Pas-de-Calais   |            1546
+        24 | 91          | Languedoc-Roussillon |            1545
+        16 | 52          | Pays de la Loire     |            1502
+        18 | 54          | Poitou-Charentes     |            1464
+         8 | 23          | Haute-Normandie      |            1420
+(15 rows)</code></pre></li>
+</ol>
+</body>
+</html>
