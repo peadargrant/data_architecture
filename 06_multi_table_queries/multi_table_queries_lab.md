@@ -117,21 +117,32 @@ title: Multi-table Queries lab
     first. You will need an additional `JOIN` clause. Output should be
     exactly:
 
-         region_id | region_code |     region_name      | number_of_towns
-        -----------+-------------+----------------------+-----------------
-                20 | 73          | Midi-Pyrénées        |            3020
-                22 | 82          | Rhône-Alpes          |            2879
-                13 | 41          | Lorraine             |            2339
-                19 | 72          | Aquitaine            |            2296
-                 7 | 22          | Picardie             |            2292
-                11 | 26          | Bourgogne            |            2046
-                 6 | 21          | Champagne-Ardenne    |            1948
-                 9 | 24          | Centre               |            1842
-                10 | 25          | Basse-Normandie      |            1812
-                15 | 43          | Franche-Comté        |            1786
-                12 | 31          | Nord-Pas-de-Calais   |            1546
-                24 | 91          | Languedoc-Roussillon |            1545
-                16 | 52          | Pays de la Loire     |            1502
-                18 | 54          | Poitou-Charentes     |            1464
-                 8 | 23          | Haute-Normandie      |            1420
-        (15 rows)
+		 region_id | region_code |        region_name         | departments
+		-----------+-------------+----------------------------+-------------
+				20 | 73          | Midi-Pyrénées              |        3020
+				22 | 82          | Rhône-Alpes                |        2879
+				13 | 41          | Lorraine                   |        2339
+				19 | 72          | Aquitaine                  |        2296
+				 7 | 22          | Picardie                   |        2292
+				11 | 26          | Bourgogne                  |        2046
+				 6 | 21          | Champagne-Ardenne          |        1948
+				 9 | 24          | Centre                     |        1842
+				10 | 25          | Basse-Normandie            |        1812
+				15 | 43          | Franche-Comté              |        1786
+				12 | 31          | Nord-Pas-de-Calais         |        1546
+				24 | 91          | Languedoc-Roussillon       |        1545
+				16 | 52          | Pays de la Loire           |        1502
+				18 | 54          | Poitou-Charentes           |        1464
+				 8 | 23          | Haute-Normandie            |        1420
+				23 | 83          | Auvergne                   |        1310
+				 5 | 11          | Île-de-France              |        1281
+				17 | 53          | Bretagne                   |        1269
+				25 | 93          | Provence-Alpes-Côte d'Azur |         963
+				14 | 42          | Alsace                     |         903
+				21 | 74          | Limousin                   |         747
+				26 | 94          | Corse                      |         360
+				 2 | 02          | Martinique                 |          34
+				 1 | 01          | Guadeloupe                 |          34
+				 4 | 04          | La Réunion                 |          24
+				 3 | 03          | Guyane                     |          22
+		(26 rows)

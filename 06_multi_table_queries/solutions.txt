@@ -11,3 +11,6 @@ select regions.id as region_id, regions.code as region_code, regions.name as reg
 
 Q 9
 select regions.id as region_id, regions.code as region_code, regions.name as region_name, count(*) as departments from regions join departments on departments.region=regions.code where regions.id < 7 group by regions.id, regions.code, regions.name having count(*)>=2 order by regions.name  ;
+
+Q10:
+select regions.id as region_id, regions.code as region_code, regions.name as region_name, count(*) as departments from regions join departments on departments.region=regions.code join towns on towns.department=departments.code group by regions.id, regions.code, regions.name order by count(*) desc  ;
