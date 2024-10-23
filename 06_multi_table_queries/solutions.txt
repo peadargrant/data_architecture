@@ -1,0 +1,13 @@
+Solutions to selected exercises:
+
+Q5:
+select 'regions' as entity, count(*) as count from regions union select 'towns' as entity, count(*) as count from towns union select 'departments' as entity, count(*) as count from departments ;
+
+Q6:
+select id, code, name from regions where id<7 ;
+
+Q8:
+select regions.id as region_id, regions.code as region_code, regions.name as region_name, departments.name as department_name from regions join departments on departments.region=regions.code where regions.id < 7 order by regions.name  ;
+
+Q 9
+select regions.id as region_id, regions.code as region_code, regions.name as region_name, count(*) as departments from regions join departments on departments.region=regions.code where regions.id < 7 group by regions.id, regions.code, regions.name having count(*)>=2 order by regions.name  ;
