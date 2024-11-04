@@ -1,4 +1,4 @@
-\documentclass{pgnotes}
+\documentclass[slides]{pgnotes}
 
 \title{Connectivity}
 
@@ -23,13 +23,31 @@ This is normally done by using a client library, for PostgreSQL this is \texttt{
 Python can be started interactively at the shell prompt by typing
 \texttt{python3}.
 
-Note that \texttt{python} will start the older Python~2 version.
-Check the startup banner if you are not sure which Python version you are running.
+\begin{redbox}{Use the correct Python}
+  \begin{itemize}
+  \item Note that \texttt{python} will start the older Python~2 version.
+  \item Check the startup banner if you are not sure which Python version you are running.
+  \end{itemize}
+\end{redbox}
 
-For writing programs/scripts you just need a text editor.
-A number are available: \texttt{nano} is fine, I recommend \texttt{emacs}, others use/like \texttt{vim}.
+\subsection{Text editor}
 
-These can then be executed by exiting the text editor and typing
+For writing programs/scripts you need a \textbf{text editor}.
+
+Learning how to use text-user-interface editors is a good skill to pick up as a data analyst.
+
+\begin{greenbox}{Available editors}
+  \begin{itemize}
+  \item \texttt{nano} is fine
+  \item I recommend \texttt{emacs} (which has a Windows GUI version as well)
+  \item Others use/like \texttt{vim}.
+  \end{itemize}
+\end{greenbox}
+
+\subsection{Script execution}
+
+Once saved, python programs can then be executed by exiting the text editor and typing:
+
 \begin{minted}{bash}
 python3 myscript.py
 \end{minted}
@@ -80,59 +98,6 @@ cur.execute(query, parameters )
 # NEVER use string concatenation!
 \end{minted}
 
-
-\section{Lab exercise}
-
-\begin{enumerate}
-
-\item Ensure that you are in a \texttt{tmux} session.
-  
-\item In one tmux window, use \texttt{psql} to connect to the \texttt{france} database.
-
-\item Write a python program that connects to the \texttt{france} database.
-  It should print out the number of towns, regions and departments.
-  The output should be: 
-\begin{verbatim}
-towns: 36684
-regions: 26
-departments: 100
-\end{verbatim}
-
-\item In \texttt{psql}, construct an SQL query to show the following informatin for a particular region.
-  Example here is region 26.
-\begin{verbatim}
- department_code | department_name | n_towns 
------------------+-----------------+---------
- 21              | Côte-d'Or       |     707
- 58              | Nièvre          |     312
- 71              | Saône-et-Loire  |     573
- 89              | Yonne           |     454
-(4 rows)
-\end{verbatim}
-
-\item Write a python program that displays all regions.
-  It requests the code of a region of a region.
-  It should then list out the departments within that region (name and code) and the number of towns in each department.
-\begin{verbatim}
-number of regions: 26
-Alsace [42]
-Aquitaine [72]
-Auvergne [83]
-Basse-Normandie [25]
-Bourgogne [26]
-Bretagne [53]
-Centre [24]
-Champagne-Ardenne [21]
-... (omitted from handout)
-Enter region code: 26
-number of departments: 4
-21. Cote-d'Or [707]
-58. Nievre [312]
-71. Saone-et-Loire [573]
-89. Yonne [454]
-\end{verbatim}
-
-\end{enumerate}
   
 
 \section{PANDAS integration}
@@ -146,39 +111,6 @@ can be combined with relational databases to read the output of queries.
 
 \inputminted{python}{dataframe_from_query.py}
 
-\section{Exercise}\label{exercise}
-
-\begin{enumerate}
-\item
-  Construct a task manager (tasks, projects) {[} datatypes, null/not
-  null, keys, foreign keys, domains + enumerated types {]} for yourself.
-  (Alternatives: expense tracker, sports score, track exercise -
-  anything with *2* or more tables.) Set up the tables using psql.
-\item
-  If you haven't already, set a password using psql's
-  \texttt{\textbackslash{}password}.
-\item
-  Write Python program (in nano, emacs, vim) to:
-
-  \begin{enumerate}
-  \def\labelenumii{\arabic{enumii}.}
-  \item
-    Allow user to create either a new task or a new project
-  \item
-    If a new project, get the name \& then exit.
-  \item
-    If a new task, display list of projects.
-  \item
-    Ask user to choose which project new project task belongs to.
-  \item
-    Ask user name of new task.
-  \item
-    Then ask to save or not. If yes, commit, if not, rollback.
-  \end{enumerate}
-\item
-  Write another Python program to display a query using Pandas (for
-  example a VIEW showing tasks and their projects JOINed).
-\end{enumerate}
 
 \end{document}
 

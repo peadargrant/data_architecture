@@ -2,13 +2,39 @@
 # Convert md to html for labs
 # Peadar Grant
 
-Param ( 
-$input_filename
-)
+# Lab web pages
 
-$output_filename = $input_filename.Replace('.md','.html')
+$input_files = Get-ChildItem $pwd -Filter '*_lab.md'
+Write-Host $input_files
 
-pandoc --standalone -t html --css ../lab.css -o $output_filename $input_filename
+foreach ( $input_file in $input_files ) {
+    
+    # construct the new output filename
+    $output_filename = $input_file.Name.Replace('.md','.html')
+
+    # pandoc to do the conversion using CSS
+    pandoc --standalone -t html --css ../lab.css -o $output_filename $input_file.Name
+
+}
 
 
+# GraphViz diagrams
+
+$input_files = Get-ChildItem $pwd -Filter '*.gv'
+Write-Host $input_files
+
+foreach ( $input_file in $input_files ) {
+    
+    # construct the new output filename
+    $output_filename = $input_file.Name.Replace('.gv','.pdf')
+
+    # pandoc to do the conversion using CSS
+    dot -Tpdf -o $output_filename $input_file.Name
+
+}
+
+
+# Latex Docs
+
+latexmk --shell-escape -pdf
 
