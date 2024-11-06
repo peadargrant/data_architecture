@@ -2,11 +2,7 @@
 
 # France database queries
 
-1.  Ensure that you are in a `tmux` session.
-
-2.  In one tmux window, use `psql` to connect to the `france` database.
-
-3.  Write a python program that connects to the `france` database. It
+1.  Write a python program that connects to the `france` database. It
     should print out the number of towns, regions and departments. The
     output should be:
 
@@ -14,7 +10,7 @@
         regions: 26
         departments: 100
 
-4.  In `psql`, construct an SQL query to show the following informatin
+2.  In `psql`, construct an SQL query to show the following informatin
     for a particular region. Example here is region 26.
 
          department_code | department_name | n_towns 
@@ -25,7 +21,7 @@
          89              | Yonne           |     454
         (4 rows)
 
-5.  Write a python program that displays all regions. It requests the
+3.  Write a python program that displays all regions. It requests the
     code of a region of a region. It should then list out the
     departments within that region (name and code) and the number of
     towns in each department.
