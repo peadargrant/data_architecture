@@ -1,5 +1,27 @@
 % Connectivity Lab exercise
 
+# Reminders on usage
+
+## Text file (e.g. Python)
+
+To open a new or existing text file in the emacs editor type: 
+
+	emacs name_of_file.py
+	
+## Save in emacs
+
+	Ctrl-X Ctrl-S
+	
+## Quitting emacs
+
+	Ctrl-X Ctrl-C
+
+## How to run Python program
+
+	python3 name_of_file.py
+	
+
+
 # France database queries
 
 1.  Write a python program that connects to the `france` database. It
