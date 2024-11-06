@@ -8,18 +8,47 @@ To open a new or existing text file in the emacs editor type:
 
 	emacs name_of_file.py
 	
-## Save in emacs
+## Emacs commands
+	
+Save in emacs
 
 	Ctrl-X Ctrl-S
 	
-## Quitting emacs
+Quitting emacs
 
 	Ctrl-X Ctrl-C
+
+Delete a line from the cursor onwards
+
+	Ctrl-K
 
 ## How to run Python program
 
 	python3 name_of_file.py
 	
+## TMUX commands
+
+Split a window left and right
+
+	Ctrl-B %
+	
+Split a pane top and bottom
+
+	Ctrl-B "
+	
+Go to the left pane
+
+	Ctrl-B [left arrow]
+	
+Go to the right pane
+
+	Ctrl-B [right arrow]
+	
+Maximise / Zoom the current pane 
+
+	Ctrl-B z (same to undo the full-screen!)
+
+Similarly for up and down.
 
 
 # France database queries
