@@ -42,8 +42,15 @@ To open a new or existing text file in the emacs editor type:
          71              | Saône-et-Loire  |     573
          89              | Yonne           |     454
         (4 rows)
+		
+3.  Construct a program in Python that will take a region number and will display the same information:
 
-3.  Write a python program that displays all regions. It requests the
+        21 Côte-d'Or (707)
+        58 Nièvre (312)
+        71 Saône-et-Loire (573)
+        89 Yonne 454
+
+4.  Write a python program that displays all regions. It requests the
     code of a region of a region. It should then list out the
     departments within that region (name and code) and the number of
     towns in each department.
