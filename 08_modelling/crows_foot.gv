@@ -1,0 +1,12 @@
+digraph {
+    rankdir=LR
+    node [shape=point style=invis]
+
+    f -> F [arrowhead=crowodot]
+    e -> E [arrowhead=crowtee]
+    d -> D [arrowhead=teeodot]
+    c -> C [arrowhead=teetee]
+    b -> B [arrowhead=crow]
+    a -> A [arrowhead=tee]
+}
+

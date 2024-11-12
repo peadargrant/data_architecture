@@ -1,0 +1,46 @@
+// Generate and preview PNG image with:
+// dot -Tpng erd.dot > erd.png && eom erd.png
+// 
+// You'll need Graphviz installed
+digraph G { 
+    //  
+    // Defaults
+    //  
+ 
+    // Box for entities
+    node [shape=none, margin=0]
+ 
+    // One-to-many relation (from one, to many)
+    edge [arrowhead=crow, arrowtail=none, dir=both]
+ 
+    //  
+    // Entities
+    //  
+    Article [label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="lightblue">Article</td></tr>
+            <tr><td align="left">id: int(11)</td></tr>
+            <tr><td align="left">author: int(11)</td></tr>
+            <tr><td align="left">title: varchar(255)</td></tr>
+            <tr><td align="left">content: longtext</td></tr>
+            <tr><td align="left">created: datetime</td></tr>
+            <tr><td align="left">modified: datetime</td></tr>
+        </table>
+    >]
+ 
+    Comment [label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="lightblue">Comment</td></tr>
+            <tr><td align="left">id: int(11)</td></tr>
+            <tr><td align="left">author: int(11)</td></tr>
+            <tr><td align="left">content: longtext</td></tr>
+            <tr><td align="left">created: datetime</td></tr>
+            <tr><td align="left">modified: datetime</td></tr>
+        </table>
+    >]  
+ 
+    //  
+    // Relationships
+    //  
+    Article->Comment;
+}

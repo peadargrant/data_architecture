@@ -1,0 +1,6 @@
+digraph G {
+	rankdir=LR;
+	Patient [shape=rectangle];
+	Ward [shape=rectangle];	
+}
+

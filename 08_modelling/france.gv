@@ -1,0 +1,15 @@
+digraph G {
+
+	rankdir=LR;
+
+	region [ shape=rectangle ] ;
+	
+	department  [ shape=rectangle ] ; 
+	
+	town  [ shape=rectangle ] ; 
+	
+	region -> department [direction=both, arrowhead=crowodot, arrowtail=teeodot] ;
+	
+	department -> town [direction=both, arrowhead=crowodot, arrowtail=teeodot]; 
+
+}

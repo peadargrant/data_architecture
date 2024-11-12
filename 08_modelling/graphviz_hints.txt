@@ -1,0 +1,8 @@
+Graphviz:
+https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/7.0.1/windows_10_cmake_Release_graphviz-install-7.0.1-win64.exe
+
+Sample file:
+See france.gv
+
+Usage:
+dot -Tsvg -o output.svg input.gv
