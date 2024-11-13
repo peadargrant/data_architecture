@@ -1,0 +1,42 @@
+digraph G {
+
+	rankdir=LR;
+
+	node [ shape=rectangle, style=filled ];
+	
+	subgraph cluster_home {
+	
+		label = "Home / external" ;
+		
+		homepc [ label="Home PC", fillcolor=palegreen ];
+	
+	}
+	
+	subgraph cluster_wifi {
+		label="WiFI";
+		mobiledevice [ label="Laptop", fillcolor=palegreen ];
+	}
+	
+	subgraph cluster_lab {
+		label="Lab"
+		
+		labpc [ label="Lab PC" ];
+		
+		gateway [ label="VPN gateway dkitvpn.dkit.ie", fillcolor=lightpink ];
+		
+		labhost [ label="NEW 10.200.172.60 lab server", fillcolor=lightblue ];
+		
+		labpc -> labhost;
+		gateway -> labhost ;
+		
+	}
+	
+	subgraph cluster_old {
+		label="Server LAN";
+		datasvr [ label="EXISTING data.comp.dkit.ie server", fillcolor=lightyellow		];
+		}
+
+	labpc -> datasvr;
+	homepc -> gateway;
+	mobiledevice -> gateway;
+}
