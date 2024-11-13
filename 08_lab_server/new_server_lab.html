@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lab server lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Lab server lab</h1>
+</header>
+<p>There is a new lab server for use from this week. The new machine is
+a Dell R230 in the rack in the lab. The configuration is similar to the
+existing shared machine.</p>
+<p>The existing <code>data.comp.dkit.ie</code> system will remain
+available.</p>
+<p>You have a user account on the new machine with the same username as
+the existing one.</p>
+<h1 id="task-0-login-to-new-server">Task 0: Login to new server</h1>
+<p>SSH to:</p>
+<pre><code>ssh yourname@10.200.172.60</code></pre>
+<p>Login with the default password given during class.</p>
+<h1 id="task-1-change-your-password">Task 1: Change your password</h1>
+<p>For now, this machine is setup for password authentication. This may
+be changed at a future date to key-only.</p>
+<p>Use the <code>passwd</code> command to change your password.</p>
+<pre><code>passwd</code></pre>
+<p>It will ask for the existing (default) password and a new one. You
+should use a <em>different</em> password than for your DkIT account.</p>
+<p>Students who do not change their password will have their accounts
+disabled at the end of the lab.</p>
+</body>
+</html>
