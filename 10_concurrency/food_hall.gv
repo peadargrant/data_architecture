@@ -1,0 +1,31 @@
+digraph G {
+	labelloc=t;
+	label = "Food Hall EPOS System (Database)"; 
+	rankdir=LR;
+
+	edge [ label ="x1"];
+
+	OLS [ label="Online store" ];
+
+	subgraph cluster_Backoffice {
+		 label="Backoffice server";
+		 DB [ label = "Database" ];
+		 WSI [ label = "Order processor" , style=filled, fillcolor=lightpink1];
+		 WSI -> DB [label ="x10"]
+	     }
+
+	     OLS -> WSI [label="Queue" ];
+
+
+	subgraph cluster_POS {
+		 label="POS Terminals";
+		 node [ style=filled, fillcolor=cadetblue1];
+		 REG1 [ label="Shop POS" ];
+		 REG2 [ label = "Cafe POS" ];
+		 }
+
+	REG1 -> DB;
+	REG2 -> DB;
+	
+
+}
