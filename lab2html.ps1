@@ -4,7 +4,7 @@
 
 # Lab web pages
 
-$input_files = Get-ChildItem $pwd -Filter '*_lab.md'
+$input_files = Get-ChildItem $pwd -Filter '*.md'
 Write-Host $input_files
 
 foreach ( $input_file in $input_files ) {
