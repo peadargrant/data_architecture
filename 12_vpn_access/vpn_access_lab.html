@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VPN access lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VPN access lab</h1>
+</header>
+<p>The VPN service enables you to connect to the shared database server
+from outside the lab.</p>
+<h1 id="requirements">Requirements</h1>
+<p>To connect from outside or from WiFi you will need:</p>
+<ul>
+<li>Currently supported Windows or Mac computer</li>
+<li>Linux apparently works but I have not tested it</li>
+<li>Android or iOS device and a suitable SSH app (e.g. Termius, others
+available)</li>
+</ul>
+<p><strong>Important note:</strong> I can only directly support the use
+of lab computers in the lab to connect to the shared server. Your own
+device’s configuration is your own responsibility.</p>
+<h1 id="usage-guidance">Usage guidance</h1>
+<p>The VPN service is designed solely for accessing specified learning
+and teaching resources from remote locations, specifically the data
+architecture shared server at 10.200.172.60. You are not authorised to
+use it for any other purpose.</p>
+<p>The VPN service is provisioned through hardware and software that has
+limits on concurrent users: - As a consideration to your fellow students
+please connect only when needed for working and disconnect immediately
+afterwards. - Please continue to use lab computers for in-class
+work.</p>
+<p>Repeated authentication failures to the shared server will activate
+the fail2ban block for approx 10 minutes, which will drop any further
+connections from your IP address.</p>
+<p>Issues with the VPN or shared server should be reported to me (your
+lecturer) by e-mail with as much detail as possible. Queries raised
+outside of normal working hours will be dealt with on the next working
+day where possible.</p>
+<p>Students who abuse the VPN service will be removed from it, and may
+face further sanctions for breaches of the IT Policies.</p>
+<h1 id="setup-and-connection">Setup and connection</h1>
+<h2 id="task-0-log-in-to-the-vpn-server">Task 0: Log in to the VPN
+server</h2>
+<p>Open a new web browser window and navigate to <a
+href="https://dkitvpn.dkit.ie">https://dkitvpn.dkit.ie/</a>.</p>
+<p>Log in with your DkIT username, password and 2FA.</p>
+<h2 id="task-1-download-motionpro-client-first-time-only">Task 1:
+Download MotionPro client (first-time only)</h2>
+<p>You will need to install the MotionPro client, through the link on
+the VPN page.</p>
+<p>This is supported for Windows and Mac.</p>
+<h2 id="task-2-connect-to-vpn-network">Task 2: Connect to VPN
+network</h2>
+<p>Under the <em>VPN Network</em> heading hit the <em>Connect</em>
+button.</p>
+<p>(The DesktopDirect button has no function for this module.)</p>
+<h2 id="task-3-connect-to-the-server">Task 3: Connect to the server</h2>
+<p>On Windows or Mac, open Windows Terminal / Terminal.app and connect
+to the server as normal:</p>
+<pre><code>ssh username@10.200.172.60</code></pre>
+<p>The username and password here is the one you created on the shared
+server, <em>not</em> your DkIT one.</p>
+<h2 id="task-4-disconnect">Task 4: Disconnect</h2>
+<p>When you are finished working with the VPN please disconnect to
+conserve capacity for your fellow students.</p>
+<p>Click the <em>Disconnect</em> button under <em>VPN Network</em>.</p>
+</body>
+</html>
