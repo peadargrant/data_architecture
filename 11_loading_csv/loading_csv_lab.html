@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="ss" />
+</head>
+<body>
+<p>/<em> CSS file for automation module documents Peadar Grant
+</em>/</p>
+<p>body { font-family: sans-serif; font-size: 125%; background-color:
+rgb(255,255,237); }</p>
+<p>#TOC { background-color: palegreen; padding: 10px; }</p>
+<p>h1.title { background-color: black; color: white; padding: 5px;
+font-size: 150%; }</p>
+<p>h1 { background-color: lightcyan; padding: 5px; font-size: 120%;
+}</p>
+<p>h2 { color: darkblue; font-size: 100%; }</p>
+<p>h3 { color: darkgreen; font-size: 100%; }</p>
+<p>pre, code { font-size: 120%; font-weight: bold; }</p>
+<p>% Loading CSV lab</p>
+<h1 id="task-0-login-to-server">Task 0: Login to server</h1>
+<p>Make sure you are connected to the <em>new</em> server.</p>
+<h1 id="task-1-download-the-world-cities-database">Task 1: Download the
+world cities database</h1>
+<p>Use the <code>curl</code> utility to download the world cities
+database from:</p>
+<pre><code>curl -o worldcities.zip https://simplemaps.com/static/data/world-cities/basic/simplemaps_worldcities_basicv1.77.zip</code></pre>
+<h1 id="task-2-unzip-the-world-cities-database">Task 2: Unzip the world
+cities database</h1>
+<p>On unix we can use the <code>unzip</code> utility to extract the ZIP
+archive:</p>
+<pre><code>unzip worldcities.zip</code></pre>
+<h1 id="task-3-examine-the-world-cities-database">Task 3: Examine the
+world cities database</h1>
+<p>You can print out the CSV file using <code>cat</code> :</p>
+<pre><code>cat worldcities.csv</code></pre>
+<p>If you want to pause the output at the top so you can navigate it you
+can pipe it into the <code>less</code> program:</p>
+<pre><code>cat worldcities.csv | less</code></pre>
+<p>Carefully note the column names, data types, etc.</p>
+<h1 id="task-4-create-a-table-to-hold-the-data">Task 4: Create a table
+to hold the data</h1>
+<p>Connect to your <code>psql</code> database using</p>
+<pre><code>psql</code></pre>
+<p>Issue the correct SQL statement to create a table named
+<code>cities</code> that has a column corresponding to each column in
+the CSV.</p>
+<h1 id="task-5-copy-the-data">Task 5: Copy the data</h1>
+<p>In PSQL, use a client-side copy to copy the data from the CSV file
+into the table</p>
+<pre><code>\COPY cites FROM &#39;worldcities.csv&#39; DELIMITER &#39;,&#39; CSV HEADER;</code></pre>
+<p>Depending on error(s) that occur, you may need to delete and
+re-create the <code>cities</code> table.</p>
+</body>
+</html>

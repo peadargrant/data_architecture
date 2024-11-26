@@ -1,0 +1,5 @@
+Make a Table: There must be a table to hold the data being imported. In order to copy the data, a table must be created with the proper table structure (number of columns, data types, etc.)
+
+Determine the Delimiter: While CSV files usually separate values using commas, this is not always the case. Values can be separated using ‘|’s or tabs (\t) among other characters. (NOTE: for tab delimited CSV files (also known as TSV files however the CSV command is still used for TSV) use: “DELIMITER E’\t’ ” The ‘E’ allows for the tab character to be used)
+
+Does the Data Have a Header: Some CSV files will have Headers while others will not. A Header is a file which contains the column names as the first line of values in the file. If a header is present, include HEADER at the end of the query. If there is not a header in the data, do not include HEADER.
