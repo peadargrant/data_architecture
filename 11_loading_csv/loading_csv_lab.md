@@ -49,4 +49,12 @@ In PSQL, use a client-side copy to copy the data from the CSV file into the tabl
 
 Depending on error(s) that occur, you may need to delete and re-create the `cities`  table.
 
+To copy specific columns you can use:
+
+	\copy marks ( student, mark)  from 'marks.csv' delimiter ',' csv header ;
+	
+
+# Task 6: Attempt to load a CSV of your own 
+
+Make a table for a CSV file that you have yourself and try to load the data into it. 
 
