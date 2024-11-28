@@ -1,0 +1,664 @@
+ 
+/* start css.sty */
+.cmbx-12{ font-weight: bold;}
+.cmbsy-10x-x-120{font-weight: bold;}
+.cmbsy-10x-x-120{font-weight: bold;}
+.cmbsy-10x-x-120{font-weight: bold;}
+.cmbsy-8{font-size:66%;font-weight: bold;}
+.cmbsy-8{font-weight: bold;}
+.cmbsy-8{font-weight: bold;}
+.cmbsy-6{font-size:50%;font-weight: bold;}
+.cmbsy-6{font-weight: bold;}
+.cmbsy-6{font-weight: bold;}
+.cmex-8{font-size:66%;}
+.cmex-7x-x-85{font-size:49%;}
+.msam-10x-x-80{font-size:66%;}
+.msam-7x-x-85{font-size:49%;}
+.msbm-10x-x-80{font-size:66%;}
+.msbm-7x-x-85{font-size:49%;}
+.cmr-8{font-size:66%;}
+.cmr-6{font-size:50%;}
+.cmmi-12{font-style: italic;}
+.cmmi-8{font-size:66%;font-style: italic;}
+.cmmi-6{font-size:50%;font-style: italic;}
+.cmsy-8{font-size:66%;}
+.cmsy-6{font-size:50%;}
+.cmtt-12{font-family: monospace,monospace;}
+.cmtt-12{font-family: monospace,monospace;}
+.cmr-17x-x-120{font-size:170%;}
+.cmr-12x-x-120{font-size:120%;}
+.cmti-12{ font-style: italic;}
+.cmitt-10x-x-120{font-family: monospace,monospace; font-style: italic;}
+p{margin-top:0;margin-bottom:0}
+p.indent{text-indent:0;}
+p + p{margin-top:1em;}
+p + div, p + pre {margin-top:1em;}
+div + p, pre + p {margin-top:1em;}
+a { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto; }
+@media print {div.crosslinks {visibility:hidden;}}
+a img { border-top: 0; border-left: 0; border-right: 0; }
+center { margin-top:1em; margin-bottom:1em; }
+td center { margin-top:0em; margin-bottom:0em; }
+.Canvas { position:relative; }
+math { text-indent: 0em; }
+li p.indent { text-indent: 0em }
+li p:first-child{ margin-top:0em; }
+li p:last-child, li div:last-child { margin-bottom:0.5em; }
+li p~ul:last-child, li p~ol:last-child{ margin-bottom:0.5em; }
+.enumerate1 {list-style-type:decimal;}
+.enumerate2 {list-style-type:lower-alpha;}
+.enumerate3 {list-style-type:lower-roman;}
+.enumerate4 {list-style-type:upper-alpha;}
+div.newtheorem { margin-bottom: 2em; margin-top: 2em;}
+.obeylines-h,.obeylines-v {white-space: nowrap; }
+div.obeylines-v p { margin-top:0; margin-bottom:0; }
+.overline{ text-decoration:overline; }
+.overline img{ border-top: 1px solid black; }
+td.displaylines {text-align:center; white-space:nowrap;}
+.centerline {text-align:center;}
+.rightline {text-align:right;}
+pre.verbatim {font-family: monospace,monospace; text-align:left; clear:both; }
+.fbox {padding-left:3.0pt; padding-right:3.0pt; text-indent:0pt; border:solid black 0.4pt; }
+div.fbox {display:table}
+div.center div.fbox {text-align:center; clear:both; padding-left:3.0pt; padding-right:3.0pt; text-indent:0pt; border:solid black 0.4pt; }
+div.minipage{width:100%;}
+div.center, div.center div.center {text-align: center; margin-left:1em; margin-right:1em;}
+div.center div {text-align: left;}
+div.flushright, div.flushright div.flushright {text-align: right;}
+div.flushright div {text-align: left;}
+div.flushleft {text-align: left;}
+.underline{ text-decoration:underline; }
+.underline img{ border-bottom: 1px solid black; margin-bottom:1pt; }
+.framebox-c, .framebox-l, .framebox-r { padding-left:3.0pt; padding-right:3.0pt; text-indent:0pt; border:solid black 0.4pt; }
+.framebox-c {text-align:center;}
+.framebox-l {text-align:left;}
+.framebox-r {text-align:right;}
+span.thank-mark{ vertical-align: super }
+span.footnote-mark sup.textsuperscript, span.footnote-mark a sup.textsuperscript{ font-size:80%; }
+div.tabular, div.center div.tabular {text-align: center; margin-top:0.5em; margin-bottom:0.5em; }
+table.tabular td p{margin-top:0em;}
+table.tabular {margin-left: auto; margin-right: auto;}
+td p:first-child{ margin-top:0em; }
+td p:last-child{ margin-bottom:0em; }
+div.td00{ margin-left:0pt; margin-right:0pt; }
+div.td01{ margin-left:0pt; margin-right:5pt; }
+div.td10{ margin-left:5pt; margin-right:0pt; }
+div.td11{ margin-left:5pt; margin-right:5pt; }
+table[rules] {border-left:solid black 0.4pt; border-right:solid black 0.4pt; }
+td.td00{ padding-left:0pt; padding-right:0pt; }
+td.td01{ padding-left:0pt; padding-right:5pt; }
+td.td10{ padding-left:5pt; padding-right:0pt; }
+td.td11{ padding-left:5pt; padding-right:5pt; }
+table[rules] {border-left:solid black 0.4pt; border-right:solid black 0.4pt; }
+.hline hr, .cline hr{ height : 0px; margin:0px; }
+.hline td, .cline td{ padding: 0; }
+.hline hr, .cline hr{border:none;border-top:1px solid black;}
+.tabbing-right {text-align:right;}
+div.float, div.figure {margin-left: auto; margin-right: auto;}
+div.float img {text-align:center;}
+div.figure img {text-align:center;}
+.marginpar,.reversemarginpar {width:20%; float:right; text-align:left; margin-left:auto; margin-top:0.5em; font-size:85%; text-decoration:underline;}
+.marginpar p,.reversemarginpar p{margin-top:0.4em; margin-bottom:0.4em;}
+.reversemarginpar{float:left;}
+.equation td{text-align:center; vertical-align:middle; }
+td.eq-no{ width:5%; }
+table.equation { width:100%; } 
+div.math-display, div.par-math-display{text-align:center;}
+mtr.hline mtd{ border-bottom:black solid 1px; padding-top:2px; padding-bottom:0em; }
+mtr.hline mtd mo{ display:none }
+math .texttt { font-family: monospace; }
+math .textit { font-style: italic; }
+math .textsl { font-style: oblique; }
+math .textsf { font-family: sans-serif; }
+math .textbf { font-weight: bold; }
+mo.MathClass-op + mi{margin-left:0.3em}
+mi + mo.MathClass-op{margin-left:0.3em}
+ math mstyle[mathvariant="bold"] { font-weight: bold; font-style: normal; } 
+ math mstyle[mathvariant="normal"] { font-weight: normal; font-style: normal; } 
+.partToc a, .partToc, .likepartToc a, .likepartToc {line-height: 200%; font-weight:bold; font-size:110%;}
+.chapterToc a, .chapterToc, .likechapterToc a, .likechapterToc, .appendixToc a, .appendixToc {line-height: 200%; font-weight:bold;}
+.index-item, .index-subitem, .index-subsubitem {display:block}
+div.caption {text-indent:-2em; margin-left:3em; margin-right:1em; text-align:left;}
+div.caption span.id{font-weight: bold; white-space: nowrap; }
+h1.partHead{text-align: center}
+p.bibitem { text-indent: -2em; margin-left: 2em; margin-top:0.6em; margin-bottom:0.6em; }
+p.bibitem-p { text-indent: 0em; margin-left: 2em; margin-top:0.6em; margin-bottom:0.6em; }
+.paragraphHead, .likeparagraphHead { margin-top:2em; font-weight: bold;}
+.subparagraphHead, .likesubparagraphHead { font-weight: bold;}
+.verse{white-space:nowrap; margin-left:2em}
+div.maketitle {text-align:center;}
+h2.titleHead{text-align:center;}
+div.maketitle{ margin-bottom: 2em; }
+div.author, div.date {text-align:center;}
+div.thanks{text-align:left; margin-left:10%; font-size:85%; font-style:italic; }
+div.author{white-space: nowrap;}
+h1.partHead{text-align: center}
+ .chapterToc, .likechapterToc {margin-left:0em;}
+ .chapterToc ~ .likesectionToc, .chapterToc ~ .sectionToc, .likechapterToc ~ .likesectionToc, .likechapterToc ~ .sectionToc {margin-left:2em;}
+ .chapterToc ~ .likesectionToc ~ .likesubsectionToc, .chapterToc ~ .likesectionToc ~ .subsectionToc, .chapterToc ~ .sectionToc ~ .likesubsectionToc, .chapterToc ~ .sectionToc ~ .subsectionToc, .likechapterToc ~ .likesectionToc ~ .likesubsectionToc, .likechapterToc ~ .likesectionToc ~ .subsectionToc, .likechapterToc ~ .sectionToc ~ .likesubsectionToc, .likechapterToc ~ .sectionToc ~ .subsectionToc {margin-left:4em;}
+.chapterToc ~ .likesectionToc ~ .likesubsectionToc ~ .likesubsubsectionToc, .chapterToc ~ .likesectionToc ~ .likesubsectionToc ~ .subsubsectionToc, .chapterToc ~ .likesectionToc ~ .subsectionToc ~ .likesubsubsectionToc, .chapterToc ~ .likesectionToc ~ .subsectionToc ~ .subsubsectionToc, .chapterToc ~ .sectionToc ~ .likesubsectionToc ~ .likesubsubsectionToc, .chapterToc ~ .sectionToc ~ .likesubsectionToc ~ .subsubsectionToc, .chapterToc ~ .sectionToc ~ .subsectionToc ~ .likesubsubsectionToc, .chapterToc ~ .sectionToc ~ .subsectionToc ~ .subsubsectionToc, .likechapterToc ~ .likesectionToc ~ .likesubsectionToc ~ .likesubsubsectionToc, .likechapterToc ~ .likesectionToc ~ .likesubsectionToc ~ .subsubsectionToc, .likechapterToc ~ .likesectionToc ~ .subsectionToc ~ .likesubsubsectionToc, .likechapterToc ~ .likesectionToc ~ .subsectionToc ~ .subsubsectionToc, .likechapterToc ~ .sectionToc ~ .likesubsectionToc ~ .likesubsubsectionToc, .likechapterToc ~ .sectionToc ~ .likesubsectionToc ~ .subsubsectionToc, .likechapterToc ~ .sectionToc ~ .subsectionToc ~ .likesubsubsectionToc .likechapterToc ~ .sectionToc ~ .subsectionToc ~ .subsubsectionToc {margin-left:6em;}
+ .likesectionToc , .sectionToc {margin-left:0em;}
+ .likesectionToc ~ .likesubsectionToc, .likesectionToc ~ .subsectionToc, .sectionToc ~ .likesubsectionToc, .sectionToc ~ .subsectionToc {margin-left:2em;}
+.likesectionToc ~ .likesubsectionToc ~ .likesubsubsectionToc, .likesectionToc ~ .likesubsectionToc ~ .subsubsectionToc, .likesectionToc ~ .subsectionToc ~ .likesubsubsectionToc, .likesectionToc ~ .subsectionToc ~ .subsubsectionToc, .sectionToc ~ .likesubsectionToc ~ .likesubsubsectionToc, .sectionToc ~ .likesubsectionToc ~ .subsubsectionToc, .sectionToc ~ .subsectionToc ~ .likesubsubsectionToc, .sectionToc ~ .subsectionToc ~ .subsubsectionToc {margin-left:4em;}
+ .likesubsectionToc, .subsectionToc {margin-left:0em;}
+ .likesubsectionToc ~ .subsubsectionToc, .subsectionToc ~ .subsubsectionToc {margin-left:2em;}
+.equation-star td{text-align:center; vertical-align:middle; }
+table.equation-star { width:100%; } 
+mtd.align-odd{margin-left:2em; text-align:right;}
+mtd.align-even{margin-right:2em; text-align:left;}
+.boxed{border: 1px solid black; padding-left:2px; padding-right:2px;}
+div.tabular, div.center div.tabular {text-align: center; margin-top:0.5em; margin-bottom:0.5em; }
+table.tabular td p{margin-top:0em;}
+table.tabular {margin-left: auto; margin-right: auto;}
+td p:first-child{ margin-top:0em; }
+td p:last-child{ margin-bottom:0em; }
+div.td00{ margin-left:0pt; margin-right:0pt; }
+div.td01{ margin-left:0pt; margin-right:5pt; }
+div.td10{ margin-left:5pt; margin-right:0pt; }
+div.td11{ margin-left:5pt; margin-right:5pt; }
+table[rules] {border-left:solid black 0.4pt; border-right:solid black 0.4pt; }
+td.td00{ padding-left:0pt; padding-right:0pt; }
+td.td01{ padding-left:0pt; padding-right:5pt; }
+td.td10{ padding-left:5pt; padding-right:0pt; }
+td.td11{ padding-left:5pt; padding-right:5pt; }
+table[rules] {border-left:solid black 0.4pt; border-right:solid black 0.4pt; }
+.hline hr, .cline hr{ height : 0px; margin:0px; }
+.hline td, .cline td{ padding: 0; }
+.hline hr, .cline hr{border:none;border-top:1px solid black;}
+.rotatebox{display: inline-block;}
+pre.fancyvrb {white-space: pre-wrap; margin:0em;font-family:monospace,monospace;}
+.framedenv{border: 1px solid black;}
+#textcolor1{color:rgb(0,135,0)}
+#textcolor2{color:rgb(170,33,255)}
+#textcolor3{color:rgb(186,186,186)}
+#textcolor4{color:rgb(170,33,255)}
+#textcolor5{color:rgb(186,186,186)}
+#textcolor6{color:rgb(186,186,186)}
+#textcolor7{color:rgb(186,186,186)}
+#textcolor8{color:rgb(170,33,255)}
+#textcolor9{color:rgb(186,186,186)}
+#textcolor10{color:rgb(170,33,255)}
+#textcolor11{color:rgb(186,186,186)}
+#textcolor12{color:rgb(170,33,255)}
+#textcolor13{color:rgb(170,33,255)}
+#textcolor14{color:rgb(186,186,186)}
+#textcolor15{color:rgb(170,33,255)}
+#textcolor16{color:rgb(186,186,186)}
+#textcolor17{color:rgb(170,33,255)}
+#textcolor18{color:rgb(186,186,186)}
+#textcolor19{color:rgb(170,33,255)}
+#textcolor20{color:rgb(186,186,186)}
+#textcolor21{color:rgb(170,33,255)}
+#textcolor22{color:rgb(0,135,0)}
+#textcolor23{color:rgb(170,33,255)}
+#textcolor24{color:rgb(186,186,186)}
+#textcolor25{color:rgb(170,33,255)}
+#textcolor26{color:rgb(186,186,186)}
+#textcolor27{color:rgb(186,186,186)}
+#textcolor28{color:rgb(186,186,186)}
+#textcolor29{color:rgb(170,33,255)}
+#textcolor30{color:rgb(186,186,186)}
+#textcolor31{color:rgb(170,33,255)}
+#textcolor32{color:rgb(186,186,186)}
+#textcolor33{color:rgb(170,33,255)}
+#textcolor34{color:rgb(186,186,186)}
+#textcolor35{color:rgb(170,33,255)}
+#textcolor36{color:rgb(186,186,186)}
+#textcolor37{color:rgb(170,33,255)}
+#textcolor38{color:rgb(186,186,186)}
+#textcolor39{color:rgb(170,33,255)}
+#textcolor40{color:rgb(186,186,186)}
+#textcolor41{color:rgb(170,33,255)}
+#textcolor42{color:rgb(186,186,186)}
+#textcolor43{color:rgb(170,33,255)}
+#textcolor44{color:rgb(186,186,186)}
+#textcolor45{color:rgb(170,33,255)}
+#textcolor46{color:rgb(186,186,186)}
+#textcolor47{color:rgb(170,33,255)}
+#textcolor48{color:rgb(186,186,186)}
+#textcolor49{color:rgb(170,33,255)}
+#textcolor50{color:rgb(186,186,186)}
+#textcolor51{color:rgb(170,33,255)}
+#textcolor52{color:rgb(186,186,186)}
+#textcolor53{color:rgb(170,33,255)}
+#textcolor54{color:rgb(186,186,186)}
+#textcolor55{color:rgb(0,135,0)}
+#textcolor56{color:rgb(170,33,255)}
+#textcolor57{color:rgb(186,186,186)}
+#textcolor58{color:rgb(170,33,255)}
+#textcolor59{color:rgb(186,186,186)}
+#textcolor60{color:rgb(186,186,186)}
+#textcolor61{color:rgb(0,135,0)}
+#textcolor62{color:rgb(186,186,186)}
+#textcolor63{color:rgb(170,33,255)}
+#textcolor64{color:rgb(186,186,186)}
+#textcolor65{color:rgb(170,33,255)}
+#textcolor66{color:rgb(186,186,186)}
+#textcolor67{color:rgb(0,135,0)}
+#textcolor68{color:rgb(186,186,186)}
+#textcolor69{color:rgb(170,33,255)}
+#textcolor70{color:rgb(186,186,186)}
+#textcolor71{color:rgb(170,33,255)}
+#textcolor72{color:rgb(186,186,186)}
+#textcolor73{color:rgb(186,186,186)}
+#textcolor74{color:rgb(170,33,255)}
+#textcolor75{color:rgb(186,186,186)}
+#textcolor76{color:rgb(170,33,255)}
+#textcolor77{color:rgb(186,186,186)}
+#textcolor78{color:rgb(170,33,255)}
+#textcolor79{color:rgb(0,135,0)}
+#textcolor80{color:rgb(170,33,255)}
+#textcolor81{color:rgb(186,186,186)}
+#textcolor82{color:rgb(170,33,255)}
+#textcolor83{color:rgb(186,186,186)}
+#textcolor84{color:rgb(170,33,255)}
+#textcolor85{color:rgb(186,186,186)}
+#textcolor86{color:rgb(186,186,186)}
+#textcolor87{color:rgb(170,33,255)}
+#textcolor88{color:rgb(186,186,186)}
+#textcolor89{color:rgb(170,33,255)}
+#textcolor90{color:rgb(186,186,186)}
+#textcolor91{color:rgb(170,33,255)}
+#textcolor92{color:rgb(186,186,186)}
+#textcolor93{color:rgb(170,33,255)}
+#textcolor94{color:rgb(0,135,0)}
+#textcolor95{color:rgb(0,135,0)}
+#textcolor96{color:rgb(170,33,255)}
+#textcolor97{color:rgb(186,186,186)}
+#textcolor98{color:rgb(186,186,186)}
+#textcolor99{color:rgb(186,186,186)}
+#textcolor100{color:rgb(170,33,255)}
+#textcolor101{color:rgb(170,33,255)}
+#textcolor102{color:rgb(170,33,255)}
+#textcolor103{color:rgb(186,186,186)}
+#textcolor104{color:rgb(101,101,101)}
+#textcolor105{color:rgb(170,33,255)}
+#textcolor106{color:rgb(186,186,186)}
+#textcolor107{color:rgb(170,33,255)}
+#textcolor108{color:rgb(186,186,186)}
+#textcolor109{color:rgb(186,68,68)}
+#textcolor110{color:rgb(170,33,255)}
+#textcolor111{color:rgb(186,186,186)}
+#textcolor112{color:rgb(101,101,101)}
+#textcolor113{color:rgb(101,101,101)}
+#textcolor114{color:rgb(186,186,186)}
+#textcolor115{color:rgb(170,33,255)}
+#textcolor116{color:rgb(186,186,186)}
+#textcolor117{color:rgb(186,68,68)}
+#textcolor118{color:rgb(170,33,255)}
+#textcolor119{color:rgb(186,186,186)}
+#textcolor120{color:rgb(186,68,68)}
+#textcolor121{color:rgb(170,33,255)}
+#textcolor122{color:rgb(186,186,186)}
+#textcolor123{color:rgb(170,33,255)}
+#textcolor124{color:rgb(186,186,186)}
+#textcolor125{color:rgb(170,33,255)}
+#textcolor126{color:rgb(186,186,186)}
+#textcolor127{color:rgb(186,186,186)}
+#textcolor128{color:rgb(0,135,0)}
+#textcolor129{color:rgb(0,135,0)}
+#textcolor130{color:rgb(170,33,255)}
+#textcolor131{color:rgb(186,186,186)}
+#textcolor132{color:rgb(170,33,255)}
+#textcolor133{color:rgb(186,186,186)}
+#textcolor134{color:rgb(186,186,186)}
+#textcolor135{color:rgb(170,33,255)}
+#textcolor136{color:rgb(170,33,255)}
+#textcolor137{color:rgb(186,186,186)}
+#textcolor138{color:rgb(101,101,101)}
+#textcolor139{color:rgb(186,186,186)}
+#textcolor140{color:rgb(0,135,0)}
+#textcolor141{color:rgb(0,135,0)}
+#textcolor142{color:rgb(170,33,255)}
+#textcolor143{color:rgb(186,186,186)}
+#textcolor144{color:rgb(101,101,101)}
+#textcolor145{color:rgb(186,186,186)}
+#textcolor146{color:rgb(170,33,255)}
+#textcolor147{color:rgb(186,186,186)}
+#textcolor148{color:rgb(186,186,186)}
+#textcolor149{color:rgb(0,135,0)}
+#textcolor150{color:rgb(170,33,255)}
+#textcolor151{color:rgb(186,186,186)}
+#textcolor152{color:rgb(170,33,255)}
+#textcolor153{color:rgb(186,186,186)}
+#textcolor154{color:rgb(186,186,186)}
+#textcolor155{color:rgb(170,33,255)}
+#textcolor156{color:rgb(186,186,186)}
+#textcolor157{color:rgb(170,33,255)}
+#textcolor158{color:rgb(186,186,186)}
+#textcolor159{color:rgb(170,33,255)}
+#textcolor160{color:rgb(186,186,186)}
+#textcolor161{color:rgb(186,186,186)}
+#textcolor162{color:rgb(170,33,255)}
+#textcolor163{color:rgb(186,186,186)}
+#textcolor164{color:rgb(101,101,101)}
+#textcolor165{color:rgb(186,186,186)}
+#textcolor166{color:rgb(101,101,101)}
+#textcolor167{color:rgb(186,186,186)}
+#textcolor168{color:rgb(170,33,255)}
+#textcolor169{color:rgb(186,186,186)}
+#textcolor170{color:rgb(170,33,255)}
+#textcolor171{color:rgb(186,186,186)}
+#textcolor172{color:rgb(101,101,101)}
+#textcolor173{color:rgb(101,101,101)}
+#textcolor174{color:rgb(186,186,186)}
+#textcolor175{color:rgb(0,135,0)}
+#textcolor176{color:rgb(170,33,255)}
+#textcolor177{color:rgb(186,186,186)}
+#textcolor178{color:rgb(170,33,255)}
+#textcolor179{color:rgb(186,186,186)}
+#textcolor180{color:rgb(186,186,186)}
+#textcolor181{color:rgb(186,186,186)}
+#textcolor182{color:rgb(186,186,186)}
+#textcolor183{color:rgb(170,33,255)}
+#textcolor184{color:rgb(186,186,186)}
+#textcolor185{color:rgb(170,33,255)}
+#textcolor186{color:rgb(186,186,186)}
+#textcolor187{color:rgb(170,33,255)}
+#textcolor188{color:rgb(186,186,186)}
+#textcolor189{color:rgb(0,135,0)}
+#textcolor190{color:rgb(186,186,186)}
+#textcolor191{color:rgb(186,186,186)}
+#textcolor192{color:rgb(186,186,186)}
+#textcolor193{color:rgb(170,33,255)}
+#textcolor194{color:rgb(186,186,186)}
+#textcolor195{color:rgb(170,33,255)}
+#textcolor196{color:rgb(186,186,186)}
+#textcolor197{color:rgb(186,186,186)}
+#textcolor198{color:rgb(186,186,186)}
+#textcolor199{color:rgb(0,135,0)}
+#textcolor200{color:rgb(0,135,0)}
+#textcolor201{color:rgb(170,33,255)}
+#textcolor202{color:rgb(186,186,186)}
+#textcolor203{color:rgb(170,33,255)}
+#textcolor204{color:rgb(186,186,186)}
+#textcolor205{color:rgb(186,186,186)}
+#textcolor206{color:rgb(170,33,255)}
+#textcolor207{color:rgb(186,186,186)}
+#textcolor208{color:rgb(170,33,255)}
+#textcolor209{color:rgb(186,186,186)}
+#textcolor210{color:rgb(186,186,186)}
+#textcolor211{color:rgb(186,68,68)}
+#textcolor212{color:rgb(186,186,186)}
+#textcolor213{color:rgb(186,68,68)}
+#textcolor214{color:rgb(186,186,186)}
+#textcolor215{color:rgb(186,68,68)}
+#textcolor216{color:rgb(0,135,0)}
+#textcolor217{color:rgb(170,33,255)}
+#textcolor218{color:rgb(186,186,186)}
+#textcolor219{color:rgb(170,33,255)}
+#textcolor220{color:rgb(186,186,186)}
+#textcolor221{color:rgb(186,186,186)}
+#textcolor222{color:rgb(170,33,255)}
+#textcolor223{color:rgb(186,186,186)}
+#textcolor224{color:rgb(170,33,255)}
+#textcolor225{color:rgb(186,186,186)}
+#textcolor226{color:rgb(186,186,186)}
+#textcolor227{color:rgb(0,135,0)}
+#textcolor228{color:rgb(0,135,0)}
+#textcolor229{color:rgb(186,186,186)}
+#textcolor230{color:rgb(0,135,0)}
+#textcolor231{color:rgb(0,135,0)}
+#textcolor232{color:rgb(186,186,186)}
+#textcolor233{color:rgb(186,186,186)}
+#textcolor234{color:rgb(0,135,0)}
+#textcolor235{color:rgb(0,135,0)}
+#textcolor236{color:rgb(0,135,0)}
+#textcolor237{color:rgb(170,33,255)}
+#textcolor238{color:rgb(0,0,255)}
+#textcolor239{color:rgb(170,33,255)}
+#textcolor240{color:rgb(0,0,255)}
+#textcolor241{color:rgb(0,135,0)}
+#textcolor242{color:rgb(170,33,255)}
+#textcolor243{color:rgb(0,0,255)}
+#textcolor244{color:rgb(0,135,0)}
+#textcolor245{color:rgb(101,101,101)}
+#textcolor246{color:rgb(101,101,101)}
+#textcolor247{color:rgb(101,101,101)}
+#textcolor248{color:rgb(186,68,68)}
+#textcolor249{color:rgb(0,135,0)}
+#textcolor250{color:rgb(0,135,0)}
+#textcolor251{color:rgb(101,101,101)}
+#textcolor252{color:rgb(101,101,101)}
+#textcolor253{color:rgb(101,101,101)}
+#textcolor254{color:rgb(101,101,101)}
+#textcolor255{color:rgb(101,101,101)}
+#textcolor256{color:rgb(0,135,0)}
+#textcolor257{color:rgb(0,135,0)}
+#textcolor258{color:rgb(101,101,101)}
+#textcolor259{color:rgb(186,68,68)}
+#textcolor260{color:rgb(0,135,0)}
+#textcolor261{color:rgb(101,101,101)}
+#textcolor262{color:rgb(0,135,0)}
+#textcolor263{color:rgb(170,33,255)}
+#textcolor264{color:rgb(186,68,68)}
+#textcolor265{color:rgb(186,101,135)}
+#textcolor266{color:rgb(186,68,68)}
+#textcolor267{color:rgb(101,101,101)}
+#textcolor268{color:rgb(101,101,101)}
+#textcolor269{color:rgb(0,135,0)}
+#textcolor270{color:rgb(170,33,255)}
+#textcolor271{color:rgb(170,33,255)}
+#textcolor272{color:rgb(0,135,0)}
+#textcolor273{color:rgb(170,33,255)}
+#textcolor274{color:rgb(186,68,68)}
+#textcolor275{color:rgb(186,101,135)}
+#textcolor276{color:rgb(186,68,68)}
+#textcolor277{color:rgb(186,101,135)}
+#textcolor278{color:rgb(186,68,68)}
+#textcolor279{color:rgb(101,101,101)}
+#textcolor280{color:rgb(186,68,68)}
+#textcolor281{color:rgb(186,68,68)}
+#textcolor282{color:rgb(0,135,0)}
+#textcolor283{color:rgb(101,101,101)}
+#textcolor284{color:rgb(101,101,101)}
+#textcolor285{color:rgb(186,68,68)}
+#textcolor286{color:rgb(0,135,0)}
+#textcolor287{color:rgb(101,101,101)}
+#textcolor288{color:rgb(101,101,101)}
+#textcolor289{color:rgb(101,101,101)}
+#textcolor290{color:rgb(186,68,68)}
+#textcolor291{color:rgb(101,101,101)}
+#textcolor292{color:rgb(101,101,101)}
+#textcolor293{color:rgb(0,135,0)}
+#textcolor294{color:rgb(101,101,101)}
+#textcolor295{color:rgb(186,68,68)}
+#textcolor296{color:rgb(186,101,135)}
+#textcolor297{color:rgb(186,68,68)}
+#textcolor298{color:rgb(186,101,135)}
+#textcolor299{color:rgb(186,68,68)}
+#textcolor300{color:rgb(101,101,101)}
+#textcolor301{color:rgb(101,101,101)}
+#textcolor302{color:rgb(0,135,0)}
+#textcolor303{color:rgb(101,101,101)}
+#textcolor304{color:rgb(186,68,68)}
+#textcolor305{color:rgb(186,101,135)}
+#textcolor306{color:rgb(186,68,68)}
+#textcolor307{color:rgb(101,101,101)}
+#textcolor308{color:rgb(186,68,68)}
+#textcolor309{color:rgb(186,68,68)}
+#textcolor310{color:rgb(101,101,101)}
+#textcolor311{color:rgb(0,135,0)}
+#textcolor312{color:rgb(0,135,0)}
+#textcolor313{color:rgb(170,33,255)}
+#textcolor314{color:rgb(0,0,255)}
+#textcolor315{color:rgb(170,33,255)}
+#textcolor316{color:rgb(0,0,255)}
+#textcolor317{color:rgb(101,101,101)}
+#textcolor318{color:rgb(101,101,101)}
+#textcolor319{color:rgb(101,101,101)}
+#textcolor320{color:rgb(186,68,68)}
+#textcolor321{color:rgb(0,135,0)}
+#textcolor322{color:rgb(170,33,255)}
+#textcolor323{color:rgb(0,0,255)}
+#textcolor324{color:rgb(170,33,255)}
+#textcolor325{color:rgb(0,0,255)}
+#textcolor326{color:rgb(0,135,0)}
+#textcolor327{color:rgb(101,101,101)}
+#textcolor328{color:rgb(101,101,101)}
+#textcolor329{color:rgb(186,68,68)}
+#textcolor330{color:rgb(0,135,0)}
+tr#TBL-2-1- td{border-top:0.13159em solid} 
+tr#TBL-2-1- td{border-bottom:0.08224em solid}
+tr#TBL-2-5- td{border-bottom:0.13159em solid}
+#textcolor331{color:rgb(170,33,255)}
+#textcolor332{color:rgb(186,186,186)}
+#textcolor333{color:rgb(0,135,0)}
+#textcolor334{color:rgb(0,135,0)}
+#textcolor335{color:rgb(170,33,255)}
+#textcolor336{color:rgb(186,186,186)}
+#textcolor337{color:rgb(101,101,101)}
+#textcolor338{color:rgb(186,186,186)}
+#textcolor339{color:rgb(170,33,255)}
+#textcolor340{color:rgb(186,186,186)}
+#textcolor341{color:rgb(101,101,101)}
+#textcolor342{color:rgb(186,186,186)}
+#textcolor343{color:rgb(170,33,255)}
+#textcolor344{color:rgb(186,186,186)}
+#textcolor345{color:rgb(101,101,101)}
+#textcolor346{color:rgb(186,186,186)}
+#textcolor347{color:rgb(186,186,186)}
+#textcolor348{color:rgb(0,135,0)}
+#textcolor349{color:rgb(170,33,255)}
+#textcolor350{color:rgb(186,186,186)}
+#textcolor351{color:rgb(0,135,0)}
+#textcolor352{color:rgb(0,135,0)}
+#textcolor353{color:rgb(170,33,255)}
+#textcolor354{color:rgb(186,186,186)}
+#textcolor355{color:rgb(0,135,0)}
+#textcolor356{color:rgb(170,33,255)}
+#textcolor357{color:rgb(170,33,255)}
+#textcolor358{color:rgb(0,135,0)}
+#textcolor359{color:rgb(170,33,255)}
+#textcolor360{color:rgb(170,33,255)}
+#textcolor361{color:rgb(186,186,186)}
+#textcolor362{color:rgb(186,186,186)}
+#textcolor363{color:rgb(170,33,255)}
+#textcolor364{color:rgb(186,186,186)}
+#textcolor365{color:rgb(186,186,186)}
+#textcolor366{color:rgb(101,101,101)}
+#textcolor367{color:rgb(186,186,186)}
+#textcolor368{color:rgb(186,186,186)}
+#textcolor369{color:rgb(101,101,101)}
+#textcolor370{color:rgb(186,186,186)}
+#textcolor371{color:rgb(101,101,101)}
+#textcolor372{color:rgb(186,186,186)}
+#textcolor373{color:rgb(170,33,255)}
+#textcolor374{color:rgb(186,186,186)}
+#textcolor375{color:rgb(101,101,101)}
+#textcolor376{color:rgb(101,101,101)}
+#textcolor377{color:rgb(170,33,255)}
+#textcolor378{color:rgb(186,186,186)}
+#textcolor379{color:rgb(186,186,186)}
+#textcolor380{color:rgb(170,33,255)}
+#textcolor381{color:rgb(186,186,186)}
+#textcolor382{color:rgb(186,186,186)}
+#textcolor383{color:rgb(101,101,101)}
+#textcolor384{color:rgb(186,186,186)}
+#textcolor385{color:rgb(186,186,186)}
+#textcolor386{color:rgb(101,101,101)}
+#textcolor387{color:rgb(186,186,186)}
+#textcolor388{color:rgb(101,101,101)}
+#textcolor389{color:rgb(186,186,186)}
+#textcolor390{color:rgb(170,33,255)}
+#textcolor391{color:rgb(186,186,186)}
+#textcolor392{color:rgb(101,101,101)}
+#textcolor393{color:rgb(101,101,101)}
+#textcolor394{color:rgb(170,33,255)}
+#textcolor395{color:rgb(170,33,255)}
+#textcolor396{color:rgb(170,33,255)}
+tr#TBL-3-1- td{border-top:0.13159em solid} 
+tr#TBL-3-1- td{border-bottom:0.08224em solid}
+tr#TBL-3-5- td{border-bottom:0.13159em solid}
+#textcolor397{color:rgb(0,135,0)}
+#textcolor398{color:rgb(170,33,255)}
+#textcolor399{color:rgb(186,186,186)}
+#textcolor400{color:rgb(170,33,255)}
+#textcolor401{color:rgb(186,186,186)}
+#textcolor402{color:rgb(170,33,255)}
+#textcolor403{color:rgb(186,186,186)}
+#textcolor404{color:rgb(170,33,255)}
+#textcolor405{color:rgb(186,186,186)}
+#textcolor406{color:rgb(101,101,101)}
+#textcolor407{color:rgb(186,186,186)}
+#textcolor408{color:rgb(0,135,0)}
+#textcolor409{color:rgb(170,33,255)}
+#textcolor410{color:rgb(186,186,186)}
+#textcolor411{color:rgb(170,33,255)}
+#textcolor412{color:rgb(186,186,186)}
+#textcolor413{color:rgb(170,33,255)}
+#textcolor414{color:rgb(186,186,186)}
+#textcolor415{color:rgb(170,33,255)}
+#textcolor416{color:rgb(186,186,186)}
+#textcolor417{color:rgb(170,33,255)}
+#textcolor418{color:rgb(186,186,186)}
+#textcolor419{color:rgb(170,33,255)}
+#textcolor420{color:rgb(186,186,186)}
+#textcolor421{color:rgb(170,33,255)}
+#textcolor422{color:rgb(186,186,186)}
+#textcolor423{color:rgb(101,101,101)}
+#textcolor424{color:rgb(186,186,186)}
+#textcolor425{color:rgb(170,33,255)}
+#textcolor426{color:rgb(186,186,186)}
+#textcolor427{color:rgb(170,33,255)}
+#textcolor428{color:rgb(170,33,255)}
+#textcolor429{color:rgb(186,68,68)}
+#textcolor430{color:rgb(101,101,101)}
+#textcolor431{color:rgb(186,68,68)}
+#textcolor432{color:rgb(186,68,68)}
+#textcolor433{color:rgb(101,101,101)}
+#textcolor434{color:rgb(186,68,68)}
+#textcolor435{color:rgb(170,33,255)}
+#textcolor436{color:rgb(186,68,68)}
+#textcolor437{color:rgb(101,101,101)}
+#textcolor438{color:rgb(186,68,68)}
+#textcolor439{color:rgb(186,68,68)}
+#textcolor440{color:rgb(101,101,101)}
+#textcolor441{color:rgb(186,68,68)}
+#textcolor442{color:rgb(186,186,186)}
+#textcolor443{color:rgb(0,135,0)}
+#textcolor444{color:rgb(186,68,68)}
+#textcolor445{color:rgb(101,101,101)}
+#textcolor446{color:rgb(186,68,68)}
+#textcolor447{color:rgb(0,135,0)}
+#textcolor448{color:rgb(186,68,68)}
+#textcolor449{color:rgb(101,101,101)}
+#textcolor450{color:rgb(186,68,68)}
+#textcolor451{color:rgb(186,186,186)}
+#textcolor452{color:rgb(0,135,0)}
+#textcolor453{color:rgb(186,68,68)}
+#textcolor454{color:rgb(101,101,101)}
+#textcolor455{color:rgb(186,68,68)}
+#textcolor456{color:rgb(186,68,68)}
+#textcolor457{color:rgb(101,101,101)}
+#textcolor458{color:rgb(186,68,68)}
+#textcolor459{color:rgb(186,68,68)}
+#textcolor460{color:rgb(101,101,101)}
+#textcolor461{color:rgb(186,68,68)}
+#textcolor462{color:rgb(186,68,68)}
+#textcolor463{color:rgb(101,101,101)}
+#textcolor464{color:rgb(186,68,68)}
+#textcolor465{color:rgb(186,68,68)}
+#textcolor466{color:rgb(101,101,101)}
+#textcolor467{color:rgb(186,68,68)}
+#textcolor468{color:rgb(0,135,0)}
+#textcolor469{color:rgb(186,68,68)}
+#textcolor470{color:rgb(101,101,101)}
+#textcolor471{color:rgb(186,68,68)}
+#textcolor472{color:rgb(170,33,255)}
+#textcolor473{color:rgb(186,68,68)}
+#textcolor474{color:rgb(101,101,101)}
+#textcolor475{color:rgb(186,68,68)}
+#textcolor476{color:rgb(170,33,255)}
+#textcolor477{color:rgb(186,186,186)}
+#textcolor478{color:rgb(170,33,255)}
+#textcolor479{color:rgb(186,186,186)}
+#textcolor480{color:rgb(170,33,255)}
+#textcolor481{color:rgb(170,33,255)}
+#textcolor482{color:rgb(170,33,255)}
+#textcolor483{color:rgb(186,186,186)}
+#textcolor484{color:rgb(170,33,255)}
+#textcolor485{color:rgb(170,33,255)}
+#textcolor486{color:rgb(170,33,255)}
+/* end css.sty */
+

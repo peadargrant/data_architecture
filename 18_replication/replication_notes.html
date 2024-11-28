@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='utf-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"> 
+<html xmlns='http://www.w3.org/1999/xhtml'> 
+<head><title>16 Replication</title> 
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8' /> 
+<meta name='generator' content='TeX4ht (https://tug.org/tex4ht/)' /> 
+<meta name='originator' content='TeX4ht (https://tug.org/tex4ht/)' /> 
+<!--  2,charset=utf-8,html,xhtml,mathml  --> 
+<meta name='src' content='data_web.tex' /> 
+<link type='text/css' rel='stylesheet' href='data_web.css' /> 
+<script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script> 
+<link href='webnotes_static.css' rel='stylesheet' /> 
+<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=yes' /></head><body>
+   <!-- l. 1 --><div class='crosslinks'><p class='noindent'>[<a href='data_webli2.html'>next</a>] [<a href='data_webch15.html'>prev</a>] [<a href='data_webch15.html#taildata_webch15.html'>prev-tail</a>] [<a href='#taildata_webch16.html'>tail</a>] [<a href='data_web.html#data_webch16.html'>up</a>] </p></div>
+   <h2 class='chapterHead'><span class='titlemark'>Chapter 16</span><br /><a id='x18-20000016'></a>Replication</h2>
+   <h3 class='sectionHead'><span class='titlemark'>16.1   </span> <a id='x18-20100016.1'></a>Database server</h3>
+<!-- l. 14 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.1.1   </span> <a id='x18-20200016.1.1'></a>Components</h4>
+      <dl class='description'><dt class='description'>
+<span class='cmbx-12'>Database</span> </dt><dd class='description'>containing tables and other objects
+      </dd><dt class='description'>
+<span class='cmbx-12'>Cluster</span> </dt><dd class='description'>is a collection of databases stored in a common folder on the file
+      system.
+      </dd><dt class='description'>
+<span class='cmbx-12'>postgres process</span> </dt><dd class='description'>is instance of postgresql managing a cluster.
+           <ul class='itemize1'>
+           <li class='itemize'>Opens  a  TCP  port  by  default  5432  listening  for  incoming
+           connections.
+           </li>
+           <li class='itemize'>Spawns new server process to handle each client connection</li></ul>
+      </dd></dl>
+<!-- l. 26 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.1.2   </span> <a id='x18-20300016.1.2'></a>Server control</h4>
+<!-- l. 28 --><p class='noindent'>PostgreSQL will normally run as a service, using the host OS service management
+mechanism. Usually systemd on Linux or services manageer on linux. Example of
+service unit file from Amazon Linux:
+</p>
+   <pre class='fancyvrb' id='fancyvrb18'><a id='x18-203002r1'></a><span id='textcolor428'><span class='cmtt-12'>[Unit]</span></span> 
+<a id='x18-203004r2'></a><span id='textcolor429'><span class='cmtt-12'>Description</span></span><span id='textcolor430'><span class='cmtt-12'>=</span></span><span id='textcolor431'><span class='cmtt-12'>PostgreSQL database server</span></span> 
+<a id='x18-203006r3'></a><span id='textcolor432'><span class='cmtt-12'>After</span></span><span id='textcolor433'><span class='cmtt-12'>=</span></span><span id='textcolor434'><span class='cmtt-12'>network.target</span></span> 
+<a id='x18-203008r4'></a> 
+<a id='x18-203010r5'></a><span id='textcolor435'><span class='cmtt-12'>[Service]</span></span> 
+<a id='x18-203012r6'></a><span id='textcolor436'><span class='cmtt-12'>Type</span></span><span id='textcolor437'><span class='cmtt-12'>=</span></span><span id='textcolor438'><span class='cmtt-12'>forking</span></span> 
+<a id='x18-203014r7'></a><span id='textcolor439'><span class='cmtt-12'>User</span></span><span id='textcolor440'><span class='cmtt-12'>=</span></span><span id='textcolor441'><span class='cmtt-12'>postgres</span></span><span id='textcolor442'><span class='cmtt-12'> </span></span><span id='textcolor443'><span class='cmitt-10x-x-120'># user/group to run as</span></span> 
+<a id='x18-203016r8'></a><span id='textcolor444'><span class='cmtt-12'>Group</span></span><span id='textcolor445'><span class='cmtt-12'>=</span></span><span id='textcolor446'><span class='cmtt-12'>postgres</span></span> 
+<a id='x18-203018r9'></a><span id='textcolor447'><span class='cmitt-10x-x-120'># Port number for server to listen on</span></span> 
+<a id='x18-203020r10'></a><span id='textcolor448'><span class='cmtt-12'>Environment</span></span><span id='textcolor449'><span class='cmtt-12'>=</span></span><span id='textcolor450'><span class='cmtt-12'>PGPORT=5432</span></span><span id='textcolor451'><span class='cmtt-12'> </span></span> 
+<a id='x18-203022r11'></a> 
+<a id='x18-203024r12'></a><span id='textcolor452'><span class='cmitt-10x-x-120'># Location of database directory </span></span> 
+<a id='x18-203026r13'></a><span id='textcolor453'><span class='cmtt-12'>Environment</span></span><span id='textcolor454'><span class='cmtt-12'>=</span></span><span id='textcolor455'><span class='cmtt-12'>PGDATA=/var/lib/pgsql/data</span></span> 
+<a id='x18-203028r14'></a> 
+<a id='x18-203030r15'></a><span id='textcolor456'><span class='cmtt-12'>ExecStartPre</span></span><span id='textcolor457'><span class='cmtt-12'>=</span></span><span id='textcolor458'><span class='cmtt-12'>/usr/bin/postgresql-check-db-dir ${PGDATA}</span></span> 
+<a id='x18-203032r16'></a><span id='textcolor459'><span class='cmtt-12'>ExecStart</span></span><span id='textcolor460'><span class='cmtt-12'>=</span></span><span id='textcolor461'><span class='cmtt-12'>/usr/bin/pg_ctl start -D ${PGDATA} -s -o "-p ${PGPORT}" -w -t 300</span></span> 
+<a id='x18-203034r17'></a><span id='textcolor462'><span class='cmtt-12'>ExecStop</span></span><span id='textcolor463'><span class='cmtt-12'>=</span></span><span id='textcolor464'><span class='cmtt-12'>/usr/bin/pg_ctl stop -D ${PGDATA} -s -m fast</span></span> 
+<a id='x18-203036r18'></a><span id='textcolor465'><span class='cmtt-12'>ExecReload</span></span><span id='textcolor466'><span class='cmtt-12'>=</span></span><span id='textcolor467'><span class='cmtt-12'>/usr/bin/pg_ctl reload -D ${PGDATA} -s</span></span> 
+<a id='x18-203038r19'></a> 
+<a id='x18-203040r20'></a><span id='textcolor468'><span class='cmitt-10x-x-120'># Give a reasonable amount of time for the server to start up/shut down</span></span> 
+<a id='x18-203042r21'></a><span id='textcolor469'><span class='cmtt-12'>TimeoutSec</span></span><span id='textcolor470'><span class='cmtt-12'>=</span></span><span id='textcolor471'><span class='cmtt-12'>300</span></span> 
+<a id='x18-203044r22'></a> 
+<a id='x18-203046r23'></a><span id='textcolor472'><span class='cmtt-12'>[Install]</span></span> 
+<a id='x18-203048r24'></a><span id='textcolor473'><span class='cmtt-12'>WantedBy</span></span><span id='textcolor474'><span class='cmtt-12'>=</span></span><span id='textcolor475'><span class='cmtt-12'>multi-user.target</span></span></pre>
+                                                                          
+
+                                                                          
+<!-- l. 34 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.1.3   </span> <a id='x18-20400016.1.3'></a>Cluster file layout</h4>
+<!-- l. 36 --><p class='noindent'>A postgresql cluster has a data directory, with the following layout:
+                                                                          
+
+                                                                          
+</p>
+   <pre class='verbatim' id='verbatim-45'>
+base .............. per-database contents
+global ............ global data for cluster
+pg_clog
+pg_hba.conf ....... access control config
+pg_ident.conf
+pg_log
+pg_multixact
+pg_notify
+pg_serial
+pg_snapshots
+pg_stat_tmp
+pg_subtrans
+pg_tblspc
+pg_twophase
+PG_VERSION
+pg_xlog ........... Write-Ahead Log
+postgresql.conf ... Server config
+postmaster.opts
+postmaster.pid
+
+</pre>
+<!-- l. 59 --><p class='nopar'>
+</p><!-- l. 62 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.1.4   </span> <a id='x18-20500016.1.4'></a>Resource provisioning</h4>
+<!-- l. 64 --><p class='noindent'>
+</p>
+   <h5 class='subsubsectionHead'><a id='x18-20600016.1.4'></a>On-client</h5>
+<!-- l. 66 --><p class='noindent'>Local database server provisioned on own client device. Likely to run a consumer
+operating system (e.g. Windows 10). Useful for development or personal data
+storage and analytics.
+                                                                          
+
+                                                                          
+</p><!-- l. 70 --><p class='noindent'>
+</p>
+   <h5 class='subsubsectionHead'><a id='x18-20700016.1.4'></a>Dedicated server</h5>
+<!-- l. 72 --><p class='noindent'>Server hardware designed for 24/7 operation. Normally running server OS (e.g.
+UNIX, Linux) and operated remotely using SSH.
+</p><!-- l. 75 --><p class='indent'>   Ranges from large rackmount servers (multi-CPU, high RAM) down to small
+single-board computers (e.g. Raspberry Pi) for field use.
+</p><!-- l. 77 --><p class='noindent'>
+</p>
+   <h5 class='subsubsectionHead'><a id='x18-20800016.1.4'></a>Data centre environments</h5>
+<!-- l. 79 --><p class='noindent'>Server hardware is normally located within data centre environments. May range
+from small server closets to multi-acre facilities.
+</p><!-- l. 82 --><p class='indent'>   Data Centre Environments provide highly resilient power, cooling and
+connectivity. They are secure environments, protected against fire and security
+breaches. Redundancy in infrastructure services, delivery pathway and network
+connectivity aims to maximise uptime.
+</p><!-- l. 86 --><p class='indent'>   The data centre environment may be local or remote from its clients. Network
+connectivity may be via direct links, public internet, dedicated circuits or
+tunneling solutions such as VPNs.
+</p><!-- l. 90 --><p class='noindent'>
+</p>
+   <h5 class='subsubsectionHead'><a id='x18-20900016.1.4'></a>Co-location</h5>
+<!-- l. 92 --><p class='noindent'>Often a need for data centre environment exists, but it is preferable to pay for it
+as a service. Here, the customer rents space in a co-location (co-lo) facility. The
+co-lo provides a secure location
+</p><!-- l. 96 --><p class='noindent'>
+</p>
+   <h5 class='subsubsectionHead'><a id='x18-21000016.1.4'></a>Cloud</h5>
+<!-- l. 98 --><p class='noindent'>Database requirements may be provisioned on-demand from cloud service
+providers. This may be in the form of:
+      </p><dl class='description'><dt class='description'>
+<span class='cmbx-12'>Infrastructure as a Service (IaaS)</span> </dt><dd class='description'>where the provider supplies virtual
+      compute, storage and networking infrastructure. The customer installs
+      their OS and database server of choice.
+                                                                          
+
+                                                                          
+      </dd><dt class='description'>
+<span class='cmbx-12'>Platform as a Service (Paas)</span> </dt><dd class='description'>where  the  provider  supplies  access  to  a
+      database. The customer provisions the required database service and
+      then uses the native client tools to connect to the database.</dd></dl>
+<!-- l. 109 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead'><span class='titlemark'>16.2   </span> <a id='x18-21100016.2'></a>Capacity</h3>
+<!-- l. 111 --><p class='noindent'>There are two main capcity constraints on database servers:
+      </p><dl class='description'><dt class='description'>
+<span class='cmbx-12'>Storage space</span> </dt><dd class='description'>for required data.
+      </dd><dt class='description'>
+<span class='cmbx-12'>Compute bandwidth</span> </dt><dd class='description'>provided  by  CPU  capacity,  available  RAM  and
+      network throughput to meet client response times.</dd></dl>
+<!-- l. 116 --><p class='noindent'>We will primarily consider provisioning of required compute bandwidth. Furthermore
+we will assume that the database design and server configuration have been
+optimised. In general, single database performance should be optimised before
+undertaking any scaling operations.
+</p><!-- l. 121 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead'><span class='titlemark'>16.3   </span> <a id='x18-21200016.3'></a>Distributed systems</h3>
+<!-- l. 123 --><p class='noindent'>Once we have multiple units, we must consider some issues pertaining to
+distributed systems.
+</p><!-- l. 125 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.3.1   </span> <a id='x18-21300016.3.1'></a>Fallacies of distributed computing</h4>
+<!-- l. 127 --><p class='noindent'>L. Peter Deutsch, formerly of Sun Microsystems in 1994 identified seven so-called
+fallacies of distributed computing.
+</p><!-- l. 129 --><p class='indent'>
+      </p><ol class='enumerate1'>
+      <li class='enumerate' id='x18-213002x1'>The network is reliable
+                                                                          
+
+                                                                          
+      </li>
+      <li class='enumerate' id='x18-213004x2'>Latency is zero
+      </li>
+      <li class='enumerate' id='x18-213006x3'>Bandwidth is infinite
+      </li>
+      <li class='enumerate' id='x18-213008x4'>The network is secure
+      </li>
+      <li class='enumerate' id='x18-213010x5'>Topology doesn’t change
+      </li>
+      <li class='enumerate' id='x18-213012x6'>There is one administrator
+      </li>
+      <li class='enumerate' id='x18-213014x7'>Transport cost is zero
+      </li>
+      <li class='enumerate' id='x18-213016x8'>The network is homogeneous
+      </li>
+      <li class='enumerate' id='x18-213018x9'>We all trust each other (added in 1997 by James Gosling, inventor of
+      Java)</li></ol>
+<!-- l. 141 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.3.2   </span> <a id='x18-21400016.3.2'></a>CAP theorem</h4>
+<!-- l. 143 --><p class='noindent'>Brewer’s Theorem, more commonly called the CAP theorem, states that in any
+distributed system you can have two of the following properties: consistency,
+availability, partition tolerence.
+      </p><dl class='description'><dt class='description'>
+<span class='cmbx-12'>Consistency</span> </dt><dd class='description'>every read request receives the most recent write, or an error.
+      (This is a different meaning to that for ACID principles.)
+      </dd><dt class='description'>
+<span class='cmbx-12'>Availability</span> </dt><dd class='description'>every  requests  receives  a  successful  response,  without  the
+      guarantee that it contains the most recent write
+                                                                          
+
+                                                                          
+      </dd><dt class='description'>
+<span class='cmbx-12'>Partition tolerence</span> </dt><dd class='description'>system  continues  to  operate  despite  an  arbitrary
+      number of messages being dropped or delayed by the network between
+      nodes.</dd></dl>
+<!-- l. 149 --><p class='noindent'>When the system is unpartitioned by failure, we can have both consistency and
+availability. Where the part of the system fails, our choices are:
+      </p><ol class='enumerate1'>
+      <li class='enumerate' id='x18-214002x1'>Cancel the operation, decreasing availability but ensuring consistency
+      </li>
+      <li class='enumerate' id='x18-214004x2'>Proceed with the operation and provide availability but risk consistency</li></ol>
+<!-- l. 155 --><p class='noindent'>ACID-compliant databases prioritise consistency over availability.
+</p><!-- l. 157 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead'><span class='titlemark'>16.4   </span> <a id='x18-21500016.4'></a>Replication</h3>
+<!-- l. 159 --><p class='noindent'>Assume we have two identically configured servers, <span class='cmbx-12'>??</span>. Writes
+(<code>  <span id='textcolor476'><span class='cmtt-12'>UPDATE</span></span><span class='cmtt-12'>,</span><span id='textcolor477'><span class='cmtt-12'> </span></span><span id='textcolor478'><span class='cmtt-12'>INSERT</span></span><span class='cmtt-12'>,</span><span id='textcolor479'><span class='cmtt-12'> </span></span><span id='textcolor480'><span class='cmtt-12'>DELETE</span></span>
+</code>, some <code>  <span id='textcolor481'><span class='cmtt-12'>SELECT</span></span>
+</code>s) are possible only on the master. The replica is updated by the primary so that
+it has the same data as the primary. Reads go to the primary or to the
+replica.
+</p>
+   <hr class='figure' /><div class='figure'>
+                                                                          
+
+                                                                          
+<a id='x18-215003r1'></a>
+                                                                          
+
+                                                                          
+<!-- l. 164 --><p class='noindent'> <img alt='PIC' height='234' src='primary_replica.png' width='234' />
+<br /> </p><div class='caption'><span class='id'>Figure 16.1: </span><span class='content'>Primary-Replica replication</span></div><!-- tex4ht:label?: x18-215003r1  -->
+                                                                          
+
+                                                                          
+   </div><hr class='endfigure' />
+<!-- l. 166 --><p class='indent'>   We can mix clients depending on whether they are read or read/write,
+<a href='#x18-215004r2'>Figure 16.2</a>.
+</p>
+   <hr class='figure' /><div class='figure'>
+                                                                          
+
+                                                                          
+<a id='x18-215004r2'></a>
+                                                                          
+
+                                                                          
+<!-- l. 168 --><p class='noindent'> <img alt='PIC' height='234' src='primary_replica_clients.png' width='234' />
+<br /> </p><div class='caption'><span class='id'>Figure 16.2: </span><span class='content'>Primary-Replica replication with varying clients</span></div><!-- tex4ht:label?: x18-215004r2  -->
+                                                                          
+
+                                                                          
+   </div><hr class='endfigure' />
+   <h4 class='subsectionHead'><span class='titlemark'>16.4.1   </span> <a id='x18-21600016.4.1'></a>Replication types</h4>
+      <dl class='description'><dt class='description'>
+<span class='cmbx-12'>Physical</span> </dt><dd class='description'>replicates disk blocks
+           <ul class='itemize1'>
+           <li class='itemize'>Captures DDL (e.g. <code>  <span id='textcolor482'><span class='cmtt-12'>ALTER</span></span><span id='textcolor483'><span class='cmtt-12'> </span></span><span id='textcolor484'><span class='cmtt-12'>TABLE</span></span>
+           </code>) as well as DML
+           </li>
+           <li class='itemize'>Runs at cluster (entire DB server instance) level.</li></ul>
+      </dd><dt class='description'>
+<span class='cmbx-12'>Logical</span> </dt><dd class='description'>replays commands by publishing changes to tables so that subscribers
+      can replay them
+           <ul class='itemize1'>
+           <li class='itemize'>Does not capture DDL.
+           </li>
+           <li class='itemize'>Runs at individual database level.</li></ul>
+      </dd></dl>
+<!-- l. 184 --><p class='noindent'>We will assume physical replication from this point forward.
+</p><!-- l. 186 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.4.2   </span> <a id='x18-21700016.4.2'></a>Mechanism</h4>
+<!-- l. 188 --><p class='noindent'>PostgreSQL writes changes to the Write-Ahead Log (WAL) before modifying the
+files on disk. It has the ability to replay a WAL, primarily to recover from
+abnormal termination. If the WAL is copied from the primary and replayed on the
+replica, the replica should have exactly the same data as the primary. This
+capability is leveraged to provide physical replication.
+      </p><dl class='description'><dt class='description'>
+<span class='cmbx-12'>Log shipping</span> </dt><dd class='description'>is where the primary copies its WAL to a known location.
+      It is transferred periodically to the replica, normally via automated
+      file transfer. There is no direct network communication between the
+      primary and replica.
+                                                                          
+
+                                                                          
+      </dd><dt class='description'>
+<span class='cmbx-12'>Streaming replication</span> </dt><dd class='description'>is where the replica connects to the primary and
+      receives the WAL changes in near-real-time. The database user the
+      replica  connects  as  must  have  the  <span class='cmtt-12'>REPLICATION </span>role,  <a href='#x18-217001r3'>Figure 16.3</a>.
+      Technically  the  replica  is  a  client  of  the  primary.  If  the  replica
+      temporarily stops or loses connectivity, it can “catch up” as long as it
+      is not too far behind the primary.</dd></dl>
+   <hr class='figure' /><div class='figure'>
+                                                                          
+
+                                                                          
+<a id='x18-217001r3'></a>
+                                                                          
+
+                                                                          
+<!-- l. 202 --><p class='noindent'> <img alt='PIC' height='234' src='streaming_replication.png' width='234' />
+<br /> </p><div class='caption'><span class='id'>Figure 16.3: </span><span class='content'>Streaming replication showing direction of client connection
+initiation</span></div><!-- tex4ht:label?: x18-217001r3  -->
+                                                                          
+
+                                                                          
+   </div><hr class='endfigure' />
+   <h4 class='subsectionHead'><span class='titlemark'>16.4.3   </span> <a id='x18-21800016.4.3'></a>Synchronicity</h4>
+      <dl class='description'><dt class='description'>
+<span class='cmbx-12'>Asynchronous:</span> </dt><dd class='description'>transaction returns from <code>  <span id='textcolor485'><span class='cmtt-12'>COMMIT</span></span>
+      </code> when written to WAL on primary. Standard mode of operation. Small
+      possibility of data loss.
+      </dd><dt class='description'>
+<span class='cmbx-12'>Synchronous:</span> </dt><dd class='description'>a <code>  <span id='textcolor486'><span class='cmtt-12'>COMMIT</span></span>
+      </code> does not return until it has been written to the replicas. Reduced
+      response time compared to synchronous.</dd></dl>
+<!-- l. 211 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead'><span class='titlemark'>16.5   </span> <a id='x18-21900016.5'></a>Scaling</h3>
+<!-- l. 213 --><p class='noindent'>Let a given load, <!-- l. 213 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='inline'><mi>L</mi></math>,
+require a unit, <!-- l. 213 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='inline'><mi>U</mi></math>,
+to service it. This could be a standardised database server
+configuration, or a coffee maker. Consider a situation where
+<!-- l. 215 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='inline'><mi>L</mi></math> increases to a
+multiple, <!-- l. 215 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='inline'><mi>n</mi> <mo class='MathClass-bin'>⋅</mo> <mi>L</mi></math>. This
+requires an increase to <!-- l. 216 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='inline'><mi mathvariant='italic'>nU</mi></math>
+units to handle the load.
+</p><!-- l. 218 --><p class='indent'>   We either have to scale up (vertical) or scale out (horizontal). The principles
+are easy to understand, but the best fit for a given application can be difficult to
+decide.
+</p><!-- l. 221 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.5.1   </span> <a id='x18-22000016.5.1'></a>Vertical</h4>
+                                                                          
+
+                                                                          
+<!-- l. 223 --><p class='noindent'>Vertical scaling (up) involves the exchanging the
+<!-- l. 223 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='inline'><mi>U</mi></math> unit
+for a <!-- l. 223 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='inline'><mi mathvariant='italic'>nU</mi></math>
+unit:
+</p><!-- tex4ht:inline --><!-- l. 227 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'><mtable class='align' columnalign='left'>
+                            <mtr><mtd class='align-odd' columnalign='right'><mn>1</mn><mi>L</mi></mtd>                                <mtd class='align-even'> <mo class='MathClass-rel'>=</mo> <mn>1</mn><mi>U</mi><mspace width='2em'></mspace></mtd>                                                              <mtd class='align-label' columnalign='right'><mstyle class='label' id='x18-220001r1'></mstyle><!-- endlabel --><mstyle class='maketag'><mtext>(16.1)</mtext></mstyle><mspace class='nbsp' width='0.33em'></mspace>
+                            </mtd></mtr><mtr><mtd class='align-odd' columnalign='right'> <mo class='MathClass-rel'>⇒</mo> <mi mathvariant='italic'>nL</mi></mtd>                            <mtd class='align-even'> <mo class='MathClass-rel'>=</mo> <mn>1</mn> <mo class='MathClass-bin'>×</mo> <mo class='MathClass-open'>(</mo><mi mathvariant='italic'>nU</mi><mo class='MathClass-close'>)</mo><mspace width='2em'></mspace></mtd>                                                        <mtd class='align-label' columnalign='right'><mstyle class='label' id='x18-220002r2'></mstyle><!-- endlabel --><mstyle class='maketag'><mtext>(16.2)</mtext></mstyle><mspace class='nbsp' width='0.33em'></mspace>
+   </mtd></mtr></mtable></math>
+<!-- l. 228 --><p class='noindent'>This would involve replacement of the database server hardware to increase CPU,
+RAM, network throughput or other performance metrics.
+</p><!-- l. 230 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.5.2   </span> <a id='x18-22100016.5.2'></a>Horizontal</h4>
+<!-- l. 232 --><p class='noindent'>Horizontal scaling (out) involves adding additional units.
+</p><!-- tex4ht:inline --><!-- l. 236 --><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'><mtable class='align' columnalign='left'>
+                            <mtr><mtd class='align-odd' columnalign='right'><mn>1</mn><mi>L</mi></mtd>                                <mtd class='align-even'> <mo class='MathClass-rel'>=</mo> <mn>1</mn><mi>U</mi><mspace width='2em'></mspace></mtd>                                                              <mtd class='align-label' columnalign='right'><mstyle class='label' id='x18-221001r3'></mstyle><!-- endlabel --><mstyle class='maketag'><mtext>(16.3)</mtext></mstyle><mspace class='nbsp' width='0.33em'></mspace>
+                            </mtd></mtr><mtr><mtd class='align-odd' columnalign='right'> <mo class='MathClass-rel'>⇒</mo> <mi mathvariant='italic'>nL</mi></mtd>                            <mtd class='align-even'> <mo class='MathClass-rel'>=</mo> <mi>n</mi> <mo class='MathClass-bin'>×</mo> <mo class='MathClass-open'>(</mo><mn>1</mn><mi>U</mi><mo class='MathClass-close'>)</mo><mspace width='2em'></mspace></mtd>                                                        <mtd class='align-label' columnalign='right'><mstyle class='label' id='x18-221002r4'></mstyle><!-- endlabel --><mstyle class='maketag'><mtext>(16.4)</mtext></mstyle><mspace class='nbsp' width='0.33em'></mspace>
+   </mtd></mtr></mtable></math>
+                                                                          
+
+                                                                          
+<!-- l. 237 --><p class='noindent'>This is where additional database servers would be brought online in parallel, so
+as to increase the aggregate CPU, RAM, network thoughput or other performance
+metrics.
+</p><!-- l. 239 --><p class='noindent'>
+</p>
+   <h4 class='subsectionHead'><span class='titlemark'>16.5.3   </span> <a id='x18-22200016.5.3'></a>Horizontally scaled replicas</h4>
+<!-- l. 241 --><p class='noindent'>Replicas can be horizontally scaled, <a href='#x18-222001r4'>Figure 16.4</a>.
+</p>
+   <hr class='figure' /><div class='figure'>
+                                                                          
+
+                                                                          
+<a id='x18-222001r4'></a>
+                                                                          
+
+                                                                          
+<!-- l. 243 --><p class='noindent'> <img alt='PIC' height='234' src='horizontal_scaling_replicas.png' width='234' />
+<br /> </p><div class='caption'><span class='id'>Figure 16.4: </span><span class='content'>Horizontal scaling with read replicas</span></div><!-- tex4ht:label?: x18-222001r4  -->
+                                                                          
+
+                                                                          
+   </div><hr class='endfigure' />
+   <h4 class='subsectionHead'><span class='titlemark'>16.5.4   </span> <a id='x18-22300016.5.4'></a>Cascading replication</h4>
+<!-- l. 247 --><p class='noindent'>A replica can itself act as an intermediate primary to other replicas, <a href='#x18-223001r5'>Figure 16.5</a>.
+</p>
+   <hr class='figure' /><div class='figure'>
+                                                                          
+
+                                                                          
+<a id='x18-223001r5'></a>
+                                                                          
+
+                                                                          
+<!-- l. 249 --><p class='noindent'> <img alt='PIC' height='234' src='cascading_replication.png' width='234' />
+<br /> </p><div class='caption'><span class='id'>Figure 16.5: </span><span class='content'>Cascading replication</span></div><!-- tex4ht:label?: x18-223001r5  -->
+                                                                          
+
+                                                                          
+   </div><hr class='endfigure' />
+                                                                          
+
+                                                                          
+   <!-- l. 1 --><div class='crosslinks'><p class='noindent'>[<a href='data_webli2.html'>next</a>] [<a href='data_webch15.html'>prev</a>] [<a href='data_webch15.html#taildata_webch15.html'>prev-tail</a>] [<a href='data_webch16.html'>front</a>] [<a href='data_web.html#data_webch16.html'>up</a>] </p></div>
+<!-- l. 1 --><p class='indent'>   <a id='taildata_webch16.html'></a>   </p> 
+</body></html>

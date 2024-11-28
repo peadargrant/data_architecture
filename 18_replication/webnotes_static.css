@@ -1,0 +1,64 @@
+/* static CSS file for web notes */
+/* Peadar Grant */
+
+body {
+
+}
+
+div.maketitle, h2 {
+    background-color: black;
+    color: white;
+    padding-top: 6pt;
+    padding-bottom: 6pt;
+    padding-left: 4pt;
+    padding-right: 4pt;
+}
+
+h3 {
+    background-color: lightcyan;
+    padding-top: 6pt;
+    padding-bottom: 6pt;
+    padding-left: 4pt;
+    padding-right: 4pt;
+}
+
+pre.fancyvrb, pre.verbatim, div.verbatim, div.fancyvrb {
+    background-color: lightgrey;
+    padding-top: 6pt;
+    padding-bottom: 6pt;
+}
+
+div.fancyvrb {
+    font-family: monospace;
+}
+
+dl.description>dt.description {
+    color: darkblue;
+}
+
+div.float, div.table, div.figure {
+    background-color: WhiteSmoke;
+    text-align: center;
+}
+
+mtd.align-label, span.align-label {
+    color: grey
+}
+
+div.figure img {
+    max-width: 100vw;
+}
+
+div.newtheorem {
+    background-color: #e0ffe0;
+    border-left: medium solid black;
+    padding: 10px;
+}
+
+dd {
+    padding-bottom: 6pt;
+}
+
+li {
+    padding-bottom: 6pt;
+}
