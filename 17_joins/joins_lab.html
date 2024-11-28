@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>JOINS lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">JOINS lab</h1>
+</header>
+<p>The JOIN operation permits queries across more than one table.</p>
+<p>Consult from Postgres manual for full details:</p>
+<ol type="1">
+<li><a href="https://www.postgresql.org/docs/16/tutorial-join.html">JOIN
+tutorial</a></li>
+<li><a
+href="https://www.postgresql.org/docs/16/queries-table-expressions.html">Table
+expressions section</a></li>
+</ol>
+<h1 id="task-0-load-database">Task 0: Load database</h1>
+<p>Use the following command to load the <code>joins_example.sql</code>
+to your <code>psql</code> database:</p>
+<pre><code>psql &lt; joins_example.sql</code></pre>
+<p>This command uses the UNIX redirection operator <code>&lt;</code> to
+put the contents of the file in instead of the keyboard input.</p>
+<p>You could also instead use the <code>-f</code> switch of
+<code>psql</code> to achieve the same outcome:</p>
+<pre><code>psql -f joins_example.sql</code></pre>
+<h1 id="task-1-inspect-the-database">Task 1: Inspect the database</h1>
+<p>Use the <code>\d</code> client command(s) to determine the table(s)
+in the database.</p>
+<p>From this information draw out a basic ER diagram on paper so that
+you can refer to it later on.</p>
+<p>Look carefully at the <em>cardinality</em> on each side of the
+foreign key relationship.</p>
+<h1 id="task-2-try-out-joins">Task 2: Try out JOINs</h1>
+<p>For theory purposes, assume R1 to be a row of Table T1. Similarly R2
+for T2.</p>
+<p>Normally should explicitly specify columns required (i.e. avoid use
+of <code>*</code>) and use table prefix before column names to avoid
+ambiguity.</p>
+<h2 id="inner-join">INNER JOIN</h2>
+<p>For each row R1 of T1, the joined table has a row for each row in T2
+that satisfies the join condition with R1.</p>
+<pre><code>select department.name as department, product.name as product from department join product on product.department=department.id;</code></pre>
+<p>Can you identify which rows are missing from the output?</p>
+<h2 id="left-join">LEFT JOIN</h2>
+<p>Same as INNER JOIN except that output also includes any row in T1
+that does not match one or more rows in T2. Null values are substituted
+for T2 in the output row.</p>
+<p>Add in the word <code>LEFT</code> before the join and try the query
+again:</p>
+<pre><code>select department.name as department, product.name as product, price  from department left join product on product.department=department.id; </code></pre>
+<p>Can you now see the rows from the first table without corresponding
+rows in the second table?</p>
+<h2 id="right-join">RIGHT JOIN</h2>
+<p>Similar to LEFT JOIN. Same as INNER JOIN, except any row in T2 that
+does not match 1 or rows in T1 will be output. Null values are
+subtituted for T1 columns in the otuput row.</p>
+<p>Change the above query to <code>RIGHT</code> instead of
+<code>LEFT</code>:</p>
+<pre><code>select department.name as department, product.name as product, price  from department right join product on product.department=department.id; </code></pre>
+<p>How has the output changed?</p>
+<h2 id="full-join">FULL JOIN</h2>
+<p>Similar to combination of LEFT and RIGHT JOIN:</p>
+<ol type="1">
+<li>INNER JOIN performed first.</li>
+<li>Then rows in T1 without corresponding T2 output with nulls for
+T2.</li>
+<li>Same again, rows in T2 without corresponding T1 rows output with
+nulls for T1.</li>
+</ol>
+<p>This time try <code>FULL</code> before <code>JOIN</code>:</p>
+<pre><code>select department.name as department, product.name as product, price  from department full join product on product.department=department.id;</code></pre>
+<p>Has the output changed as you’d expect?</p>
+</body>
+</html>
