@@ -106,3 +106,27 @@ If you don't specify the filename it will show all changes across all files.
 Commit your changes with a message as before. 
 
 
+# Task 8: Set up GitLab repository
+
+Log into the [school gitlab server](https://gitlab.comp.dkit.ie/) with your DkIT username / password.
+
+Create a new project, blank project, called `analysis_project`.
+
+Turn **OFF** the option Initialize repository with a README.
+
+On the next screen click the Code button and copy the URL there.
+
+
+# Task 9: Set up the remote
+
+Back on the server use the command:
+
+	git remote add origin "url you copied here"
+	
+Then push to the remote
+
+	git push -u origin main
+	
+Refresh the GitLab page and see that your code is there.
+
+

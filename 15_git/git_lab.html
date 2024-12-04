@@ -83,5 +83,20 @@ differences using</p>
 <p>If you don’t specify the filename it will show all changes across all
 files.</p>
 <p>Commit your changes with a message as before.</p>
+<h1 id="task-8-set-up-gitlab-repository">Task 8: Set up GitLab
+repository</h1>
+<p>Log into the <a href="https://gitlab.comp.dkit.ie/">school gitlab
+server</a> with your DkIT username / password.</p>
+<p>Create a new project, blank project, called
+<code>analysis_project</code>.</p>
+<p>Turn <strong>OFF</strong> the option Initialize repository with a
+README.</p>
+<p>On the next screen click the Code button and copy the URL there.</p>
+<h1 id="task-9-set-up-the-remote">Task 9: Set up the remote</h1>
+<p>Back on the server use the command:</p>
+<pre><code>git remote add origin &quot;url you copied here&quot;</code></pre>
+<p>Then push to the remote</p>
+<pre><code>git push -u origin main</code></pre>
+<p>Refresh the GitLab page and see that your code is there.</p>
 </body>
 </html>
