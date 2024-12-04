@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>git_lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<h1 id="git-lab">Git lab</h1>
+<h1 id="task-0-project-folder">Task 0: Project folder</h1>
+<p>On the server, create a folder called <code>analysis_project</code>
+directly in your home directory. Change into this folder. Prompt should
+look like: <code>grantp@datalab:~/analysis_project$</code></p>
+<h1 id="task-1-download-data-file">Task 1: Download data file</h1>
+<p>Use <code>curl</code> to download the CSV file at:</p>
+<pre><code>curl -o cities.csv https://raw.githubusercontent.com/joelacus/world-cities/refs/heads/main/world_cities.csv</code></pre>
+<h1 id="task-2-create-python-program">Task 2: Create python program</h1>
+<p>Create a python programe named <code>analyse_cities.py</code> similar
+to:</p>
+<pre><code>#!/usr/bin/env python3
+
+# import the pandas module
+import pandas as pd
+
+# data frame from CSV
+df = pd.read_csv(&#39;cities.csv&#39;)
+
+# show the 20 most northern cities
+print(df.nlargest(20,[&#39;lat&#39;]))</code></pre>
+<p>Exit the editor and check that the program runs when called:</p>
+<pre><code>python3 analyse_cities.py </code></pre>
+<h1 id="task-3-repository-setup">Task 3: Repository setup</h1>
+<p>Start tracking the folder in git</p>
+<pre><code>git init</code></pre>
+<p>Show the respository status</p>
+<pre><code>git status</code></pre>
+<p>Add a file to git using the command:</p>
+<pre><code>git add cities.csv</code></pre>
+<p>Do the same to add the python program as well. Run</p>
+<pre><code>git status </code></pre>
+<h1 id="task-4-ignore-files">Task 4: Ignore files</h1>
+<p>We don’t want the files ending in ~ which are editor backup
+files.</p>
+<p>Put filenames and/or patterns to ignore in the .gitignore file . Use
+the asterisk to wildcard match. Your .gitignore file should have (to
+begin with)</p>
+<pre><code>*~</code></pre>
+<p>Make sure to test using <code>git status</code>.</p>
+<p>Add the .gitignore file to git.</p>
+<h1 id="task-5-configure-git">Task 5: Configure Git</h1>
+<p>Set up git (once) to:</p>
+<pre><code>git config --global user.name &quot;Your name here&quot;
+git config --global user.email &quot;Your email here&quot;</code></pre>
+<h1 id="task-6-commit-changes">Task 6: Commit changes</h1>
+<p>Commit files added by using</p>
+<pre><code>git commit</code></pre>
+<p>Editor will open. Type a short message to describe the commit.</p>
+<h3 id="shorter-form">Shorter form</h3>
+<pre><code>git commit -m &quot;added some comments and readme file&quot;</code></pre>
+<h1 id="task-7-make-some-changes">Task 7: Make some changes</h1>
+<p>Make some changes to the Python program or csv file. Show the
+differences using</p>
+<pre><code>git diff filename</code></pre>
+<p>If you don’t specify the filename it will show all changes across all
+files.</p>
+<p>Commit your changes with a message as before.</p>
+</body>
+</html>
