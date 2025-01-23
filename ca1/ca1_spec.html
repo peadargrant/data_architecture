@@ -1,33 +1,63 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Data Architecture CA1</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <link rel="stylesheet" href="../lab.css" type="text/css" />
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
 </head>
 <body>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Data Architecture CA1</h1>
-</div>
+</header>
 <p><strong>Weight:</strong> 35%</p>
 <p><strong>Deadline:</strong> as displayed on Moodle</p>
 <h1 id="deliverables">Deliverables</h1>
-<p>Your work must be presented in a GitLab Repository on the <a href="https://gitlab.comp.dkit.ie/">school GitLab server</a> named <em>exactly</em> <code>data_arch_ca1</code>. Repositories named otherwise will <em>not</em> be marked and you will receive zero. You must add user <code>grantp</code> with Developer access to your repository so that I can download and mark it after the deadline.</p>
+<p>Your work must be presented in a GitLab Repository on the <a
+href="https://gitlab.comp.dkit.ie/">school GitLab server</a> named
+<em>exactly</em> <code>data_arch_ca1</code>. Repositories named
+otherwise will <em>not</em> be marked and you will receive zero. You
+must add user <code>grantp</code> with Developer access to your
+repository so that I can download and mark it after the deadline.</p>
 <p>I will not accept work by Moodle submission or by e-mail.</p>
 <h2 id="aim-10">Aim (10%)</h2>
-<p>You must supply a <code>README.txt</code> (plain text, not word or PDF) file that contains the following information:</p>
+<p>You must supply a <code>README.txt</code> (plain text, not word or
+PDF) file that contains the following information:</p>
 <ul>
-<li><p>A brief (1 paragaph) introduction summarising the data source you will be using.</p></li>
+<li><p>A brief (1 paragaph) introduction summarising the data source you
+will be using.</p></li>
 <li><p>Links to where the data sources may be obtained from.</p></li>
 <li><p>3-5 specific outputs / functionality.</p></li>
 </ul>
 <h2 id="database-design-20">Database design (20%)</h2>
-<p>Data should be analysed with a view to normalising to at least 3NF. ER diagram to show normalised entities and relationships This can be hand-drawn, drawn on a computer or produced from a database tool. ER diagram must be single page, A4, PDF named <code>er_diagram.pdf</code>.</p>
+<p>Data should be analysed with a view to normalising to at least 3NF.
+ER diagram to show normalised entities and relationships This can be
+hand-drawn, drawn on a computer or produced from a database tool. ER
+diagram must be single page, A4, PDF named
+<code>er_diagram.pdf</code>.</p>
 <h2 id="database-setup-30">Database setup (30%)</h2>
-<p>Write appropriate SQL to generate table(s) suitable to load data into. Table(s) should be defined in file <code>database_setup.sql</code>. You can either write the SQL directly or use the DUMP tool to export your interactive work.</p>
+<p>Write appropriate SQL to generate table(s) suitable to load data
+into. Table(s) should be defined in file
+<code>database_setup.sql</code>. You can either write the SQL directly
+or use the DUMP tool to export your interactive work.</p>
 <p>For full marks, tables should have:</p>
 <ul>
 <li>correct column names</li>
@@ -37,15 +67,31 @@
 <li>other suitable features such as generated columns if needed</li>
 </ul>
 <h2 id="data-load-20">Data Load (20%)</h2>
-<p>Write a bash script to load data into your database from the source files <code>data_load.sh</code>. You must include your raw data file (CSV, XML, JSON, etc) in your submission. This can call any program(s) you like to populate the database (e.g. SQL files, Python scripts).</p>
-<h2 id="python-data-access-program-20">Python data access program (20%)</h2>
-<p>You are to provide a Python program to query / access / update the database. This should be able to run on either the shared database server OR on the lab PC environment.</p>
-<p>You may employ pandas (and any other Python modules) but you should try to select only the data needed from the database. It should permit the user to generate outputs identified in your README file. You may use either interactive prompting (basic) and/or command-line arguments (better).</p>
+<p>Write a bash script to load data into your database from the source
+files <code>data_load.sh</code>. You must include your raw data file
+(CSV, XML, JSON, etc) in your submission. This can call any program(s)
+you like to populate the database (e.g. SQL files, Python scripts).</p>
+<h2 id="python-data-access-program-20">Python data access program
+(20%)</h2>
+<p>You are to provide a Python program to query / access / update the
+database. This should be able to run on either the shared database
+server OR on the lab PC environment.</p>
+<p>You may employ pandas (and any other Python modules) but you should
+try to select only the data needed from the database. It should permit
+the user to generate outputs identified in your README file. You may use
+either interactive prompting (basic) and/or command-line arguments
+(better).</p>
 <h1 id="submission">Submission</h1>
-<p>Ensure that you have <em>committed</em> and <em>pushed</em> your work to GitLab by the deadline above. It will be automatically collected after that date.</p>
+<p>Ensure that you have <em>committed</em> and <em>pushed</em> your work
+to GitLab by the deadline above. It will be automatically collected
+after that date.</p>
 <h1 id="demonstration">Demonstration</h1>
-<p>You are required to demonstrate your solution functioning following submission. Demonstrations will be scheduled by the lecturer during lab time. Failure to demonstrate your solution will result in zero grade.</p>
+<p>You are required to demonstrate your solution functioning following
+submission. Demonstrations will be scheduled by the lecturer during lab
+time. Failure to demonstrate your solution will result in zero
+grade.</p>
 <h1 id="feedback">Feedback</h1>
-<p>Summary feedback will be supplied with your grade on Moodle and/or via GitLab.</p>
+<p>Summary feedback will be supplied with your grade on Moodle and/or
+via GitLab.</p>
 </body>
 </html>
