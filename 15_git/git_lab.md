@@ -125,7 +125,7 @@ Back on the server use the command:
 	
 Then push to the remote
 
-	git push -u origin main
+	git push -u origin master
 	
 Refresh the GitLab page and see that your code is there.
 
