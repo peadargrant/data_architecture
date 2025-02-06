@@ -1,0 +1,47 @@
+digraph G {
+
+    rankdir=LR;
+    margin=0;
+
+    node [ shape=rectangle, style=filled, fillcolor=palegreen ];
+
+    m1 [ label="Mains 1" ];
+    g1 [ label="Generator 1"];
+    x1 [ label="Transfer 1"]
+    u1 [ label="UPS 1" ];
+
+    node [ shape=rectangle, style=filled, fillcolor=lightblue ];
+    
+    m2 [ label="Mains 2" ];
+    g2 [ label="Generator 2"];
+    x2 [ label="Transfer 2"]    
+    u2 [ label="UPS 2" ];
+
+    node [ shape=rectangle, style=filled, fillcolor=lightyellow ];
+    subgraph cluster_hosts {
+	margin=10;
+	label="Hosts";
+	
+	h1 [ label="Host 1"];
+	h2 [ label="Host 2"];
+	h3 [ label="Host 3"];
+	h4 [ label="Host 4"];
+    }
+    
+    m1 -> x1;
+    g1 -> x1;
+    x1 -> u1;
+    m2 -> x2;
+    g2 -> x2;
+    x2 -> u2;
+    
+    u1 -> h1;
+    u1 -> h2;
+    u1 -> h3;
+    u1 -> h4; 
+
+    u2 -> h1;
+    u2 -> h2;
+    u2 -> h3;
+    u2 -> h4;     
+}

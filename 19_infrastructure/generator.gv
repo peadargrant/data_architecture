@@ -1,0 +1,18 @@
+digraph G {
+    rankdir=LR;
+    margin=0;
+    node [shape=rectangle,style=filled];
+    mains [ label="Mains" ];
+    generator [ label="Generator" ];
+    ups [ label="UPS" ];
+    discretionary [ label="Discretionary\nLoads" ];
+    essential [ label="Essential\nLoads"];
+    xfr [ label="Transfer\nSwitch" ];
+    critical [label="Critical Loads"];
+    mains -> discretionary;
+    mains -> xfr;
+    generator -> xfr;
+    xfr -> essential;
+    xfr -> ups;
+    ups -> critical;
+}

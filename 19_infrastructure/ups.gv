@@ -1,0 +1,20 @@
+digraph G {
+    margin = 0;
+    rankdir=LR;
+    node [shape=rectangle,style=filled];
+
+    mains [ label="Mains" ];
+    subgraph cluster_ups {
+	label="UPS unit";
+	margin = 10;
+	rectifier [ label="Battery\nCharger" ];
+	battery [ label="Battery" ];
+	inverter [ label="Inverter" ];
+    }
+    host [ label="IT equipment" ];
+
+    mains -> rectifier;
+    rectifier -> battery;
+    battery -> inverter;
+    inverter -> host; 
+}
