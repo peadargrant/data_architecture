@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>MongoDB lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">MongoDB lab</h1>
+</header>
+<p><strong>Useful links:</strong></p>
+<h1 id="connecting">Connecting</h1>
+<h2 id="remote-or-laptop-students">Remote or laptop students</h2>
+<p><em>Skip if on a lab machine</em></p>
+<p><a href="https://dkitvpn.dkit.ie">Connect to the VPN</a> at the
+beginning of this class.</p>
+<h2 id="usual-reminder">Usual reminder</h2>
+<p>The lab servers are not backed up or secure!</p>
+<ul>
+<li>Don’t put any valuable or confidential data on them.</li>
+<li>Don’t use your DkIT or any important password on them.</li>
+<li>Manage files you create on them by copying them off with sftp or
+using the school GitLab server</li>
+</ul>
+<h2 id="login-to-the-shared-server">Login to the shared server</h2>
+<p>First, we’ll login to the shared lab server where you’ve already used
+PostgreSQL on a regular basis.</p>
+<pre><code>ssh yourname@10.200.172.60</code></pre>
+<h2 id="connect-to-mongodb-server-using-mongosh">Connect to mongodb
+server using mongosh</h2>
+<p>In today’s lab we are going to use a shared mongodb instance. Unlike
+Postgres, the MongoDB instances is provisioned on a separate Dell R230
+server running Linux in the same rack in P1153.</p>
+<p>MongoDB has its own username / password database (and can be
+configured for single sign-on but not here). All students have been
+provisioned with a mongodb user with the same name as yourself and
+initial MongoDB password <code>1Password</code>.</p>
+<p>Instead of logging into the MongoDB server over SSH directly, we will
+use the <code>mongosh</code> client on the shared server to connect
+remotely using MongoDB’s own protocol to the mongod instance.</p>
+<pre><code>mongosh --host 10.200.172.57  -u yourusername</code></pre>
+<p>Enter your initial <em>mongodb</em> password <code>1Password</code>
+at the prompt. You should then get output something like:</p>
+<pre><code>Enter password: *********
+Current Mongosh Log ID: 67a0fb38a894553a80544ca6
+Connecting to:          mongodb://&lt;credentials&gt;@10.200.172.57:27017/?directConnection=true&amp;appName=mongosh+2.3.8
+Using MongoDB:          8.0.4
+Using Mongosh:          2.3.8
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+test&gt; </code></pre>
+<p>This shows that you are connected to the <code>test</code> database.
+You now need to connect to your own.</p>
+<h2 id="connect-to-your-own-database">Connect to your own database</h2>
+<p>Just as in the case of PostgreSQL, a single MongoDB instance hosts a
+number of isolated MongoDB databases. Like with our shared PostgreSQL
+installation there is a mongodb database with the same name as your
+username to which you have full access. Change to your own database
+using the command:</p>
+<pre><code>use yourname</code></pre>
+<p>Note that the prompt now changes to <code>yourname&gt;</code>,
+meaning that commands you enter will now run against your own database
+instead of the <code>test</code> one.</p>
+<p>Confusingly, MongoDB’s authorization system allows you to connect to
+any database in the system, whether you have rights on that database or
+not. It will only block when you actually try to do something you’re not
+authorized to do. To ensure that you have access rights to your own
+database, we’re going to run a command that will cause an error if you
+don’t have the right access levels:</p>
+<pre><code>show collections</code></pre>
+<p>As you’ve no collections in your database, this command should just
+return nothing.</p>
+<p><em>If you get an error here, ask me for help!</em></p>
+<h1 id="document-databases">Document databases</h1>
+<p>MongoDB is an example of a <em>Document Database</em> or <em>Document
+Store</em>.</p>
+<p>A single MongoDB instance hosts multiple databases, each with one or
+more collections that each store one or more JSON-structured
+documents.</p>
+<h2 id="document">Document</h2>
+<p>We’ll take a document to mean an isolated unit of structured
+data.</p>
+<p>You’re already familiar with Python dictionaries and lists.</p>
+<p>These can be interwoven to make a document, which can be output (or
+dumped) into a number of formats. Primarily this would be JSON, but XML,
+YML and other formats are possible.</p>
+<h2 id="collection">Collection</h2>
+<p>In MongoDB, related Documents are grouped into
+<em>collections</em>.</p>
+<p>Unlike tables in relational databases:</p>
+<ul>
+<li>There is no requirement for there to be any similarity between
+documents in a collection.</li>
+<li>A collection only exists when at least one document is inserted into
+it. Empty collections do not exist.</li>
+</ul>
+<p>Collections make it easy to search for related documents, and to bulk
+delete or update documents.</p>
+<h1 id="basic-task-list-example">Basic task list example</h1>
+<p>We’re going to build a basic task list to build familiarity with
+MongoDB using <code>mongosh</code>.</p>
+<p>MongoDB internally uses JavaScript as its native query language,
+which is a rather different experience from the SQL that we’ve used to
+date. Luckily we only need to build familiarity with a few concepts to
+start using it.</p>
+<h2 id="design">Design</h2>
+<p>Our task list will consist of one or more task items in a single
+<em>collection</em> called <code>tasks</code>. Each task will normally
+have the following attributes:</p>
+<ul>
+<li><strong>description</strong> human readable description (e.g. mow
+the lawn, wash the dishes)</li>
+<li><strong>done</strong> boolean if task is complete (true /
+false)</li>
+</ul>
+<h2 id="basic-operations">Basic operations</h2>
+<p>In MongoDB there is no DDL step as such.</p>
+<h3 id="creating-collections-and-items">Creating collections and
+items</h3>
+<p>Collections and items are created implicitly when they are
+inserted.</p>
+<pre><code>db.tasks.insertOne( { description: &quot;wash the dishes&quot;, done: false } )</code></pre>
+<p>The <code>db</code> object represents the database and is always in
+scope. Most mongodb commands operate on the <code>db</code> object.</p>
+<h3 id="listing-out-all-collections">Listing out all collections</h3>
+<p>Now that our collection has been created, it will appear in the list
+of collections:</p>
+<pre><code>show collections</code></pre>
+<h3 id="listing-out-all-contents-in-the-collection">Listing out all
+contents in the collection</h3>
+<p>We can get all items in a collection once we know its name using the
+<code>find</code> method:</p>
+<pre><code>db.tasks.find()</code></pre>
+<h3 id="adding-more-data">Adding more data</h3>
+<p>We can obviously call <code>insertOne</code> as many times as we
+like.</p>
+<pre><code>db.tasks.insertOne( { description: &quot;mow the lawn&quot;, done: false } )
+db.tasks.insertOne( { description: &quot;call the electrician&quot;, done: false, note: &quot;ask about discount&quot; } )</code></pre>
+<p>Now insert a few extra tasks into your collection.</p>
+<h2 id="querying">Querying</h2>
+<p>As with SQL, more advanced queries are best learned on an as-needed
+basis. There are a few key building blocks that we’ll study now,
+continuing on with our task manager example.</p>
+<p>We already know that calling the <code>find()</code> method will get
+all items in that collection. By adding arguments to the
+<code>find()</code> method in the form of JSON we can narrow down the
+search.</p>
+<h3 id="does-a-field-exist">Does a field exist?</h3>
+<p>Given that documents are free-format, we may want to include/exclude
+items based on whether a particular field exists or not.</p>
+<pre><code>db.tasks.find( { &quot;note&quot;: { &quot;$exists&quot;: true } } )</code></pre>
+<h3 id="nullity">Nullity</h3>
+<p>More confusingly, a field can exist / not exist, but it can also be
+null or have a value. Let’s try an insertion like:</p>
+<pre><code>db.tasks.insertOne( { description: &quot;call the plumber&quot;, done: false, note: null } )</code></pre>
+<p>If we now re-run the previous example:</p>
+<pre><code>db.tasks.find( { &quot;note&quot;: { &quot;$exists&quot;: true } } )</code></pre>
+<p>We’ll now see that the null valued field does exist. Given that by
+default MongoDB has no schema checking or enforcement, this confusion
+could get out of hand if we’re not disciplined in our usage. If we
+wanted to find records where the field has a non-null value we can
+instead use:</p>
+<pre><code>db.tasks.find( { note: { $ne: null } } )</code></pre>
+<p>Of course our problem of interest will determine how we should handle
+field existence and nullity.</p>
+<h3 id="combining-criteria">Combining criteria</h3>
+<p>We can combine criteria for a single field thus:</p>
+<pre><code>db.tasks.find( { note: { $exists: true, &quot;$eq&quot;: &#39;ask about discount&#39; } })</code></pre>
+<p>The criteria we include are a logical AND to produce the output
+documents.</p>
+<h1 id="python-connectivity">Python connectivity</h1>
+<p>As we’ve seen with PostgreSQL, databases are most useful when we
+connect them directly with our own Python code. This bring rich
+capabilities in terms of data visualisation, loading and analysis.</p>
+<h2 id="pymongo">PyMongo</h2>
+<p>The <code>pymongo</code> library provides connectivity from Python to
+MongoDB and allows us to manipulate the returned results in a reasonably
+Pythonic style. <code>pymongo</code> is installed on the shared
+server.</p>
+<h2 id="username-password">Username / password</h2>
+<p>When using our own code we still need to authenticate to the database
+server. It’s generally a bad idea to hard-code credentials in program
+code. Let’s create a config file to store the values using the common
+INI format that Python supports to store these.</p>
+<p>Create a file called <code>mongodb.conf</code> using
+<code>emacs</code> with the following content:</p>
+<pre><code>[mongodb]
+host=10.200.172.57
+username=your-username-here
+password=your-mongodb-password-here</code></pre>
+<p>We can then use the <code>configparser</code> module in Python to
+read this information. Config files are very useful for storing this
+type of information. If you’re using source control like Git,
+<strong>don’t commit them</strong> to your repository.</p>
+<h1 id="product-database-example">Product database example</h1>
+<p>One thing document stores in general are very good at is storing data
+you’ve ingested from elsewhere, where you didn’t design or don’t know
+the schema in advance. They then make it very easy to run queries
+against that data compared to storing it as flat files.</p>
+<p>We’re going to demonstrate this using information from a few stores
+that employ the Shopify sales platform to power their online store.</p>
+<p>Shopify happens to provide information on products at
+<code>products.json</code> on every site by default. It will return up
+to 250 products for a single shopify call.</p>
+<h2 id="store-list">Store list</h2>
+<p>There a few retailers I’ve found that use Shopify. In
+<code>mongosh</code> create a new collection named <code>stores</code>
+(adapt the instructions above) and populate 2 of the retailers below as
+<code>name</code> and <code>url</code>:</p>
+<ol type="1">
+<li>Carraig donn: https://www.carraigdonn.com</li>
+<li>Carolyn’s Sweet Shop: https://www.carolynssweetshop.ie</li>
+<li>SOS Cookies: https://www.soscookies.ie</li>
+</ol>
+<p>Output should look similar to:</p>
+<pre><code>grantp&gt; db.stores.find({})
+[
+  {
+    _id: ObjectId(&#39;67a50545105786f542544ca7&#39;),
+    name: &#39;carraig donn&#39;,
+    url: &#39;https://www.carraigdonn.com&#39;
+  },
+  {
+    _id: ObjectId(&#39;67a5103e105786f542544ca8&#39;),
+    name: &#39;SOS cookies&#39;,
+    url: &#39;https://www.soscookies.ie&#39;
+  }
+]</code></pre>
+<h2 id="schema-design">Schema design</h2>
+<p>Although we don’t need to define columns and datatypes in advance, we
+do need to decide on how to break down collections and documents.
+Sometimes what we encounter or ingest as a single document encapsulates
+a large list of items that’s better organised as a collection of
+multiple documents.</p>
+<p>In many cases this will depend on how we want to search for and
+interact with documents.</p>
+<p>In this case, the <code>products</code> JSON dictionary is a list
+that we’ll break up. We’ll create a collection called products and will
+insert each list item as a document in our Python code.</p>
+<h2 id="loading">Loading</h2>
+<p>See <code>shopify_load.py</code> as a starting example.</p>
+<p>Also note some of the explanations in the comments.</p>
+<p>What happens if you run the load script more than once?</p>
+<h2 id="deleting-all">Deleting all</h2>
+<p>If you want to clear out the (possibly duplicate) items inserted just
+run:</p>
+<pre><code>db.products.deleteMany()</code></pre>
+<h2 id="preventing-duplicates">Preventing duplicates</h2>
+<p>Although MongoDB is not a relational database, it can enforce some
+basic schema constraints.</p>
+<p>There is technically a primary key of sorts in the form of the
+<code>_id</code> field.</p>
+<p>We can create a <em>unique index</em> to prevent insertion of a
+record that already exists. Issue the following command in
+<code>mongosh</code> to create a unique constraint on the combination of
+<code>store</code> and <code>handle</code> columns that will guarantee a
+unique ID.</p>
+<pre><code>db.products.createIndex( { &quot;store&quot;: 1, &quot;handle&quot;: 1 }, { unique: true } )</code></pre>
+<p>Then re-run the loading script twice and confirm that the unique
+index prevents duplicate insertions.</p>
+<h1 id="pandas">Pandas</h1>
+<p>We previously saw how pandas has an easy interface to read results
+from SQL queries. This is quite an easy operation in theory since SQL
+result sets result in tables that map directly to pandas dataframes.</p>
+<pre><code>import pandas as pd
+from pymongo import MongoClient
+
+# as usual up to
+
+df = pd.DataFrame(db.products.find())</code></pre>
+<p>Available columns will be filled from each document. There will be
+null values if a field doesn’t exist for that document.</p>
+</body>
+</html>
