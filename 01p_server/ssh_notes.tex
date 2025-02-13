@@ -1,0 +1,256 @@
+\documentclass[slides]{pgnotes}
+
+\title{Secure SHell (SSH)}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Interfaces}
+
+The way we interact with computers has changed over time.
+There are now three main interface types.
+
+\begin{bluebox}{Graphical}
+\begin{description}
+  
+\item[Multi-touch:] via a touchscreen usually on portable device 
+  \begin{itemize}
+  \item Many people use a phone / tablet as their primary / only personal computer.
+  \end{itemize}
+
+\item[Desktop GUI:] familiar to most users
+\end{description}
+\end{bluebox}
+ 
+\begin{bluebox}{Text-based}
+Often seen in older systems and by more advanced users:
+
+  \begin{description}
+  \item[Screen-based UI] where applications resemble Desktop GUIs
+  \item[Command-line] where programs are run in a command-shell
+  \end{description}
+
+  Many text-based UI users encounter both styles depending on context.
+\end{bluebox}
+
+\section{Shell}
+
+The \textbf{shell} is the program we normally interact with in a command-line interface.
+
+\begin{bluebox}{Shells on Windows}
+  \begin{itemize}
+  \item PowerShell (current)
+  \item Command.com (older)
+  \end{itemize}
+\end{bluebox}
+
+\begin{bluebox}{Shells on UNIX}
+  \begin{itemize}
+  \item Most common: \texttt{bash}
+  \item New and feature enhanced: \texttt{zsh}
+  \item Also: Korn Shell, C shell
+  \end{itemize}
+\end{bluebox}
+
+\subsection{Key concepts}
+
+\begin{description}
+\item[Prompt] shows when shell is waiting for input.
+\item[Current working directory] where commands will read and write files relative to.
+\item[Path:] list of folders searched for matching command name
+\end{description}
+
+\subsection{Navigation}
+
+In the command-line environment we navigate the exact same set of folders as we see in the File Explorer / Finder.
+Some hints on navigation (applies to PowerShell and Bash):
+
+\begin{minted}{bash}
+# print out the folder you're in (i.e. the working directory)
+pwd
+
+# list out the contents of the folder you're in
+ls
+dir   # on windows
+ls -l # detail, linux/mac only
+
+# change to a sub-directory of where you are now
+cd movies
+
+# directly change to a sub-sub-directory
+cd movies/horror
+
+# change to the parent directory
+cd ..
+
+# change to your home directory
+cd ~
+
+# change to a known sub-dir of your home directory
+cd ~/Desktop
+
+# change to a sub-dir of the parent dir
+cd ../music
+\end{minted}
+
+\textbf{It is essential in command-line environments that you are comfortable navigating around the filesystem.}
+
+\subsection{Features}
+
+\begin{description}
+\item[History:] list of previous commands recalled (usually the up arrow key).
+\item[Redirection] using \textit{operators}
+  \begin{enumerate}
+  \item Standard input to a file.
+  \item Standard input from a file.
+  \item Piping the standard output of one command to the standard input of another.
+  \end{enumerate}
+\item[Scripting] a sequence of commands to be performed.
+\item[Variables] to capture and recall information.
+\item[Control constructs] including conditionals, loops, possibly exceptions.
+\end{description}
+
+\section{Terminal}
+
+The shell itself is normally accessed by means of a terminal.
+This is the program we visually see like the PowerShell Application or XTerm in Linux that encapsulates the terminal program with the GUI environment.
+Examples of terminals:
+
+\begin{description}
+\item[GUI terminals ] like Windows Terminal, XTerm, Terminal.app
+\item[Framebuffer console] on Windows when the GUI is not running.
+\item[Serial console] over a serial port (often seen on embedded devices).
+\item[Remote network terminals] using telnet or more usually SSH.
+\end{description}
+
+\section{Secure Shell}
+
+SSH is a way to for one computer to connect to another's command-line interface in a secure fashion.
+
+SSH clients are included in most common operating systems.
+Client apps available for mobile. 
+
+An SSH client connects to an SSH server.
+The SSH server normally makes the command-line interface of the OS available (e.g.~bash, powershell):
+\begin{itemize}
+\item All modern UNIX/Linux operating systems come with SSH servers as standard.
+\item Windows 10 onwards and Windows Server now have SSH servers included but need some configuration to get working.
+\end{itemize}
+
+SSH is relatively easy to get started with --- the complexity often comes
+later when features like key-based authentication, multi-factor
+authentication, port forwarding and other extras are employed.
+
+\autoimage{ssh}{SSH}{ssh}
+
+\section{SSH client}
+\label{ssh-client}
+
+Most operating systems use the OpenSSH client, named \texttt{ssh}, that is available on the command-line.
+
+\subsection{Connecting}
+
+To connect to a remote machine, we need to know its name or IP and the username to connect as:
+
+\begin{minted}{bash}
+# connect via IP
+ssh peadar@192.168.0.1
+
+# connect via name
+ssh peadar@compute-server.dkit.ie
+
+# connect using same username as on client
+# just leave off the username before @ symbol
+ssh 192.168.0.1
+ssh compute-server.dkit.ie
+\end{minted}
+
+\subsection{Host verification}
+
+The first time you connect to a host you'll get a warning:
+
+\begin{verbatim}
+The authenticity of host '54.78.220.233 (54.78.220.233)' can't be established.
+ECDSA key fingerprint is SHA256:8omkD5RLibZNgJJ/B7MAnL7IbEcrmCmIWFdQXbjJf60.
+Are you sure you want to continue connecting (yes/no)?
+\end{verbatim}
+
+Just type \texttt{yes} here:
+\begin{itemize}
+\item Your local SSH client is just confirming it hasn't seen this machine before.
+\item If a different key fingerprint shows for the same IP you'll get a warning, which means a host has been changed for another.
+\end{itemize}
+
+
+\subsection{Authentication}
+
+SSH supports a number of different authentication schemes:
+\begin{itemize}
+\item A server may permit or require multiple authentication methods.
+\item Simplest is \textbf{username / password}.
+\item SSH often used with \textbf{Key Pairs} (later on).
+\item Other authentication methods:
+  \begin{description}
+  \item[Authenticator apps] like Google Authenticator.
+  \item[Kerberos] where Windows AD can ``pass through'' authentication from client.
+  \end{description}
+\end{itemize}
+
+\subsection{Usage}
+
+If you see something like the following (on Linux) then you're connected:
+
+\begin{verbatim}
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+2 package(s) needed for security, out of 13 available
+Run "sudo yum update" to apply all updates.
+[student@ip-10-0-1-80 ~]$
+\end{verbatim}
+
+What will actually appear will depend on what type of host you are connecting to.
+
+
+\section{File transfer}
+
+\subsection{Connecting}
+
+To connect to a remote machine to transfer files (instead of using its command line) we just replace \texttt{ssh} with \texttt{sftp} in the command:
+
+\begin{minted}{bash}
+sftp username@ip-address-or-hostname-here
+\end{minted}
+
+Login is the same as with normal SSH.
+
+When connected you'll see the \texttt{sftp>} prompt.
+
+
+\subsection{Directories}
+
+When connecting over SFTP you are dealing with \textbf{2} working directories:
+\begin{description}
+\item[Remote working directory ] on the remote server
+  \begin{itemize}
+  \item Use \texttt{pwd} to show.
+  \item Use \texttt{cd} to navigate around.
+  \end{itemize}
+\item[Local working directory] on the client computer you're using
+  \begin{itemize}
+  \item Use \texttt{lpwd} to show.
+  \item Use \texttt{lcd} to navigate around.
+  \end{itemize}
+\end{description}
+It is more confusing when the remote and local computers are using the same operating system, since the paths won't naturally differ.
+
+
+\end{document}
+
+
+

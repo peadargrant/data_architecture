@@ -13,3 +13,5 @@ _minted-*/
 *.dvi
 *.bbl
 *.blg
+*#
+

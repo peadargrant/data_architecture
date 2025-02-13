@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VPN lab</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../lab.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VPN lab</h1>
+</header>
+<p>The VPN service enables you to connect to some resources on campus,
+mainly a shared linux server, but later on some more machines, from
+outside the lab.</p>
+<p>This lab will show you how to connect to the lab VPN. You’ll have to
+repeat most of the steps here to connect to the lab VPN and disconnect
+from it when finished working.</p>
+<h1 id="how-it-works">How it works</h1>
+<p>A VPN is essentially the same as theoretically plugging a long
+network cable into one of the network jacks in the lab. It tunnels
+traffic through your computers existing WiFi or ethernet connection via
+the internet to a gateway located in DkIT. Your computer temporarily
+gets an additional virtual IP address that is within a DkIT range.</p>
+<h1 id="requirements">Requirements</h1>
+<p>To connect from outside or from WiFi you will need:</p>
+<ul>
+<li><strong>Supported:</strong> Windows or Mac computer</li>
+<li><strong>Unsupported:</strong>
+<ul>
+<li>Linux apparently works but I have not tested it</li>
+<li>Android or iOS device and a suitable SSH app (e.g. Termius, others
+available)</li>
+</ul></li>
+</ul>
+<h1 id="usage-guidance">Usage guidance</h1>
+<p>The VPN service is designed solely for accessing specified learning
+and teaching resources from remote locations. You are not authorised to
+use it for any other purpose.</p>
+<p>You are free to use the VPN during class time and outside of class
+time for your own private study.</p>
+<p>As with connecting to any network you should ensure that your
+computer is reasonably secure and patched. You may need to consider what
+network accessible services (if any) are running from your own
+computer.</p>
+<p>The VPN service is provisioned through shared hardware and software
+that has limits on concurrent users: As a consideration to your fellow
+students please connect only when needed for working and disconnect
+immediately afterwards.</p>
+<p>Issues with the VPN should be reported to me (your lecturer) by
+e-mail with as much detail as possible.</p>
+<p>Students who abuse the VPN service will be removed from it, will be
+unable to complete required class work and may face further
+institutional sanctions for breaches of the IT Policies.</p>
+<h1 id="task-1-log-in-to-the-vpn-gateway-every-day">Task 1: Log in to
+the VPN gateway (every day)</h1>
+<p>Open a new web browser window and navigate to <a
+href="https://dkitvpn.dkit.ie">https://dkitvpn.dkit.ie/</a>.</p>
+<p>Log in with your <strong>DkIT</strong> username, password and
+2FA.</p>
+<h2
+id="task-2-download-and-install-motionpro-client-first-time-only">Task
+2: Download and Install MotionPro client (first-time only)</h2>
+<p>You will need to install the MotionPro client, through the link on
+the VPN page.</p>
+<p>Once the MotionPro client is installed you don’t need to open it.
+It’ll launch automationally from a link on the web site.</p>
+<h1 id="task-3-connect-to-vpn-network-every-day">Task 3: Connect to VPN
+network (every day)</h1>
+<p>Under the <em>VPN Network</em> heading hit the <em>Connect</em>
+button. This will launch the separate MotionPro application to setup the
+VPN tunnel. It should show an IP address at the bottom.</p>
+<p>(The DesktopDirect button has no function for this module so you can
+ignore it.)</p>
+<h1
+id="task-4-test-connectivity-first-time-only-and-in-case-of-issues">Task
+4: Test connectivity (first-time only and in case of issues)</h1>
+<p>Open Windows Terminal. Navigate to the folder where this page is.</p>
+<p>Use the supplied PowerShell script to test connectivity:</p>
+<pre><code>./test_connectivity.ps1</code></pre>
+<p>It tries to connect to the database server that we will discuss later
+on. You should see the message printed in green:</p>
+<pre><code>your connection is ok.</code></pre>
+<p>If this doesn’t appear then ask for help.</p>
+<h1 id="task-5-using-the-vpn">Task 5: Using the VPN</h1>
+<p>At this point you can use the resources you need through the VPN.</p>
+<h2 id="connect-over-ssh-to-the-server">Connect over SSH to the
+server</h2>
+<p>Here we’ll connect to the shared server named <code>dblab</code>
+using the command:</p>
+<pre><code>ssh yourname@10.200.172.60</code></pre>
+<p>Connect using the <strong>server username</strong> assigned to you
+and the temporary password given in class. Note that in UNIX generally
+you don’t get asterisks for password entry. It looks like the entry is
+being ignored but it is going in!</p>
+<h2 id="changing-your-server-password">Changing your server
+password</h2>
+<p>Change your server password using the command</p>
+<pre><code>passwd</code></pre>
+<p>Following the prompts that appear. Similar to the logon password, you
+don’t get asterisks for password entry. It looks like the entry is being
+ignored but it is going in!</p>
+<h2 id="task-5-disconnect">Task 5: Disconnect</h2>
+<p>When you are finished working with the VPN please disconnect to
+conserve capacity for your fellow students.</p>
+<p>Click the <em>Disconnect</em> button under <em>VPN Network</em>.</p>
+</body>
+</html>
