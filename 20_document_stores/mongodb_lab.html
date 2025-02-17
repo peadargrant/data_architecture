@@ -1,40 +1,197 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
 <head>
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>MongoDB lab</title>
   <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-  </style>
-  <link rel="stylesheet" href="../lab.css" />
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+body {
+font-family: sans-serif;
+background-color: rgb(245,245,245);
+}
+#TOC {
+padding: 10px;
+background-color: lightyellow;
+}
+h1.title {
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 150%;
+}
+h1 {
+background-color: lightcyan;
+padding: 5px;
+font-size: 120%;
+}
+h2 {
+color: darkblue;
+font-size: 100%;
+}
+h3 {
+color: darkgreen;
+font-size: 100%;
+}
+code {
+font-weight: bold;
+font-size: 120%;
+}
+pre {
+font-size: 120%;
+padding: 0.5em;
+font-weight: bold;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(100,100,100);
+background-color: rgb(245,255,245);
+}
+
+</style>
 </head>
 <body>
 <header id="title-block-header">
 <h1 class="title">MongoDB lab</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#connecting" id="toc-connecting"><span class="toc-section-number">1</span> Connecting</a>
+<ul>
+<li><a href="#remote-or-laptop-students" id="toc-remote-or-laptop-students"><span class="toc-section-number">1.1</span> Remote or laptop students</a></li>
+<li><a href="#usual-reminder" id="toc-usual-reminder"><span class="toc-section-number">1.2</span> Usual reminder</a></li>
+<li><a href="#login-to-the-shared-server" id="toc-login-to-the-shared-server"><span class="toc-section-number">1.3</span> Login to the shared
+server</a></li>
+<li><a href="#connect-to-mongodb-server-using-mongosh" id="toc-connect-to-mongodb-server-using-mongosh"><span class="toc-section-number">1.4</span> Connect to mongodb server using
+mongosh</a></li>
+<li><a href="#connect-to-your-own-database" id="toc-connect-to-your-own-database"><span class="toc-section-number">1.5</span> Connect to your own
+database</a></li>
+</ul></li>
+<li><a href="#document-databases" id="toc-document-databases"><span class="toc-section-number">2</span> Document databases</a>
+<ul>
+<li><a href="#document" id="toc-document"><span class="toc-section-number">2.1</span> Document</a></li>
+<li><a href="#collection" id="toc-collection"><span class="toc-section-number">2.2</span> Collection</a></li>
+</ul></li>
+<li><a href="#basic-task-list-example" id="toc-basic-task-list-example"><span class="toc-section-number">3</span> Basic task list example</a>
+<ul>
+<li><a href="#design" id="toc-design"><span class="toc-section-number">3.1</span> Design</a></li>
+<li><a href="#basic-operations" id="toc-basic-operations"><span class="toc-section-number">3.2</span> Basic operations</a>
+<ul>
+<li><a href="#creating-collections-and-items" id="toc-creating-collections-and-items"><span class="toc-section-number">3.2.1</span> Creating collections and
+items</a></li>
+<li><a href="#listing-out-all-collections" id="toc-listing-out-all-collections"><span class="toc-section-number">3.2.2</span> Listing out all
+collections</a></li>
+<li><a href="#listing-out-all-contents-in-the-collection" id="toc-listing-out-all-contents-in-the-collection"><span class="toc-section-number">3.2.3</span> Listing out all contents in the
+collection</a></li>
+<li><a href="#adding-more-data" id="toc-adding-more-data"><span class="toc-section-number">3.2.4</span> Adding more data</a></li>
+</ul></li>
+<li><a href="#querying" id="toc-querying"><span class="toc-section-number">3.3</span> Querying</a>
+<ul>
+<li><a href="#does-a-field-exist" id="toc-does-a-field-exist"><span class="toc-section-number">3.3.1</span> Does a field exist?</a></li>
+<li><a href="#nullity" id="toc-nullity"><span class="toc-section-number">3.3.2</span> Nullity</a></li>
+<li><a href="#combining-criteria" id="toc-combining-criteria"><span class="toc-section-number">3.3.3</span> Combining criteria</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#python-connectivity" id="toc-python-connectivity"><span class="toc-section-number">4</span> Python connectivity</a>
+<ul>
+<li><a href="#pymongo" id="toc-pymongo"><span class="toc-section-number">4.1</span> PyMongo</a></li>
+<li><a href="#username-password" id="toc-username-password"><span class="toc-section-number">4.2</span> Username / password</a>
+<ul>
+<li><a href="#config-file" id="toc-config-file"><span class="toc-section-number">4.2.1</span> Config file</a></li>
+<li><a href="#reading-credentials" id="toc-reading-credentials"><span class="toc-section-number">4.2.2</span> Reading credentials</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#pandas" id="toc-pandas"><span class="toc-section-number">5</span> Pandas</a></li>
+</ul>
+</nav>
 <p><strong>Useful links:</strong></p>
-<h1 id="connecting">Connecting</h1>
-<h2 id="remote-or-laptop-students">Remote or laptop students</h2>
+<h1 data-number="1" id="connecting"><span class="header-section-number">1</span> Connecting</h1>
+<h2 data-number="1.1" id="remote-or-laptop-students"><span class="header-section-number">1.1</span> Remote or laptop students</h2>
 <p><em>Skip if on a lab machine</em></p>
 <p><a href="https://dkitvpn.dkit.ie">Connect to the VPN</a> at the
 beginning of this class.</p>
-<h2 id="usual-reminder">Usual reminder</h2>
+<h2 data-number="1.2" id="usual-reminder"><span class="header-section-number">1.2</span> Usual reminder</h2>
 <p>The lab servers are not backed up or secure!</p>
 <ul>
 <li>Don’t put any valuable or confidential data on them.</li>
@@ -42,12 +199,12 @@ beginning of this class.</p>
 <li>Manage files you create on them by copying them off with sftp or
 using the school GitLab server</li>
 </ul>
-<h2 id="login-to-the-shared-server">Login to the shared server</h2>
+<h2 data-number="1.3" id="login-to-the-shared-server"><span class="header-section-number">1.3</span> Login to the shared server</h2>
 <p>First, we’ll login to the shared lab server where you’ve already used
 PostgreSQL on a regular basis.</p>
-<pre><code>ssh yourname@10.200.172.60</code></pre>
-<h2 id="connect-to-mongodb-server-using-mongosh">Connect to mongodb
-server using mongosh</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> yourname@10.200.172.60</span></code></pre></div>
+<h2 data-number="1.4" id="connect-to-mongodb-server-using-mongosh"><span class="header-section-number">1.4</span> Connect to mongodb server using
+mongosh</h2>
 <p>In today’s lab we are going to use a shared mongodb instance. Unlike
 Postgres, the MongoDB instances is provisioned on a separate Dell R230
 server running Linux in the same rack in P1153.</p>
@@ -58,7 +215,7 @@ initial MongoDB password <code>1Password</code>.</p>
 <p>Instead of logging into the MongoDB server over SSH directly, we will
 use the <code>mongosh</code> client on the shared server to connect
 remotely using MongoDB’s own protocol to the mongod instance.</p>
-<pre><code>mongosh --host 10.200.172.57  -u yourusername</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mongosh</span> <span class="at">--host</span> 10.200.172.57  <span class="at">-u</span> yourusername</span></code></pre></div>
 <p>Enter your initial <em>mongodb</em> password <code>1Password</code>
 at the prompt. You should then get output something like:</p>
 <pre><code>Enter password: *********
@@ -72,13 +229,14 @@ For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
 test&gt; </code></pre>
 <p>This shows that you are connected to the <code>test</code> database.
 You now need to connect to your own.</p>
-<h2 id="connect-to-your-own-database">Connect to your own database</h2>
+<h2 data-number="1.5" id="connect-to-your-own-database"><span class="header-section-number">1.5</span> Connect to your own
+database</h2>
 <p>Just as in the case of PostgreSQL, a single MongoDB instance hosts a
 number of isolated MongoDB databases. Like with our shared PostgreSQL
 installation there is a mongodb database with the same name as your
 username to which you have full access. Change to your own database
 using the command:</p>
-<pre><code>use yourname</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>use yourname</span></code></pre></div>
 <p>Note that the prompt now changes to <code>yourname&gt;</code>,
 meaning that commands you enter will now run against your own database
 instead of the <code>test</code> one.</p>
@@ -88,24 +246,24 @@ not. It will only block when you actually try to do something you’re not
 authorized to do. To ensure that you have access rights to your own
 database, we’re going to run a command that will cause an error if you
 don’t have the right access levels:</p>
-<pre><code>show collections</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>show collections</span></code></pre></div>
 <p>As you’ve no collections in your database, this command should just
 return nothing.</p>
 <p><em>If you get an error here, ask me for help!</em></p>
-<h1 id="document-databases">Document databases</h1>
+<h1 data-number="2" id="document-databases"><span class="header-section-number">2</span> Document databases</h1>
 <p>MongoDB is an example of a <em>Document Database</em> or <em>Document
 Store</em>.</p>
 <p>A single MongoDB instance hosts multiple databases, each with one or
 more collections that each store one or more JSON-structured
 documents.</p>
-<h2 id="document">Document</h2>
+<h2 data-number="2.1" id="document"><span class="header-section-number">2.1</span> Document</h2>
 <p>We’ll take a document to mean an isolated unit of structured
 data.</p>
 <p>You’re already familiar with Python dictionaries and lists.</p>
 <p>These can be interwoven to make a document, which can be output (or
 dumped) into a number of formats. Primarily this would be JSON, but XML,
 YML and other formats are possible.</p>
-<h2 id="collection">Collection</h2>
+<h2 data-number="2.2" id="collection"><span class="header-section-number">2.2</span> Collection</h2>
 <p>In MongoDB, related Documents are grouped into
 <em>collections</em>.</p>
 <p>Unlike tables in relational databases:</p>
@@ -117,14 +275,14 @@ it. Empty collections do not exist.</li>
 </ul>
 <p>Collections make it easy to search for related documents, and to bulk
 delete or update documents.</p>
-<h1 id="basic-task-list-example">Basic task list example</h1>
+<h1 data-number="3" id="basic-task-list-example"><span class="header-section-number">3</span> Basic task list example</h1>
 <p>We’re going to build a basic task list to build familiarity with
 MongoDB using <code>mongosh</code>.</p>
 <p>MongoDB internally uses JavaScript as its native query language,
 which is a rather different experience from the SQL that we’ve used to
 date. Luckily we only need to build familiarity with a few concepts to
 start using it.</p>
-<h2 id="design">Design</h2>
+<h2 data-number="3.1" id="design"><span class="header-section-number">3.1</span> Design</h2>
 <p>Our task list will consist of one or more task items in a single
 <em>collection</em> called <code>tasks</code>. Each task will normally
 have the following attributes:</p>
@@ -134,31 +292,32 @@ the lawn, wash the dishes)</li>
 <li><strong>done</strong> boolean if task is complete (true /
 false)</li>
 </ul>
-<h2 id="basic-operations">Basic operations</h2>
+<h2 data-number="3.2" id="basic-operations"><span class="header-section-number">3.2</span> Basic operations</h2>
 <p>In MongoDB there is no DDL step as such.</p>
-<h3 id="creating-collections-and-items">Creating collections and
+<h3 data-number="3.2.1" id="creating-collections-and-items"><span class="header-section-number">3.2.1</span> Creating collections and
 items</h3>
 <p>Collections and items are created implicitly when they are
 inserted.</p>
-<pre><code>db.tasks.insertOne( { description: &quot;wash the dishes&quot;, done: false } )</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">insertOne</span>( { <span class="dt">description</span><span class="op">:</span> <span class="st">&quot;wash the dishes&quot;</span><span class="op">,</span> <span class="dt">done</span><span class="op">:</span> <span class="kw">false</span> } )</span></code></pre></div>
 <p>The <code>db</code> object represents the database and is always in
 scope. Most mongodb commands operate on the <code>db</code> object.</p>
-<h3 id="listing-out-all-collections">Listing out all collections</h3>
+<h3 data-number="3.2.2" id="listing-out-all-collections"><span class="header-section-number">3.2.2</span> Listing out all
+collections</h3>
 <p>Now that our collection has been created, it will appear in the list
 of collections:</p>
-<pre><code>show collections</code></pre>
-<h3 id="listing-out-all-contents-in-the-collection">Listing out all
-contents in the collection</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>show collections</span></code></pre></div>
+<h3 data-number="3.2.3" id="listing-out-all-contents-in-the-collection"><span class="header-section-number">3.2.3</span> Listing out all contents in
+the collection</h3>
 <p>We can get all items in a collection once we know its name using the
 <code>find</code> method:</p>
-<pre><code>db.tasks.find()</code></pre>
-<h3 id="adding-more-data">Adding more data</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">find</span>()</span></code></pre></div>
+<h3 data-number="3.2.4" id="adding-more-data"><span class="header-section-number">3.2.4</span> Adding more data</h3>
 <p>We can obviously call <code>insertOne</code> as many times as we
 like.</p>
-<pre><code>db.tasks.insertOne( { description: &quot;mow the lawn&quot;, done: false } )
-db.tasks.insertOne( { description: &quot;call the electrician&quot;, done: false, note: &quot;ask about discount&quot; } )</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">insertOne</span>( { <span class="dt">description</span><span class="op">:</span> <span class="st">&quot;mow the lawn&quot;</span><span class="op">,</span> <span class="dt">done</span><span class="op">:</span> <span class="kw">false</span> } )</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">insertOne</span>( { <span class="dt">description</span><span class="op">:</span> <span class="st">&quot;call the electrician&quot;</span><span class="op">,</span> <span class="dt">done</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span> <span class="dt">note</span><span class="op">:</span> <span class="st">&quot;ask about discount&quot;</span> } )</span></code></pre></div>
 <p>Now insert a few extra tasks into your collection.</p>
-<h2 id="querying">Querying</h2>
+<h2 data-number="3.3" id="querying"><span class="header-section-number">3.3</span> Querying</h2>
 <p>As with SQL, more advanced queries are best learned on an as-needed
 basis. There are a few key building blocks that we’ll study now,
 continuing on with our task manager example.</p>
@@ -166,129 +325,74 @@ continuing on with our task manager example.</p>
 all items in that collection. By adding arguments to the
 <code>find()</code> method in the form of JSON we can narrow down the
 search.</p>
-<h3 id="does-a-field-exist">Does a field exist?</h3>
+<h3 data-number="3.3.1" id="does-a-field-exist"><span class="header-section-number">3.3.1</span> Does a field exist?</h3>
 <p>Given that documents are free-format, we may want to include/exclude
 items based on whether a particular field exists or not.</p>
-<pre><code>db.tasks.find( { &quot;note&quot;: { &quot;$exists&quot;: true } } )</code></pre>
-<h3 id="nullity">Nullity</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">find</span>( { <span class="st">&quot;note&quot;</span><span class="op">:</span> { <span class="st">&quot;$exists&quot;</span><span class="op">:</span> <span class="kw">true</span> } } )</span></code></pre></div>
+<h3 data-number="3.3.2" id="nullity"><span class="header-section-number">3.3.2</span> Nullity</h3>
 <p>More confusingly, a field can exist / not exist, but it can also be
 null or have a value. Let’s try an insertion like:</p>
-<pre><code>db.tasks.insertOne( { description: &quot;call the plumber&quot;, done: false, note: null } )</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">insertOne</span>( { <span class="dt">description</span><span class="op">:</span> <span class="st">&quot;call the plumber&quot;</span><span class="op">,</span> <span class="dt">done</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span> <span class="dt">note</span><span class="op">:</span> <span class="kw">null</span> } )</span></code></pre></div>
 <p>If we now re-run the previous example:</p>
-<pre><code>db.tasks.find( { &quot;note&quot;: { &quot;$exists&quot;: true } } )</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">find</span>( { <span class="st">&quot;note&quot;</span><span class="op">:</span> { <span class="st">&quot;$exists&quot;</span><span class="op">:</span> <span class="kw">true</span> } } )</span></code></pre></div>
 <p>We’ll now see that the null valued field does exist. Given that by
 default MongoDB has no schema checking or enforcement, this confusion
 could get out of hand if we’re not disciplined in our usage. If we
 wanted to find records where the field has a non-null value we can
 instead use:</p>
-<pre><code>db.tasks.find( { note: { $ne: null } } )</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">find</span>( { <span class="dt">note</span><span class="op">:</span> { <span class="dt">$ne</span><span class="op">:</span> <span class="kw">null</span> } } )</span></code></pre></div>
 <p>Of course our problem of interest will determine how we should handle
 field existence and nullity.</p>
-<h3 id="combining-criteria">Combining criteria</h3>
+<h3 data-number="3.3.3" id="combining-criteria"><span class="header-section-number">3.3.3</span> Combining criteria</h3>
 <p>We can combine criteria for a single field thus:</p>
-<pre><code>db.tasks.find( { note: { $exists: true, &quot;$eq&quot;: &#39;ask about discount&#39; } })</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">tasks</span><span class="op">.</span><span class="fu">find</span>( { <span class="dt">note</span><span class="op">:</span> { <span class="dt">$exists</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="st">&quot;$eq&quot;</span><span class="op">:</span> <span class="st">&#39;ask about discount&#39;</span> } })</span></code></pre></div>
 <p>The criteria we include are a logical AND to produce the output
 documents.</p>
-<h1 id="python-connectivity">Python connectivity</h1>
+<h1 data-number="4" id="python-connectivity"><span class="header-section-number">4</span> Python connectivity</h1>
 <p>As we’ve seen with PostgreSQL, databases are most useful when we
-connect them directly with our own Python code. This bring rich
-capabilities in terms of data visualisation, loading and analysis.</p>
-<h2 id="pymongo">PyMongo</h2>
+connect them directly with our own Python (or other) code. This bring
+rich capabilities in terms of data visualisation, loading and
+analysis.</p>
+<h2 data-number="4.1" id="pymongo"><span class="header-section-number">4.1</span> PyMongo</h2>
 <p>The <code>pymongo</code> library provides connectivity from Python to
 MongoDB and allows us to manipulate the returned results in a reasonably
-Pythonic style. <code>pymongo</code> is installed on the shared
-server.</p>
-<h2 id="username-password">Username / password</h2>
+Pythonic style. <code>pymongo</code> is installed on the shared server,
+so imported as:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pymongo <span class="im">import</span> MongoClient</span></code></pre></div>
+<h2 data-number="4.2" id="username-password"><span class="header-section-number">4.2</span> Username / password</h2>
 <p>When using our own code we still need to authenticate to the database
-server. It’s generally a bad idea to hard-code credentials in program
-code. Let’s create a config file to store the values using the common
-INI format that Python supports to store these.</p>
+server, meaning that our program access to our credentials.</p>
+<p>It’s generally a bad idea (but happens all too often) to hard-code
+credentials in program code.</p>
+<h3 data-number="4.2.1" id="config-file"><span class="header-section-number">4.2.1</span> Config file</h3>
+<p>Let’s create a config file to store the values using the common INI
+format that Python supports to store these. The config file format has
+sections in square brackets, with each entry being a key mapping to a
+value.</p>
 <p>Create a file called <code>mongodb.conf</code> using
 <code>emacs</code> with the following content:</p>
 <pre><code>[mongodb]
 host=10.200.172.57
 username=your-username-here
 password=your-mongodb-password-here</code></pre>
+<p>If you’re using source control like Git, <strong>don’t commit
+them</strong> to your repository.</p>
+<h3 data-number="4.2.2" id="reading-credentials"><span class="header-section-number">4.2.2</span> Reading credentials</h3>
 <p>We can then use the <code>configparser</code> module in Python to
-read this information. Config files are very useful for storing this
-type of information. If you’re using source control like Git,
-<strong>don’t commit them</strong> to your repository.</p>
-<h1 id="product-database-example">Product database example</h1>
-<p>One thing document stores in general are very good at is storing data
-you’ve ingested from elsewhere, where you didn’t design or don’t know
-the schema in advance. They then make it very easy to run queries
-against that data compared to storing it as flat files.</p>
-<p>We’re going to demonstrate this using information from a few stores
-that employ the Shopify sales platform to power their online store.</p>
-<p>Shopify happens to provide information on products at
-<code>products.json</code> on every site by default. It will return up
-to 250 products for a single shopify call.</p>
-<h2 id="store-list">Store list</h2>
-<p>There a few retailers I’ve found that use Shopify. In
-<code>mongosh</code> create a new collection named <code>stores</code>
-(adapt the instructions above) and populate 2 of the retailers below as
-<code>name</code> and <code>url</code>:</p>
-<ol type="1">
-<li>Carraig donn: https://www.carraigdonn.com</li>
-<li>Carolyn’s Sweet Shop: https://www.carolynssweetshop.ie</li>
-<li>SOS Cookies: https://www.soscookies.ie</li>
-</ol>
-<p>Output should look similar to:</p>
-<pre><code>grantp&gt; db.stores.find({})
-[
-  {
-    _id: ObjectId(&#39;67a50545105786f542544ca7&#39;),
-    name: &#39;carraig donn&#39;,
-    url: &#39;https://www.carraigdonn.com&#39;
-  },
-  {
-    _id: ObjectId(&#39;67a5103e105786f542544ca8&#39;),
-    name: &#39;SOS cookies&#39;,
-    url: &#39;https://www.soscookies.ie&#39;
-  }
-]</code></pre>
-<h2 id="schema-design">Schema design</h2>
-<p>Although we don’t need to define columns and datatypes in advance, we
-do need to decide on how to break down collections and documents.
-Sometimes what we encounter or ingest as a single document encapsulates
-a large list of items that’s better organised as a collection of
-multiple documents.</p>
-<p>In many cases this will depend on how we want to search for and
-interact with documents.</p>
-<p>In this case, the <code>products</code> JSON dictionary is a list
-that we’ll break up. We’ll create a collection called products and will
-insert each list item as a document in our Python code.</p>
-<h2 id="loading">Loading</h2>
-<p>See <code>shopify_load.py</code> as a starting example.</p>
-<p>Also note some of the explanations in the comments.</p>
-<p>What happens if you run the load script more than once?</p>
-<h2 id="deleting-all">Deleting all</h2>
-<p>If you want to clear out the (possibly duplicate) items inserted just
-run:</p>
-<pre><code>db.products.deleteMany()</code></pre>
-<h2 id="preventing-duplicates">Preventing duplicates</h2>
-<p>Although MongoDB is not a relational database, it can enforce some
-basic schema constraints.</p>
-<p>There is technically a primary key of sorts in the form of the
-<code>_id</code> field.</p>
-<p>We can create a <em>unique index</em> to prevent insertion of a
-record that already exists. Issue the following command in
-<code>mongosh</code> to create a unique constraint on the combination of
-<code>store</code> and <code>handle</code> columns that will guarantee a
-unique ID.</p>
-<pre><code>db.products.createIndex( { &quot;store&quot;: 1, &quot;handle&quot;: 1 }, { unique: true } )</code></pre>
-<p>Then re-run the loading script twice and confirm that the unique
-index prevents duplicate insertions.</p>
-<h1 id="pandas">Pandas</h1>
+read this information.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> configparser.ConfigParser()</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>config.read(<span class="st">&#39;mongodb.conf&#39;</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>dbconfig<span class="op">=</span>config[<span class="st">&#39;mongodb&#39;</span>]</span></code></pre></div>
+<h1 data-number="5" id="pandas"><span class="header-section-number">5</span> Pandas</h1>
 <p>We previously saw how pandas has an easy interface to read results
 from SQL queries. This is quite an easy operation in theory since SQL
 result sets result in tables that map directly to pandas dataframes.</p>
-<pre><code>import pandas as pd
-from pymongo import MongoClient
-
-# as usual up to
-
-df = pd.DataFrame(db.products.find())</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pymongo <span class="im">import</span> MongoClient</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># as usual up to</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(db.products.find())</span></code></pre></div>
 <p>Available columns will be filled from each document. There will be
 null values if a field doesn’t exist for that document.</p>
 </body>

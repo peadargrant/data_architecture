@@ -23,8 +23,9 @@ The lab servers are not backed up or secure!
 
 First, we'll login to the shared lab server where you've already used PostgreSQL on a regular basis.
 
-	ssh yourname@10.200.172.60
-	
+```bash
+ssh yourname@10.200.172.60
+```
 
 ## Connect to mongodb server using mongosh
 
@@ -36,8 +37,10 @@ All students have been provisioned with a mongodb user with the same name as you
 
 Instead of logging into the MongoDB server over SSH directly, we will use the `mongosh` client on the shared server to connect remotely using MongoDB's own protocol to the mongod instance.
 
-	mongosh --host 10.200.172.57  -u yourusername
-	
+```bash
+mongosh --host 10.200.172.57  -u yourusername
+```
+
 Enter your initial *mongodb* password `1Password` at the prompt.
 You should then get output something like:
 
@@ -61,7 +64,9 @@ Just as in the case of PostgreSQL, a single MongoDB instance hosts a number of i
 Like with our shared PostgreSQL installation there is a mongodb database with the same name as your username to which you have full access.
 Change to your own database using the command:
 
-	use yourname
+```javascript
+use yourname
+```	
 	
 Note that the prompt now changes to `yourname>`, meaning that commands you enter will now run against your own database instead of the `test` one.
 	
@@ -69,7 +74,9 @@ Confusingly, MongoDB's authorization system allows you to connect to any databas
 It will only block when you actually try to do something you're not authorized to do.
 To ensure that you have access rights to your own database, we're going to run a command that will cause an error if you don't have the right access levels:
 
-	show collections
+```javascript
+show collections
+```
 
 As you've no collections in your database, this command should just return nothing.
 
@@ -132,8 +139,10 @@ In MongoDB there is no DDL step as such.
 
 Collections and items are created implicitly when they are inserted.
 
-	db.tasks.insertOne( { description: "wash the dishes", done: false } )
-	
+```javascript
+db.tasks.insertOne( { description: "wash the dishes", done: false } )
+```
+
 The `db` object represents the database and is always in scope.
 Most mongodb commands operate on the `db` object.
 
@@ -142,22 +151,27 @@ Most mongodb commands operate on the `db` object.
 
 Now that our collection has been created, it will appear in the list of collections:
 
-	show collections
+```javascript
+show collections
+```
 
 
 ### Listing out all contents in the collection
 
 We can get all items in a collection once we know its name using the `find` method:
 
-	db.tasks.find()
-	
+```javascript
+db.tasks.find()
+```
 
 ### Adding more data
 
 We can obviously call `insertOne` as many times as we like. 
 
-	db.tasks.insertOne( { description: "mow the lawn", done: false } )
-	db.tasks.insertOne( { description: "call the electrician", done: false, note: "ask about discount" } )
+```javascript
+db.tasks.insertOne( { description: "mow the lawn", done: false } )
+db.tasks.insertOne( { description: "call the electrician", done: false, note: "ask about discount" } )
+```
 
 Now insert a few extra tasks into your collection.
 
@@ -175,25 +189,32 @@ By adding arguments to the `find()` method in the form of JSON we can narrow dow
 
 Given that documents are free-format, we may want to include/exclude items based on whether a particular field exists or not. 
 
-	db.tasks.find( { "note": { "$exists": true } } )
-
+```javascript
+db.tasks.find( { "note": { "$exists": true } } )
+```
 
 ### Nullity
 
 More confusingly, a field can exist / not exist, but it can also be null or have a value.
 Let's try an insertion like:
 
-	db.tasks.insertOne( { description: "call the plumber", done: false, note: null } )
+```javascript
+db.tasks.insertOne( { description: "call the plumber", done: false, note: null } )
+```
 	
 If we now re-run the previous example:
 
-	db.tasks.find( { "note": { "$exists": true } } )
+```javascript
+db.tasks.find( { "note": { "$exists": true } } )
+```	
 	
 We'll now see that the null valued field does exist.
 Given that by default MongoDB has no schema checking or enforcement, this confusion could get out of hand if we're not disciplined in our usage.
 If we wanted to find records where the field has a non-null value we can instead use: 
 
-	db.tasks.find( { note: { $ne: null } } )
+```javascript
+db.tasks.find( { note: { $ne: null } } )
+```
 	
 Of course our problem of interest will determine how we should handle field existence and nullity.
 
@@ -202,28 +223,39 @@ Of course our problem of interest will determine how we should handle field exis
 
 We can combine criteria for a single field thus:
 
-	db.tasks.find( { note: { $exists: true, "$eq": 'ask about discount' } })
+```javascript
+db.tasks.find( { note: { $exists: true, "$eq": 'ask about discount' } })
+```
 
 The criteria we include are a logical AND to produce the output documents.
 
 
 # Python connectivity
 
-As we've seen with PostgreSQL, databases are most useful when we connect them directly with our own Python code.
+As we've seen with PostgreSQL, databases are most useful when we connect them directly with our own Python (or other) code.
 This bring rich capabilities in terms of data visualisation, loading and analysis.
 
 
 ## PyMongo
 
 The `pymongo` library provides connectivity from Python to MongoDB and allows us to manipulate the returned results in a reasonably Pythonic style.
-`pymongo` is installed on the shared server.
+`pymongo` is installed on the shared server, so imported as:
+
+```python
+from pymongo import MongoClient
+```
 
 
 ## Username / password
 
-When using our own code we still need to authenticate to the database server.
-It's generally a bad idea to hard-code credentials in program code.
+When using our own code we still need to authenticate to the database server, meaning that our program access to our credentials.
+
+It's generally a bad idea (but happens all too often) to hard-code credentials in program code.
+
+### Config file
+
 Let's create a config file to store the values using the common INI format that Python supports to store these.
+The config file format has sections in square brackets, with each entry being a key mapping to a value.
 
 Create a file called `mongodb.conf` using `emacs` with the following content:
 
@@ -232,87 +264,19 @@ Create a file called `mongodb.conf` using `emacs` with the following content:
 	username=your-username-here
 	password=your-mongodb-password-here
 
-We can then use the `configparser` module in Python to read this information.
-Config files are very useful for storing this type of information.
 If you're using source control like Git, **don't commit them** to your repository.
 
 
-# Product database example
+### Reading credentials
 
-One thing document stores in general are very good at is storing data you've ingested from elsewhere, where you didn't design or don't know the schema in advance.
-They then make it very easy to run queries against that data compared to storing it as flat files.
+We can then use the `configparser` module in Python to read this information.
 
-We're going to demonstrate this using information from a few stores that employ the Shopify sales platform to power their online store.
+```python
+config = configparser.ConfigParser()
+config.read('mongodb.conf')
+dbconfig=config['mongodb']
+```
 
-Shopify happens to provide information on products at `products.json` on every site by default.
-It will return up to 250 products for a single shopify call.
-
-
-## Store list
-
-There a few retailers I've found that use Shopify.
-In `mongosh` create a new collection named `stores` (adapt the instructions above) and populate 2 of the retailers below as `name` and `url`:
-
-1. Carraig donn: https://www.carraigdonn.com
-2. Carolyn's Sweet Shop: https://www.carolynssweetshop.ie
-3. SOS Cookies: https://www.soscookies.ie
-
-Output should look similar to:
-
-	grantp> db.stores.find({})
-	[
-	  {
-		_id: ObjectId('67a50545105786f542544ca7'),
-		name: 'carraig donn',
-		url: 'https://www.carraigdonn.com'
-	  },
-	  {
-		_id: ObjectId('67a5103e105786f542544ca8'),
-		name: 'SOS cookies',
-		url: 'https://www.soscookies.ie'
-	  }
-	]
-
-
-## Schema design
-
-Although we don't need to define columns and datatypes in advance, we do need to decide on how to break down collections and documents.
-Sometimes what we encounter or ingest as a single document encapsulates a large list of items that's better organised as a collection of multiple documents.
-
-In many cases this will depend on how we want to search for and interact with documents. 
-
-In this case, the `products` JSON dictionary is a list that we'll break up.
-We'll create a collection called products and will insert each list item as a document in our Python code.
-
-
-## Loading
-
-See `shopify_load.py` as a starting example.
-
-Also note some of the explanations in the comments.
-
-What happens if you run the load script more than once?
-
-
-## Deleting all
-
-If you want to clear out the (possibly duplicate) items inserted just run:
-
-	db.products.deleteMany()
-
-
-## Preventing duplicates
-
-Although MongoDB is not a relational database, it can enforce some basic schema constraints.
-
-There is technically a primary key of sorts in the form of the `_id` field.
-
-We can create a *unique index* to prevent insertion of a record that already exists.
-Issue the following command in `mongosh` to create a unique constraint on the combination of `store` and `handle` columns that will guarantee a unique ID. 
-
-	db.products.createIndex( { "store": 1, "handle": 1 }, { unique: true } )
-
-Then re-run the loading script twice and confirm that the unique index prevents duplicate insertions. 
 
 
 
@@ -322,13 +286,15 @@ Then re-run the loading script twice and confirm that the unique index prevents 
 We previously saw how pandas has an easy interface to read results from SQL queries.
 This is quite an easy operation in theory since SQL result sets result in tables that map directly to pandas dataframes.
 
-	import pandas as pd
-	from pymongo import MongoClient
+```python
+import pandas as pd
+from pymongo import MongoClient
 	
-	# as usual up to
+# as usual up to
 	
-	df = pd.DataFrame(db.products.find())
-	
+df = pd.DataFrame(db.products.find())
+```
+
 Available columns will be filled from each document.
 There will be null values if a field doesn't exist for that document.
 

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Advanced MongoDB lab</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+body {
+font-family: sans-serif;
+background-color: rgb(245,245,245);
+}
+#TOC {
+padding: 10px;
+background-color: lightyellow;
+}
+h1.title {
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 150%;
+}
+h1 {
+background-color: lightcyan;
+padding: 5px;
+font-size: 120%;
+}
+h2 {
+color: darkblue;
+font-size: 100%;
+}
+h3 {
+color: darkgreen;
+font-size: 100%;
+}
+code {
+font-weight: bold;
+font-size: 120%;
+}
+pre {
+font-size: 120%;
+padding: 0.5em;
+font-weight: bold;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(100,100,100);
+background-color: rgb(245,255,245);
+}
+
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Advanced MongoDB lab</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#connecting" id="toc-connecting"><span class="toc-section-number">1</span> Connecting</a>
+<ul>
+<li><a href="#remote-or-laptop-students" id="toc-remote-or-laptop-students"><span class="toc-section-number">1.1</span> Remote or laptop students</a></li>
+<li><a href="#login-to-the-shared-server" id="toc-login-to-the-shared-server"><span class="toc-section-number">1.2</span> Login to the shared
+server</a></li>
+<li><a href="#recommended-tmux-layout" id="toc-recommended-tmux-layout"><span class="toc-section-number">1.3</span> Recommended TMUX layout</a></li>
+<li><a href="#connect-to-mongodb-server-using-mongosh" id="toc-connect-to-mongodb-server-using-mongosh"><span class="toc-section-number">1.4</span> Connect to mongodb server using
+mongosh</a></li>
+<li><a href="#delete-existing-collections" id="toc-delete-existing-collections"><span class="toc-section-number">1.5</span> Delete existing
+collections</a></li>
+</ul></li>
+<li><a href="#python-connection" id="toc-python-connection"><span class="toc-section-number">2</span> Python connection</a>
+<ul>
+<li><a href="#tmux-window-for-ipython3" id="toc-tmux-window-for-ipython3"><span class="toc-section-number">2.1</span> TMUX window for iPython3</a></li>
+<li><a href="#running-ipython" id="toc-running-ipython"><span class="toc-section-number">2.2</span> Running iPython</a></li>
+<li><a href="#creating-the-config-file" id="toc-creating-the-config-file"><span class="toc-section-number">2.3</span> Creating the config file</a></li>
+<li><a href="#mongodb-connection" id="toc-mongodb-connection"><span class="toc-section-number">2.4</span> MongoDB connection</a></li>
+</ul></li>
+<li><a href="#product-database-example" id="toc-product-database-example"><span class="toc-section-number">3</span> Product database example</a>
+<ul>
+<li><a href="#store-list" id="toc-store-list"><span class="toc-section-number">3.1</span> Store list</a></li>
+</ul></li>
+<li><a href="#requests-library" id="toc-requests-library"><span class="toc-section-number">4</span> Requests library</a></li>
+<li><a href="#schema-design" id="toc-schema-design"><span class="toc-section-number">5</span> Schema design</a></li>
+<li><a href="#loading" id="toc-loading"><span class="toc-section-number">6</span> Loading</a>
+<ul>
+<li><a href="#basic-load-program" id="toc-basic-load-program"><span class="toc-section-number">6.1</span> Basic load program</a></li>
+<li><a href="#deleting-all" id="toc-deleting-all"><span class="toc-section-number">6.2</span> Deleting all</a></li>
+</ul></li>
+<li><a href="#preventing-duplicates" id="toc-preventing-duplicates"><span class="toc-section-number">7</span>
+Preventing duplicates</a></li>
+<li><a href="#limit-fields-to-return" id="toc-limit-fields-to-return"><span class="toc-section-number">8</span> Limit fields to return</a>
+<ul>
+<li><a href="#suppress-the-id-field" id="toc-suppress-the-id-field"><span class="toc-section-number">8.1</span> Suppress the ID field</a></li>
+<li><a href="#exclusion" id="toc-exclusion"><span class="toc-section-number">8.2</span> Exclusion</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>In this week’s lab we’ll continue our exploration of MongoDB as a
+document store, this time using larger datasets imported from
+elsewhere.</p>
+<p>I’ve given the final files in the git repository, but to get the full
+educational value I recommend that you work along interactively during
+class using <code>mongosh</code> and <code>ipython3</code>.</p>
+<p>We will cover many of the items both directly in <code>mongosh</code>
+and then via Python in <code>ipython3</code> using the
+<code>pymongo</code> library. We’ll also introduce the python
+<code>requests</code> library to pull in JSON-formatted data from
+internet URLs.</p>
+<p><strong>Important links:</strong></p>
+<ul>
+<li><a href="https://www.mongodb.com/docs/">MongoDB
+Documentation</a></li>
+<li><a href="https://www.mongodb.com/docs/languages/python/pymongo-driver/current/">PyMongo
+Documentation</a></li>
+<li><a href="https://requests.readthedocs.io/en/latest/">Python Requests
+Library</a></li>
+</ul>
+<h1 data-number="1" id="connecting"><span class="header-section-number">1</span> Connecting</h1>
+<h2 data-number="1.1" id="remote-or-laptop-students"><span class="header-section-number">1.1</span> Remote or laptop students</h2>
+<p><em>Skip if on a lab machine</em></p>
+<p><a href="https://dkitvpn.dkit.ie">Connect to the VPN</a> at the
+beginning of this class.</p>
+<h2 data-number="1.2" id="login-to-the-shared-server"><span class="header-section-number">1.2</span> Login to the shared server</h2>
+<p>As per last week, we’ll login to the shared lab server.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> yourname@10.200.172.60</span></code></pre></div>
+<h2 data-number="1.3" id="recommended-tmux-layout"><span class="header-section-number">1.3</span> Recommended TMUX layout</h2>
+<p>This week we’ll be working with both mongosh and with python in
+parallel. It’s recommended to begin with the following tmux layout.</p>
+<p>Type <code>Ctrl-B c</code> to make a new tmux pane.</p>
+<h2 data-number="1.4" id="connect-to-mongodb-server-using-mongosh"><span class="header-section-number">1.4</span> Connect to mongodb server using
+mongosh</h2>
+<p>Now let’s connect to our mongodb database from the shared lab server
+using <code>mongosh</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mongosh</span> <span class="at">--host</span> 10.200.172.57  <span class="at">-u</span> yourusername</span></code></pre></div>
+<p>Enter your initial <em>mongodb</em> password <code>1Password</code>
+at the prompt. You should then get output something like:</p>
+<pre><code>Enter password: *********
+Current Mongosh Log ID: 67a0fb38a894553a80544ca6
+Connecting to:          mongodb://&lt;credentials&gt;@10.200.172.57:27017/?directConnection=true&amp;appName=mongosh+2.3.8
+Using MongoDB:          8.0.4
+Using Mongosh:          2.3.8
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+test&gt; </code></pre>
+<p>This shows that you are connected to the <code>test</code> database.
+You now need to connect to your own.</p>
+<p>Change to your own database using the command:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>use yourname</span></code></pre></div>
+<p>Note that the prompt now changes to:</p>
+<pre><code>yourname&gt;</code></pre>
+<p>This means that commands you enter will now run against your own
+database instead of the <code>test</code> one.</p>
+<p><em>If you have problems connecting you need to let me know straight
+away.</em></p>
+<h2 data-number="1.5" id="delete-existing-collections"><span class="header-section-number">1.5</span> Delete existing
+collections</h2>
+<p>To make things easier this week, let’s clean out our MongoDB
+database.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">getCollectionNames</span>()<span class="op">.</span><span class="fu">forEach</span>(c<span class="kw">=&gt;</span>db[c]<span class="op">.</span><span class="fu">drop</span>())</span></code></pre></div>
+<h1 data-number="2" id="python-connection"><span class="header-section-number">2</span> Python connection</h1>
+<p>We’ll revise a few concepts from python connectivity from last week
+and introduce a few new ones.</p>
+<h2 data-number="2.1" id="tmux-window-for-ipython3"><span class="header-section-number">2.1</span> TMUX window for iPython3</h2>
+<p>First let’s create a new TMUX window to run our interactive python
+session in while leaving our existing <code>mongosh</code> open and
+accessible. Use <code>Ctrl-B c</code> to make a new window.</p>
+<p>Then use <code>Ctrl-B 0</code>, <code>Ctrl-B 1</code>,
+<code>Ctrl-B 2</code> etc to switch between the windows.</p>
+<h2 data-number="2.2" id="running-ipython"><span class="header-section-number">2.2</span> Running iPython</h2>
+<p>In your new TMUX window open a new <code>ipython3</code> session
+using</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ipython3</span></span></code></pre></div>
+<h2 data-number="2.3" id="creating-the-config-file"><span class="header-section-number">2.3</span> Creating the config file</h2>
+<p>Now switch to your original window in TMUX. Similar to last week,
+open a file named <code>mongodb.conf</code> using <code>emacs</code> as
+follows:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emacs</span> mongodb.conf</span></code></pre></div>
+<p>Edit it so that it looks like:</p>
+<pre><code>[mongodb]
+host=10.200.172.57
+username=your-username-here
+password=your-mongodb-password-here
+database=your-username-here</code></pre>
+<p>Now in <code>iPython3</code> let’s load it in as before:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import library</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> configparser</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># initialise config object</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> configparser.ConfigParser()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># load config from file</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>config.read(<span class="st">&#39;mongodb.conf&#39;</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># get the mongodb section (the only one)</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>dbconfig<span class="op">=</span>config[<span class="st">&#39;mongodb&#39;</span>]</span></code></pre></div>
+<h2 data-number="2.4" id="mongodb-connection"><span class="header-section-number">2.4</span> MongoDB connection</h2>
+<p>We’ll follow a similar pattern to last week:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the pymongo module</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pymongo <span class="im">import</span> MongoClient</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create the client object connecting to the server</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> MongoClient(dbconfig[<span class="st">&#39;host&#39;</span>], username<span class="op">=</span>dbconfig[<span class="st">&#39;username&#39;</span>], password<span class="op">=</span>dbconfig[<span class="st">&#39;password&#39;</span>])</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># database object from client</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>db <span class="op">=</span> client.yourusernamehere</span></code></pre></div>
+<h1 data-number="3" id="product-database-example"><span class="header-section-number">3</span> Product database example</h1>
+<p>One thing document stores in general are very good at is storing data
+you’ve ingested from elsewhere, where you didn’t design or don’t know
+the schema in advance. They then make it very easy to run queries
+against that data compared to storing it as flat files.</p>
+<p>We’re going to demonstrate this using information from a few stores
+that employ the <a href="https://shopify.com">Shopify</a> sales platform
+to power their online store.</p>
+<p>Shopify happens to provide information on products at
+<code>products.json</code> on every site by default. It will return up
+to 250 products for a single call.</p>
+<h2 data-number="3.1" id="store-list"><span class="header-section-number">3.1</span> Store list</h2>
+<p>There a few retailers I’ve found that use Shopify.</p>
+<p>In <code>mongosh</code> create a new collection named
+<code>stores</code> (adapt the instructions above) and populate 2 of the
+retailers below as <code>name</code> and <code>url</code>:</p>
+<ol type="1">
+<li>Carraig donn: https://www.carraigdonn.com</li>
+<li>Carolyn’s Sweet Shop: https://www.carolynssweetshop.ie</li>
+<li>SOS Cookies: https://www.soscookies.ie</li>
+</ol>
+<p>When you’ve done this, the output from:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">stores</span><span class="op">.</span><span class="fu">find</span>({})</span></code></pre></div>
+<p>should look similar to:</p>
+<pre><code>[
+  {
+    _id: ObjectId(&#39;67a50545105786f542544ca7&#39;),
+    name: &#39;carraig donn&#39;,
+    url: &#39;https://www.carraigdonn.com&#39;
+  },
+  {
+    _id: ObjectId(&#39;67a5103e105786f542544ca8&#39;),
+    name: &#39;SOS cookies&#39;,
+    url: &#39;https://www.soscookies.ie&#39;
+  }
+]</code></pre>
+<h1 data-number="4" id="requests-library"><span class="header-section-number">4</span> Requests library</h1>
+<p>We’re going to use the <a href="https://requests.readthedocs.io/en/latest/">Python Requests
+Library</a> to allow us to get information from internet URLs directly
+into Python programs. Very similar alternatives include urllib3 and
+beautifulsoup.</p>
+<p>The requests library is very straightforward to use. Import using the
+usual syntax.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span></code></pre></div>
+<p>We can just call its <code>get</code> method against any particular
+URL, storing its result into the <code>response</code> variable.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(<span class="st">&#39;https://url.goes/here&#39;</span>)</span></code></pre></div>
+<p>The response object contains not only the data asked for but other
+information supplied (as headers) from the remote server. The usual
+methods you’ll use are:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># works all the time</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>data_as_text <span class="op">=</span> response.text</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># directly create a dict / list if response is JSON</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>data_as_dictionary <span class="op">=</span> response.json() </span></code></pre></div>
+<p>Most APIs designed for programmatic access tend to return JSON, which
+is very straightword to parse. Once this has been done it’s just a
+normal python dictionary/list structure and no other special treatment
+is needed.</p>
+<p>If the API does not return JSON, perhaps instead returning CSV, XML
+etc then there will have to be a separate parsing step using the
+appropriate tools based on the <code>.text</code> attribute.</p>
+<p>The requests library is very fully-featured, and can support a lot of
+other functionality like cookies, HTTP authentication, user agent
+masquerading, POST requests etc.</p>
+<h1 data-number="5" id="schema-design"><span class="header-section-number">5</span> Schema design</h1>
+<p>Although we don’t need to define columns and datatypes before taking
+in data, we do need to decide on how to break down collections and
+documents. This applies if creating a database and its contents from
+scratch as in the last lab, but is particularly important when we’re
+importing data from elsewhere.</p>
+<p>Sometimes what we encounter or ingest as a single document
+encapsulates a large list of items that’s better organised in our
+database as a collection of multiple documents.</p>
+<p>In many cases this will depend on how we want to search for and
+interact with documents.</p>
+<p>In this case, the <code>products</code> JSON dictionary is a list
+that we’ll break up into individual products.</p>
+<p>We’ll create a collection called products and will insert each list
+item as a document in our Python code.</p>
+<h1 data-number="6" id="loading"><span class="header-section-number">6</span> Loading</h1>
+<p>For the full demo example see <code>shopify_load_demo.py</code>.</p>
+<p>Also note some of the explanations in the comments.</p>
+<h2 data-number="6.1" id="basic-load-program"><span class="header-section-number">6.1</span> Basic load program</h2>
+<p>Using the <code>emacs</code> editor you can start on the example:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emacs</span> shopify_load.py</span></code></pre></div>
+<p>What happens if you run the load script more than once?</p>
+<h2 data-number="6.2" id="deleting-all"><span class="header-section-number">6.2</span> Deleting all</h2>
+<p>If you want to clear out the (possibly duplicate) items inserted just
+run:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">deleteMany</span>()</span></code></pre></div>
+<h1 data-number="7" id="preventing-duplicates"><span class="header-section-number">7</span> Preventing duplicates</h1>
+<p>Like common relational Databases, MongoDB can enforce some basic
+schema constraints.</p>
+<p>There is already technically a primary key of sorts in the form of
+the <code>_id</code> field. In almost all cases we should let MongoDB
+manage this ID by itself.</p>
+<p>We can also create one more <em>unique indexes</em> to prevent
+insertion of a record that already exists, as in the case of
+PostgreSQL.</p>
+<p>Issue the following command in <code>mongosh</code> to create a
+unique constraint on the combination of <code>store</code> and
+<code>handle</code> columns that will guarantee a unique ID.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">createIndex</span>( { <span class="st">&quot;store&quot;</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;handle&quot;</span><span class="op">:</span> <span class="dv">1</span> }<span class="op">,</span> { <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span> } )</span></code></pre></div>
+<p>Then re-run the loading script twice and confirm that the unique
+index prevents duplicate insertions.</p>
+<h1 data-number="8" id="limit-fields-to-return"><span class="header-section-number">8</span> Limit fields to return</h1>
+<p>We can limit fields to return from a query using what we call a <a href="https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/">projection</a>.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({})<span class="op">.</span><span class="fu">project</span>({ <span class="dt">title</span><span class="op">:</span><span class="dv">1</span> })</span></code></pre></div>
+<h2 data-number="8.1" id="suppress-the-id-field"><span class="header-section-number">8.1</span> Suppress the ID field</h2>
+<p>The <code>_id</code> field appears even when not explicitly asked
+for. It can be suppressed by including <code>_id</code> in the
+projection expression and setting it to <code>0</code>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({})<span class="op">.</span><span class="fu">project</span>({ <span class="dt">title</span><span class="op">:</span><span class="dv">1</span><span class="op">,</span> <span class="dt">_id</span><span class="op">:</span><span class="dv">0</span> })</span></code></pre></div>
+<h2 data-number="8.2" id="exclusion"><span class="header-section-number">8.2</span> Exclusion</h2>
+<p>Instead of listing the desired fields, you can use a projection
+expression that specifies 0 on each to suppress the fields in question,
+otherwise returning all fields.</p>
+<p>Confusingly, aside from the <code>_id</code> column as above we can’t
+combine 0 and 1 clauses in this expression.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({})<span class="op">.</span><span class="fu">project</span>({ <span class="dt">body_html</span><span class="op">:</span><span class="dv">0</span> })</span></code></pre></div>
+</body>
+</html>

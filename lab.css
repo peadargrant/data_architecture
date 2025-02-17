@@ -5,13 +5,12 @@ Peadar Grant
 
 body {
     font-family: sans-serif;
-    font-size: 125%;
-    background-color: rgb(255,255,237);
+    background-color: rgb(245,245,245);
 }
 
 #TOC {
-    background-color: palegreen;
     padding: 10px;
+    background-color: lightyellow;
 }
 
 h1.title {
@@ -37,7 +36,19 @@ h3 {
     font-size: 100%;
 }
 
-pre, code {
-    font-size: 120%;
+code {
     font-weight: bold;
+    font-size: 120%;
 }
+
+pre {
+    font-size: 120%;
+    padding: 0.5em;
+    font-weight: bold;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(100,100,100);
+    background-color: rgb(245,255,245);
+}
+
+/* end */
