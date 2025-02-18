@@ -281,7 +281,7 @@ What happens if you run the load script more than once?
 If you want to clear out the (possibly duplicate) items inserted just run:
 
 ```javascript
-db.products.deleteMany()
+db.products.deleteMany({})
 ```
 
 # Preventing duplicates
@@ -308,7 +308,7 @@ Then re-run the loading script twice and confirm that the unique index prevents 
 We can limit fields to return from a query using what we call a [projection](https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/).
 
 ```javascript
-db.products.find({}).project({ title:1 })
+db.products.find({}, { title:1 })
 ```
 
 
@@ -319,7 +319,7 @@ The `_id` field appears even when not explicitly asked for.
 It can be suppressed by including `_id` in the projection expression and setting it to `0`.
 
 ```javascript
-db.products.find({}).project({ title:1, _id:0 })
+db.products.find({}, { title:1, _id:0 })
 ```
 
 
@@ -331,5 +331,5 @@ Instead of listing the desired fields, you can use a projection expression that 
 Confusingly, aside from the `_id` column as above we can't combine 0 and 1 clauses in this expression.
 
 ```javascript
-db.products.find({}).project({ body_html:0 })
+db.products.find({}, { body_html:0 })
 ```
