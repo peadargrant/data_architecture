@@ -374,7 +374,7 @@ item as a document in our Python code.</p>
 <h2 data-number="6.2" id="deleting-all"><span class="header-section-number">6.2</span> Deleting all</h2>
 <p>If you want to clear out the (possibly duplicate) items inserted just
 run:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">deleteMany</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">deleteMany</span>({})</span></code></pre></div>
 <h1 data-number="7" id="preventing-duplicates"><span class="header-section-number">7</span> Preventing duplicates</h1>
 <p>Like common relational Databases, MongoDB can enforce some basic
 schema constraints.</p>
@@ -392,18 +392,18 @@ unique constraint on the combination of <code>store</code> and
 index prevents duplicate insertions.</p>
 <h1 data-number="8" id="limit-fields-to-return"><span class="header-section-number">8</span> Limit fields to return</h1>
 <p>We can limit fields to return from a query using what we call a <a href="https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/">projection</a>.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({})<span class="op">.</span><span class="fu">project</span>({ <span class="dt">title</span><span class="op">:</span><span class="dv">1</span> })</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({}<span class="op">,</span> { <span class="dt">title</span><span class="op">:</span><span class="dv">1</span> })</span></code></pre></div>
 <h2 data-number="8.1" id="suppress-the-id-field"><span class="header-section-number">8.1</span> Suppress the ID field</h2>
 <p>The <code>_id</code> field appears even when not explicitly asked
 for. It can be suppressed by including <code>_id</code> in the
 projection expression and setting it to <code>0</code>.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({})<span class="op">.</span><span class="fu">project</span>({ <span class="dt">title</span><span class="op">:</span><span class="dv">1</span><span class="op">,</span> <span class="dt">_id</span><span class="op">:</span><span class="dv">0</span> })</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({}<span class="op">,</span> { <span class="dt">title</span><span class="op">:</span><span class="dv">1</span><span class="op">,</span> <span class="dt">_id</span><span class="op">:</span><span class="dv">0</span> })</span></code></pre></div>
 <h2 data-number="8.2" id="exclusion"><span class="header-section-number">8.2</span> Exclusion</h2>
 <p>Instead of listing the desired fields, you can use a projection
 expression that specifies 0 on each to suppress the fields in question,
 otherwise returning all fields.</p>
 <p>Confusingly, aside from the <code>_id</code> column as above we can’t
 combine 0 and 1 clauses in this expression.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({})<span class="op">.</span><span class="fu">project</span>({ <span class="dt">body_html</span><span class="op">:</span><span class="dv">0</span> })</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">find</span>({}<span class="op">,</span> { <span class="dt">body_html</span><span class="op">:</span><span class="dv">0</span> })</span></code></pre></div>
 </body>
 </html>
