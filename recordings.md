@@ -8,4 +8,5 @@
 
 4. [Document Stores, Intro to MongoDB](https://media.heanet.ie/page/e548c524b2424e33a91fc0ce7e61f968)
 
+5. [Advanced MongoDB](https://media.heanet.ie/page/90b4c41f53fb4d2c8b4efdc92ae52236)
 
