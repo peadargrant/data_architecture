@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Document-Relational Lab</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+body {
+font-family: sans-serif;
+background-color: rgb(245,245,245);
+}
+#TOC {
+padding: 10px;
+background-color: lightyellow;
+}
+h1.title {
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 150%;
+}
+h1 {
+background-color: lightcyan;
+padding: 5px;
+font-size: 120%;
+}
+h2 {
+color: darkblue;
+font-size: 100%;
+}
+h3 {
+color: darkgreen;
+font-size: 100%;
+}
+code {
+font-weight: bold;
+font-size: 120%;
+}
+pre {
+font-size: 120%;
+padding: 0.5em;
+font-weight: bold;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(100,100,100);
+background-color: rgb(245,255,245);
+}
+
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Document-Relational Lab</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#connecting" id="toc-connecting"><span class="toc-section-number">1</span> Connecting</a>
+<ul>
+<li><a href="#remote-or-laptop-students" id="toc-remote-or-laptop-students"><span class="toc-section-number">1.1</span> Remote or laptop students</a></li>
+<li><a href="#login-to-the-shared-server" id="toc-login-to-the-shared-server"><span class="toc-section-number">1.2</span> Login to the shared
+server</a></li>
+</ul></li>
+<li><a href="#postgresql" id="toc-postgresql"><span class="toc-section-number">2</span> PostgreSQL</a>
+<ul>
+<li><a href="#new-tmux-window" id="toc-new-tmux-window"><span class="toc-section-number">2.1</span> New TMUX window</a></li>
+<li><a href="#connect" id="toc-connect"><span class="toc-section-number">2.2</span> Connect</a></li>
+</ul></li>
+<li><a href="#document-databases" id="toc-document-databases"><span class="toc-section-number">3</span> Document databases</a>
+<ul>
+<li><a href="#problems" id="toc-problems"><span class="toc-section-number">3.1</span> Problems</a></li>
+<li><a href="#document-data-in-relational-databases" id="toc-document-data-in-relational-databases"><span class="toc-section-number">3.2</span> Document data in relational
+databases</a></li>
+<li><a href="#documents-as-text" id="toc-documents-as-text"><span class="toc-section-number">3.3</span> Documents as TEXT</a></li>
+<li><a href="#json-jsonb-types" id="toc-json-jsonb-types"><span class="toc-section-number">3.4</span> JSON / JSONB types</a>
+<ul>
+<li><a href="#json" id="toc-json"><span class="toc-section-number">3.4.1</span> JSON</a></li>
+<li><a href="#jsonb" id="toc-jsonb"><span class="toc-section-number">3.4.2</span> JSONB</a></li>
+</ul></li>
+<li><a href="#usage-patterns" id="toc-usage-patterns"><span class="toc-section-number">3.5</span> Usage patterns</a></li>
+</ul></li>
+<li><a href="#python3" id="toc-python3"><span class="toc-section-number">4</span> Python3</a>
+<ul>
+<li><a href="#new-tmux-window-1" id="toc-new-tmux-window-1"><span class="toc-section-number">4.1</span> New TMUX window</a></li>
+<li><a href="#postgresql-connection" id="toc-postgresql-connection"><span class="toc-section-number">4.2</span> PostgreSQL connection</a></li>
+</ul></li>
+<li><a href="#schema" id="toc-schema"><span class="toc-section-number">5</span> Schema</a>
+<ul>
+<li><a href="#store-table" id="toc-store-table"><span class="toc-section-number">5.1</span> Store table</a></li>
+<li><a href="#products-table" id="toc-products-table"><span class="toc-section-number">5.2</span> Products table</a></li>
+<li><a href="#variant-table" id="toc-variant-table"><span class="toc-section-number">5.3</span> Variant table</a></li>
+<li><a href="#amount-domain" id="toc-amount-domain"><span class="toc-section-number">5.4</span> Amount domain</a></li>
+</ul></li>
+<li><a href="#data-import" id="toc-data-import"><span class="toc-section-number">6</span> Data import</a></li>
+<li><a href="#querying" id="toc-querying"><span class="toc-section-number">7</span> Querying</a>
+<ul>
+<li><a href="#accessing-json-elements" id="toc-accessing-json-elements"><span class="toc-section-number">7.1</span> Accessing JSON elements</a></li>
+</ul></li>
+<li><a href="#discussion-points" id="toc-discussion-points"><span class="toc-section-number">8</span> Discussion points</a></li>
+</ul>
+</nav>
+<p>In this week’s lab we’ll look at the key limitations of the document
+store model alone and how we can use document storage features in
+relational databases as an alternative.</p>
+<p>We will use <code>psql</code> and via Python in <code>ipython3</code>
+using <code>psycopg2</code> libraries. We’ll also again use the the
+python <code>requests</code> library to pull in JSON-formatted data from
+internet URLs and store it in PostgreSQL.</p>
+<p>Today’s lab shows some of the possibilities of using a relational DB
+to work with primarily document data, using its document types. Today’s
+lab is rather opinionated and simplified, note that there are many
+equivalent ways to do the same operations shown here.</p>
+<p><strong>Important links:</strong></p>
+<ul>
+<li><a href="https://requests.readthedocs.io/en/latest/">Python Requests
+Library</a></li>
+<li><a href="https://www.psycopg.org/docs/">Psycopg2</a></li>
+<li><a href="https://www.postgresql.org/docs/16/datatype-json.html">PostgreSQL
+JSONB types</a></li>
+</ul>
+<p><em>Some basic concepts from PostgreSQL last semester are re-capped
+in this lab.</em></p>
+<h1 data-number="1" id="connecting"><span class="header-section-number">1</span> Connecting</h1>
+<h2 data-number="1.1" id="remote-or-laptop-students"><span class="header-section-number">1.1</span> Remote or laptop students</h2>
+<p><em>Skip if on a lab machine</em></p>
+<p><a href="https://dkitvpn.dkit.ie">Connect to the VPN</a> at the
+beginning of this class.</p>
+<h2 data-number="1.2" id="login-to-the-shared-server"><span class="header-section-number">1.2</span> Login to the shared server</h2>
+<p>As per last week, we’ll login to the shared lab server.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> yourname@10.200.172.60</span></code></pre></div>
+<h1 data-number="2" id="postgresql"><span class="header-section-number">2</span> PostgreSQL</h1>
+<h2 data-number="2.1" id="new-tmux-window"><span class="header-section-number">2.1</span> New TMUX window</h2>
+<p>Type <code>Ctrl-B c</code> to make a new tmux window where we’ll run
+<code>psql</code> (next step).</p>
+<h2 data-number="2.2" id="connect"><span class="header-section-number">2.2</span> Connect</h2>
+<p>In our new tmux window we’ll use <code>psql</code> to connect to
+PostgreSQL:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">psql</span></span></code></pre></div>
+<p>Output should look like:</p>
+<pre><code>psql (16.6 (Ubuntu 16.6-0ubuntu0.24.04.1))
+Type &quot;help&quot; for help.
+
+grantp=&gt; </code></pre>
+<p>(If you are looking at my screen during class you’ll probably notice
+that the prompt looks slightly different <code>grantp=#</code>. The hash
+sign is because I have superuser privilages.)</p>
+<h1 data-number="3" id="document-databases"><span class="header-section-number">3</span> Document databases</h1>
+<ul>
+<li>Great for ingesting large volumes of data where we don’t know the
+<em>schema</em> in advance.</li>
+<li>We don’t have to design database / tables to store data we may never
+retrieve.</li>
+<li>Allow ease of searching docs once loaded</li>
+<li>Aligned with Python (and other language) dictionary / collection
+formats.</li>
+</ul>
+<h2 data-number="3.1" id="problems"><span class="header-section-number">3.1</span> Problems</h2>
+<ul>
+<li>Loose structure around datatypes</li>
+<li>Advanced querying needs a lot of time investment</li>
+<li>Some things from relational databases <em>aren’t</em> possible.</li>
+</ul>
+<h2 data-number="3.2" id="document-data-in-relational-databases"><span class="header-section-number">3.2</span> Document data in relational
+databases</h2>
+<h2 data-number="3.3" id="documents-as-text"><span class="header-section-number">3.3</span> Documents as TEXT</h2>
+<p>In theory there would be nothing to stop you using a
+<code>TEXT</code> column to store JSON documents:</p>
+<ul>
+<li>Very useful if the JSON documents are <em>additional</em> data that
+you don’t intend using in foreign keys, JOINS or searching on.</li>
+<li>Most useful where the additional data is to support a specific
+program / service / application that requires it.</li>
+</ul>
+<h2 data-number="3.4" id="json-jsonb-types"><span class="header-section-number">3.4</span> JSON / JSONB types</h2>
+<p>However, PostgreSQL also supports the <code>JSON</code> and
+<code>JSONB</code> column types. Highly recommend <a href="https://www.postgresql.org/docs/16/datatype-json.html">reading the
+JSON types documentation</a>. Key points:</p>
+<ul>
+<li>JSON data types enforce stored data validity according to the JSON
+rules.</li>
+<li>JSON-specific functions and operators available for data stored in
+these types.</li>
+</ul>
+<p>There are 2 types:</p>
+<h3 data-number="3.4.1" id="json"><span class="header-section-number">3.4.1</span> JSON</h3>
+<p>The <code>json</code> data type stores an exact copy of the input
+text, which processing functions must reparse on each execution.</p>
+<p>Because the json type stores an exact copy of the input text:</p>
+<ul>
+<li>it will preserve semantically-insignificant white space between
+tokens</li>
+<li>it will preserve the order of keys within JSON objects</li>
+<li>Also, if a JSON object within the value contains the same key more
+than once (not valid!), all the key/value pairs are kept. <em>The
+processing functions consider the last value as the operative
+one.</em></li>
+</ul>
+<h3 data-number="3.4.2" id="jsonb"><span class="header-section-number">3.4.2</span> JSONB</h3>
+<p>The <code>jsonb</code> stores data in a decomposed binary format:</p>
+<ul>
+<li>slower to input due to added conversion overhead</li>
+<li>significantly faster to process, since no reparsing is needed</li>
+<li>supports indexing</li>
+</ul>
+<p><em>Due to how JSONB works there are some unusual cases where JSONB
+will reject valid JSON data, due to issues mapping it to Postgres types.
+You’ll probably never encounter this.</em></p>
+<p><strong>In general, prefer JSONB.</strong></p>
+<h2 data-number="3.5" id="usage-patterns"><span class="header-section-number">3.5</span> Usage patterns</h2>
+<ul>
+<li>Can use it simply as a “document” within Python or other
+program.</li>
+<li>PostgreSQL has a number of helper query functions that can work
+directly with JSON data.</li>
+</ul>
+<h1 data-number="4" id="python3"><span class="header-section-number">4</span> Python3</h1>
+<h2 data-number="4.1" id="new-tmux-window-1"><span class="header-section-number">4.1</span> New TMUX window</h2>
+<p>Create a new TMUX window and start iPython3.</p>
+<h2 data-number="4.2" id="postgresql-connection"><span class="header-section-number">4.2</span> PostgreSQL connection</h2>
+<pre class="python3"><code>import psycopg2
+
+db = psycopg2.connect()</code></pre>
+<h1 data-number="5" id="schema"><span class="header-section-number">5</span> Schema</h1>
+<p>We’re going to use the same Shopify data as last time from:</p>
+<ol type="1">
+<li>Carraig donn: https://www.carraigdonn.com</li>
+<li>Carolyn’s Sweet Shop: https://www.carolynssweetshop.ie</li>
+<li>SOS Cookies: https://www.soscookies.ie</li>
+</ol>
+<p>We are initially going to define a schema that relies almost
+completely on the documents being stored the record field. Only
+automaticallly assigned integer IDs are also stored and used for
+linking.</p>
+<p><img role="img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIyNDVwdCIgaGVpZ2h0PSI0NHB0Igogdmlld0JveD0iMC4wMCAwLjAwIDI0NS4yNSA0NC4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA0MCkiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtNDAgMjQxLjI1LC00MCAyNDEuMjUsNCAtNCw0Ii8+CjwhLS0gc3RvcmUgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+c3RvcmU8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJsaWdodGdyZXkiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTQsLTM2IDAsLTM2IDAsMCA1NCwwIDU0LC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNyIgeT0iLTEyLjk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnN0b3JlPC90ZXh0Pgo8L2c+CjwhLS0gcHJvZHVjdCAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5wcm9kdWN0PC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibGlnaHRncmV5IiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE0Ny4yNSwtMzYgOTAsLTM2IDkwLDAgMTQ3LjI1LDAgMTQ3LjI1LC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMTguNjIiIHk9Ii0xMi45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5wcm9kdWN0PC90ZXh0Pgo8L2c+CjwhLS0gc3RvcmUmIzQ1OyZndDtwcm9kdWN0IC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnN0b3JlJiM0NTsmZ3Q7cHJvZHVjdDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik01NC40MSwtMThDNjEuODMsLTE4IDcwLjA3LC0xOCA3OC4wOCwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNzguMDIsLTIxLjUgODguMDIsLTE4IDc4LjAyLC0xNC41IDc4LjAyLC0yMS41Ii8+CjwvZz4KPCEtLSB2YXJpYW50IC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnZhcmlhbnQ8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJsaWdodGdyZXkiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjM3LjI1LC0zNiAxODMuMjUsLTM2IDE4My4yNSwwIDIzNy4yNSwwIDIzNy4yNSwtMzYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjEwLjI1IiB5PSItMTIuOTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFyaWFudDwvdGV4dD4KPC9nPgo8IS0tIHByb2R1Y3QmIzQ1OyZndDt2YXJpYW50IC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnByb2R1Y3QmIzQ1OyZndDt2YXJpYW50PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE0Ny40OSwtMThDMTU1LjA5LC0xOCAxNjMuNDQsLTE4IDE3MS40OSwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTcxLjQyLC0yMS41IDE4MS40MiwtMTggMTcxLjQyLC0xNC41IDE3MS40MiwtMjEuNSIvPgo8L2c+CjwvZz4KPC9zdmc+Cg==" /></p>
+<h2 data-number="5.1" id="store-table"><span class="header-section-number">5.1</span> Store table</h2>
+<p>First we’re going to make a table called <code>store</code> to hold
+the store details.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> <span class="kw">store</span> ( </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">id</span> bigserial <span class="kw">primary</span> <span class="kw">key</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>name text <span class="kw">not</span> <span class="kw">null</span> <span class="kw">unique</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>url text <span class="kw">not</span> <span class="kw">null</span> <span class="kw">unique</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>The output should be simply:</p>
+<pre><code>CREATE TABLE</code></pre>
+<p>First look at the above table creation statement and ensure that you
+know what each column specification means.</p>
+<p>Use <code>\d store</code> to describe the store table. Output should
+look similar to:</p>
+<pre><code>                            Table &quot;public.store&quot;
+ Column |  Type  | Collation | Nullable |              Default              
+--------+--------+-----------+----------+-----------------------------------
+ id     | bigint |           | not null | nextval(&#39;store_id_seq&#39;::regclass)
+ name   | text   |           | not null | 
+ url    | text   |           | not null | 
+Indexes:
+    &quot;store_pkey&quot; PRIMARY KEY, btree (id)
+    &quot;store_name_key&quot; UNIQUE CONSTRAINT, btree (name)
+    &quot;store_url_key&quot; UNIQUE CONSTRAINT, btree (url)</code></pre>
+<h2 data-number="5.2" id="products-table"><span class="header-section-number">5.2</span> Products table</h2>
+<p>Next we’ll start off with a basic table to represent products</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> product (</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">id</span> bigserial <span class="kw">primary</span> <span class="kw">key</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">store</span> bigint <span class="kw">not</span> <span class="kw">null</span> <span class="kw">references</span> <span class="kw">store</span> <span class="kw">on</span> <span class="kw">update</span> <span class="kw">cascade</span> <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="dt">record</span> jsonb <span class="kw">not</span> <span class="kw">null</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>If created correctly the output of <code>\d product</code> should
+be:</p>
+<pre><code>                            Table &quot;public.product&quot;
+ Column |  Type  | Collation | Nullable |               Default               
+--------+--------+-----------+----------+-------------------------------------
+ id     | bigint |           | not null | nextval(&#39;product_id_seq&#39;::regclass)
+ record | jsonb  |           | not null | 
+ store  | bigint |           | not null | 
+Indexes:
+    &quot;product_pkey&quot; PRIMARY KEY, btree (id)
+    </code></pre>
+<h2 data-number="5.3" id="variant-table"><span class="header-section-number">5.3</span> Variant table</h2>
+<p>Finally we’ll generate the variant table, as each product has 1 or
+more variants.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> variant (</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">id</span> bigserial <span class="kw">primary</span> <span class="kw">key</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>product bigint <span class="kw">not</span> <span class="kw">null</span> <span class="kw">references</span> product <span class="kw">on</span> <span class="kw">update</span> <span class="kw">cascade</span> <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="dt">record</span> jsonb <span class="kw">not</span> <span class="kw">null</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>If created correctly the output of <code>\d variant</code> should
+be:</p>
+<pre><code>                            Table &quot;public.variant&quot;
+ Column  |  Type  | Collation | Nullable |               Default               
+---------+--------+-----------+----------+-------------------------------------
+ id      | bigint |           | not null | nextval(variant_id_seq&#39;::regclass)
+ record  | jsonb  |           | not null | 
+ product | bigint |           | not null | 
+Indexes:
+    &quot;product_pkey&quot; PRIMARY KEY, btree (id)</code></pre>
+<h2 data-number="5.4" id="amount-domain"><span class="header-section-number">5.4</span> Amount domain</h2>
+<p>We’ll also create a custom domain / type for money amounts like
+prices:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">DOMAIN</span> amount <span class="kw">AS</span> <span class="dt">NUMERIC</span>(<span class="dv">10</span>,<span class="dv">2</span>);</span></code></pre></div>
+<h1 data-number="6" id="data-import"><span class="header-section-number">6</span> Data import</h1>
+<p>Data import as in <code>product_sync.py</code>. Data source
+definitions are in <code>stores.json</code>.</p>
+<p>See code comments for further info.</p>
+<h1 data-number="7" id="querying"><span class="header-section-number">7</span> Querying</h1>
+<h2 data-number="7.1" id="accessing-json-elements"><span class="header-section-number">7.1</span> Accessing JSON elements</h2>
+<p>The <code>record</code> field can be queried using the
+<code>-&gt;</code> and <code>-&gt;&gt;</code> operators:</p>
+<ul>
+<li><code>-&gt;</code> selects out a JSON component as JSON</li>
+<li><code>-&gt;&gt;</code> selects out a JSON component as text</li>
+</ul>
+<p>If you have extraneous double quotes in your output it is most likely
+that you’ve used <code>-&gt;</code> when you should have used
+<code>-&gt;&gt;</code>.</p>
+<h1 data-number="8" id="discussion-points"><span class="header-section-number">8</span> Discussion points</h1>
+<ul>
+<li>Using a relational DB purely as a document store may involve more
+work than a real document store.</li>
+<li>Can get a lot of value purely by breaking down relationships</li>
+<li>Syncing data from external systems a lot easier if you can wipe it
+clean before pulling in data</li>
+<li>Updating a lot more difficult, increased difficulty with local
+additions, even more with local amendments.</li>
+</ul>
+</body>
+</html>
