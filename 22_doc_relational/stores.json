@@ -1,13 +1,14 @@
-{
-    "stores": [
-	{
-	    
-	},
-	{
-	    
-	},
-	{
-	    
-	}
-    ]
-}
+[
+    {
+	"name": "Carraig donn",
+	"url": "https://www.carraigdonn.com"
+    },
+    {
+	"name": "Carolyn's Sweet Shop",
+	"url": "https://www.carolynssweetshop.ie"
+    },
+    {
+	"name": "SOS Cookies",
+	"url": "https://www.soscookies.ie"
+    }
+]
