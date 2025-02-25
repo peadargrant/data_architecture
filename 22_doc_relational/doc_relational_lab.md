@@ -263,6 +263,17 @@ Data source definitions are in `stores.json`.
 See code comments for further info. 
 
 
+# Exercises
+
+Once loaded, write queries as follows:
+
+1. Total number of stores, products, variants.
+
+2. Average number of variants per product grouped by store. 
+
+3. For products with more than 1 variant, compute the variance in price per product sorted by difference descrndomg/ 
+
+
 # Querying
 
 ## Accessing JSON elements

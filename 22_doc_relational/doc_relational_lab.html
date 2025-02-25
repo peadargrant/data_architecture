@@ -174,11 +174,12 @@ databases</a></li>
 <li><a href="#amount-domain" id="toc-amount-domain"><span class="toc-section-number">5.4</span> Amount domain</a></li>
 </ul></li>
 <li><a href="#data-import" id="toc-data-import"><span class="toc-section-number">6</span> Data import</a></li>
-<li><a href="#querying" id="toc-querying"><span class="toc-section-number">7</span> Querying</a>
+<li><a href="#exercises" id="toc-exercises"><span class="toc-section-number">7</span> Exercises</a></li>
+<li><a href="#querying" id="toc-querying"><span class="toc-section-number">8</span> Querying</a>
 <ul>
-<li><a href="#accessing-json-elements" id="toc-accessing-json-elements"><span class="toc-section-number">7.1</span> Accessing JSON elements</a></li>
+<li><a href="#accessing-json-elements" id="toc-accessing-json-elements"><span class="toc-section-number">8.1</span> Accessing JSON elements</a></li>
 </ul></li>
-<li><a href="#discussion-points" id="toc-discussion-points"><span class="toc-section-number">8</span> Discussion points</a></li>
+<li><a href="#discussion-points" id="toc-discussion-points"><span class="toc-section-number">9</span> Discussion points</a></li>
 </ul>
 </nav>
 <p>In this week’s lab we’ll look at the key limitations of the document
@@ -382,8 +383,16 @@ prices:</p>
 <p>Data import as in <code>product_sync.py</code>. Data source
 definitions are in <code>stores.json</code>.</p>
 <p>See code comments for further info.</p>
-<h1 data-number="7" id="querying"><span class="header-section-number">7</span> Querying</h1>
-<h2 data-number="7.1" id="accessing-json-elements"><span class="header-section-number">7.1</span> Accessing JSON elements</h2>
+<h1 data-number="7" id="exercises"><span class="header-section-number">7</span> Exercises</h1>
+<p>Once loaded, write queries as follows:</p>
+<ol type="1">
+<li><p>Total number of stores, products, variants.</p></li>
+<li><p>Average number of variants per product grouped by store.</p></li>
+<li><p>For products with more than 1 variant, compute the variance in
+price per product sorted by difference descrndomg/</p></li>
+</ol>
+<h1 data-number="8" id="querying"><span class="header-section-number">8</span> Querying</h1>
+<h2 data-number="8.1" id="accessing-json-elements"><span class="header-section-number">8.1</span> Accessing JSON elements</h2>
 <p>The <code>record</code> field can be queried using the
 <code>-&gt;</code> and <code>-&gt;&gt;</code> operators:</p>
 <ul>
@@ -393,7 +402,7 @@ definitions are in <code>stores.json</code>.</p>
 <p>If you have extraneous double quotes in your output it is most likely
 that you’ve used <code>-&gt;</code> when you should have used
 <code>-&gt;&gt;</code>.</p>
-<h1 data-number="8" id="discussion-points"><span class="header-section-number">8</span> Discussion points</h1>
+<h1 data-number="9" id="discussion-points"><span class="header-section-number">9</span> Discussion points</h1>
 <ul>
 <li>Using a relational DB purely as a document store may involve more
 work than a real document store.</li>
