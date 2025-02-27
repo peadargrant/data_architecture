@@ -10,3 +10,5 @@
 
 5. [Advanced MongoDB](https://media.heanet.ie/page/90b4c41f53fb4d2c8b4efdc92ae52236)
 
+6. [Document-Relational DB](https://media.heanet.ie/page/850dab8e2a2e4d71ae2b1e0336787270)
+
