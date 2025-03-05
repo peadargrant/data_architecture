@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>XML lab</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+body {
+font-family: sans-serif;
+background-color: rgb(245,245,245);
+}
+#TOC {
+padding: 10px;
+background-color: lightyellow;
+}
+h1.title {
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 150%;
+}
+h1 {
+background-color: lightcyan;
+padding: 5px;
+font-size: 120%;
+}
+h2 {
+color: darkblue;
+font-size: 100%;
+}
+h3 {
+color: darkgreen;
+font-size: 100%;
+}
+code {
+font-weight: bold;
+font-size: 120%;
+}
+pre {
+font-size: 120%;
+padding: 0.5em;
+font-weight: bold;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(100,100,100);
+background-color: rgb(245,255,245);
+}
+
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">XML lab</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#connecting" id="toc-connecting"><span class="toc-section-number">1</span> Connecting</a>
+<ul>
+<li><a href="#remote-or-laptop-students" id="toc-remote-or-laptop-students"><span class="toc-section-number">1.1</span> Remote or laptop students</a></li>
+<li><a href="#login-to-the-shared-server" id="toc-login-to-the-shared-server"><span class="toc-section-number">1.2</span> Login to the shared
+server</a></li>
+</ul></li>
+<li><a href="#xml" id="toc-xml"><span class="toc-section-number">2</span> XML</a>
+<ul>
+<li><a href="#usage" id="toc-usage"><span class="toc-section-number">2.1</span> Usage</a></li>
+<li><a href="#origins-sgml" id="toc-origins-sgml"><span class="toc-section-number">2.2</span> Origins: SGML</a></li>
+</ul></li>
+<li><a href="#xml-document-structure" id="toc-xml-document-structure"><span class="toc-section-number">3</span> XML document structure</a>
+<ul>
+<li><a href="#xml-declaration" id="toc-xml-declaration"><span class="toc-section-number">3.1</span> XML declaration</a></li>
+<li><a href="#nesting-rules" id="toc-nesting-rules"><span class="toc-section-number">3.2</span> Nesting rules</a></li>
+<li><a href="#xml-comments" id="toc-xml-comments"><span class="toc-section-number">3.3</span> XML comments</a></li>
+<li><a href="#free-format" id="toc-free-format"><span class="toc-section-number">3.4</span> Free-format</a></li>
+<li><a href="#attributes" id="toc-attributes"><span class="toc-section-number">3.5</span> Attributes</a>
+<ul>
+<li><a href="#mixing-elements-and-attributes" id="toc-mixing-elements-and-attributes"><span class="toc-section-number">3.5.1</span> Mixing elements and
+attributes</a></li>
+</ul></li>
+<li><a href="#empty-elements" id="toc-empty-elements"><span class="toc-section-number">3.6</span> Empty elements</a></li>
+</ul></li>
+<li><a href="#well-formed-xml" id="toc-well-formed-xml"><span class="toc-section-number">4</span> Well-formed XML</a>
+<ul>
+<li><a href="#syntactic-rules" id="toc-syntactic-rules"><span class="toc-section-number">4.1</span> Syntactic rules</a></li>
+<li><a href="#entity-references" id="toc-entity-references"><span class="toc-section-number">4.2</span> Entity references</a></li>
+<li><a href="#non-well-formed-xml" id="toc-non-well-formed-xml"><span class="toc-section-number">4.3</span> Non well-formed XML</a></li>
+<li><a href="#testing-well-formedness" id="toc-testing-well-formedness"><span class="toc-section-number">4.4</span> Testing well-formedness</a>
+<ul>
+<li><a href="#powershell" id="toc-powershell"><span class="toc-section-number">4.4.1</span> Powershell</a></li>
+<li><a href="#linux-unix" id="toc-linux-unix"><span class="toc-section-number">4.4.2</span> Linux / Unix</a></li>
+</ul></li>
+<li><a href="#exercises" id="toc-exercises"><span class="toc-section-number">4.5</span> Exercises</a></li>
+</ul></li>
+<li><a href="#xml-document-design" id="toc-xml-document-design"><span class="toc-section-number">5</span> XML document design</a></li>
+<li><a href="#reading-and-writing-xml" id="toc-reading-and-writing-xml"><span class="toc-section-number">6</span> Reading and writing XML</a>
+<ul>
+<li><a href="#manual-editing" id="toc-manual-editing"><span class="toc-section-number">6.1</span> Manual editing</a></li>
+<li><a href="#programmatic-usage" id="toc-programmatic-usage"><span class="toc-section-number">6.2</span> Programmatic usage</a></li>
+<li><a href="#powershell-1" id="toc-powershell-1"><span class="toc-section-number">6.3</span> Powershell</a></li>
+</ul></li>
+<li><a href="#python-xml-functions" id="toc-python-xml-functions"><span class="toc-section-number">7</span> Python XML functions</a>
+<ul>
+<li><a href="#obtaining-xml-document" id="toc-obtaining-xml-document"><span class="toc-section-number">7.1</span> Obtaining XML document</a></li>
+<li><a href="#parsing-xml-document" id="toc-parsing-xml-document"><span class="toc-section-number">7.2</span> Parsing XML document</a></li>
+<li><a href="#navigation" id="toc-navigation"><span class="toc-section-number">7.3</span> Navigation</a></li>
+<li><a href="#finding-a-child-element" id="toc-finding-a-child-element"><span class="toc-section-number">7.4</span> Finding a child element</a></li>
+<li><a href="#getting-element-content" id="toc-getting-element-content"><span class="toc-section-number">7.5</span> Getting element content</a></li>
+</ul></li>
+<li><a href="#xml-namespaces" id="toc-xml-namespaces"><span class="toc-section-number">8</span> XML namespaces</a></li>
+<li><a href="#altering-xml-documents-in-python" id="toc-altering-xml-documents-in-python"><span class="toc-section-number">9</span> Altering XML documents in Python</a>
+<ul>
+<li><a href="#changing-element-text-content" id="toc-changing-element-text-content"><span class="toc-section-number">9.1</span> Changing element text
+content</a></li>
+<li><a href="#adding-deleting-child-elements" id="toc-adding-deleting-child-elements"><span class="toc-section-number">9.2</span> Adding / deleting child
+elements</a></li>
+<li><a href="#outputting-xml-document" id="toc-outputting-xml-document"><span class="toc-section-number">9.3</span> Outputting XML document</a></li>
+</ul></li>
+<li><a href="#xpath-navigation" id="toc-xpath-navigation"><span class="toc-section-number">10</span> XPath navigation</a>
+<ul>
+<li><a href="#nodes" id="toc-nodes"><span class="toc-section-number">10.0.1</span> Nodes</a></li>
+<li><a href="#relationships" id="toc-relationships"><span class="toc-section-number">10.0.2</span> Relationships</a></li>
+<li><a href="#predicates" id="toc-predicates"><span class="toc-section-number">10.0.3</span> Predicates</a></li>
+<li><a href="#axes" id="toc-axes"><span class="toc-section-number">10.0.4</span> Axes</a></li>
+<li><a href="#basic-selection-expressions" id="toc-basic-selection-expressions"><span class="toc-section-number">10.1</span> Basic selection expressions</a>
+<ul>
+<li><a href="#writing-path-expressions" id="toc-writing-path-expressions"><span class="toc-section-number">10.1.1</span> Writing path
+expressions</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#out-of-scope" id="toc-out-of-scope"><span class="toc-section-number">11</span> Out of scope</a></li>
+</ul>
+</nav>
+<p><strong>Important references</strong></p>
+<ul>
+<li><a href="https://www.w3schools.com/xml/xml_whatis.asp">W3Schools XML
+tutorials</a></li>
+<li><a href="https://lxml.de/tutorial.html">LXML tutorial</a></li>
+<li><a href="https://lxml.de/parsing.html">LXML parsing</a></li>
+<li><strong>Manpages</strong> for utilities mentioned in class using
+<code>man</code> command</li>
+</ul>
+<h1 data-number="1" id="connecting"><span class="header-section-number">1</span> Connecting</h1>
+<h2 data-number="1.1" id="remote-or-laptop-students"><span class="header-section-number">1.1</span> Remote or laptop students</h2>
+<p><em>Skip if on a lab machine</em></p>
+<p><a href="https://dkitvpn.dkit.ie">Connect to the VPN</a> at the
+beginning of this class.</p>
+<h2 data-number="1.2" id="login-to-the-shared-server"><span class="header-section-number">1.2</span> Login to the shared server</h2>
+<p>As per last week, we’ll login to the shared lab server.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> yourname@10.200.172.60</span></code></pre></div>
+<h1 data-number="2" id="xml"><span class="header-section-number">2</span> XML</h1>
+<p><a href="https://en.wikipedia.org/wiki/XML">Extensible Markup
+Language (XML)</a> is a markup language that defines a set of rules for
+encoding documents in a format that is both human-readable and
+machine-readable.</p>
+<p>On a practical level it’s best to think of XML as a more cumbersome
+and verbose substitute for JSON.</p>
+<h2 data-number="2.1" id="usage"><span class="header-section-number">2.1</span> Usage</h2>
+<p>As a document format, XML turns up on in couple of contexts:</p>
+<ul>
+<li>When stored on disk XML documents normally have the extension
+<code>.xml</code>.</li>
+<li>A significant minority of APIs provide content (or accept requests)
+in XML format.</li>
+</ul>
+<h2 data-number="2.2" id="origins-sgml"><span class="header-section-number">2.2</span> Origins: SGML</h2>
+<p><a href="https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language">Standard
+Generalised Markup Language (SGML)</a> originated as a means to store
+and transfer US government and military documents in machine-readable
+form, over a timespan of several decades. SGML uses <em>tags</em> to
+mark up a document.</p>
+<p>One of the best known examples of SGML is <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>.</p>
+<p>For many applications, SGML became too complicated, and so XML was
+designed. Apart from HTML and <a href="https://en.wikipedia.org/wiki/Document_type_declaration">Document
+Type Declarations</a>, you are unlikely to encounter SGML in its non-XML
+form very frequently. XML documents themselves are valid SGML, but have
+additional restrictions on their layout.</p>
+<h1 data-number="3" id="xml-document-structure"><span class="header-section-number">3</span> XML document structure</h1>
+<p>XML has a Directed Acyclic Graph tree structure, built from
+<strong>nested</strong> tree of <strong>Elements</strong> delimited by
+<strong>tags</strong>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">&quot;1.0&quot;</span> <span class="fu">?&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">doc</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- CLOSED ELEMENTS --&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- a closed element&#39;s content is placed between start and end tags --&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">element_name</span>&gt;Content&lt;/<span class="kw">element_name</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- for example: --&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">artist</span>&gt;Nine Inch Nails&lt;/<span class="kw">artist</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- EMPTY ELEMENTS --&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- an empty element is composed of a single tag --&gt;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">element_name</span> /&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- for example: the empty element --&gt;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">artist</span> /&gt;</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- is just a shorthand for --&gt;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">artist</span>&gt;&lt;/<span class="kw">artist</span>&gt;</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- NESTING ELEMENTS --&gt;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- an element may contain one or more child elements --&gt;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">parent</span>&gt;</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">child</span>&gt;...&lt;/<span class="kw">child</span>&gt;</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">child</span> /&gt;</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">anotherchild</span>&gt;...&lt;/<span class="kw">anotherchild</span>&gt;</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">child</span>&gt;</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">grandchild</span>&gt;...&lt;/<span class="kw">grandchild</span>&gt;</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">child</span>&gt;</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">parent</span>&gt;</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- for example: --&gt;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">band</span>&gt;</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span>&gt;Pink Floyd&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">member</span>&gt;David Gilmour&lt;/<span class="kw">member</span>&gt;</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">member</span>&gt;Roger Waters&lt;/<span class="kw">member</span>&gt;</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">member</span>&gt;Nick Mason&lt;/<span class="kw">member</span>&gt;</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">member</span>&gt;Richard Wright&lt;/<span class="kw">member</span>&gt;</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">band</span>&gt;</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">doc</span>&gt;</span></code></pre></div>
+<p>Elements are <strong>case-sensitive</strong>.</p>
+<h2 data-number="3.1" id="xml-declaration"><span class="header-section-number">3.1</span> XML declaration</h2>
+<p>The XML declaration is always the first line of code in an XML
+document, and tells the <strong>processor</strong> that what follows is
+XML. It can also provide information about how the parser should
+interpret the document.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">&quot;1.0&quot;</span> <span class="fu">?&gt;</span></span></code></pre></div>
+<p>For now, the version is always 1.0. This attribute allows the program
+(or person) reading the document to read older versions if
+specifications change.</p>
+<h2 data-number="3.2" id="nesting-rules"><span class="header-section-number">3.2</span> Nesting rules</h2>
+<ul>
+<li><p>Elements nested inside a <em>parent</em> element are called
+<em>child</em> elements.</p></li>
+<li><p>Elements must be nested correctly. Child elements must be
+enclosed within their parent elements.</p></li>
+<li><p>All elements must be nested within a single document or root
+element.</p></li>
+<li><p>There can be only one <strong>root</strong> element in a
+document.</p></li>
+<li><p>Indentation, while helpful, is just visual.</p></li>
+</ul>
+<h2 data-number="3.3" id="xml-comments"><span class="header-section-number">3.3</span> XML comments</h2>
+<p>Comments may appear anywhere after the declaration. The syntax for
+comments is:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- this is a comment --&gt;</span></span></code></pre></div>
+<p>Two or more dashes should not appear one after the other in a
+comment.</p>
+<h2 data-number="3.4" id="free-format"><span class="header-section-number">3.4</span> Free-format</h2>
+<p>XML documents are free-format. For example, the document:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">&quot;1.0&quot;</span> <span class="fu">?&gt;</span>&lt;<span class="kw">result</span>&gt;&lt;<span class="kw">student</span>&gt;28191800&lt;/<span class="kw">student</span>&gt;&lt;<span class="kw">mark</span>&gt;20&lt;/<span class="kw">mark</span>&gt;&lt;/<span class="kw">result</span>&gt;</span></code></pre></div>
+<p>is the exact same as:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">&quot;1.0&quot;</span> <span class="fu">?&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">result</span>&gt;</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">student</span>&gt;28191800&lt;/<span class="kw">student</span>&gt;</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">mark</span>&gt;20&lt;/<span class="kw">mark</span>&gt;</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">result</span>&gt;</span></code></pre></div>
+<h2 data-number="3.5" id="attributes"><span class="header-section-number">3.5</span> Attributes</h2>
+<p>An attribute is a feature or characteristic of an element. Attributes
+are text strings and must be placed in single or double quotes.</p>
+<h3 data-number="3.5.1" id="mixing-elements-and-attributes"><span class="header-section-number">3.5.1</span> Mixing elements and
+attributes</h3>
+<p>Attributes and elements can be mixed:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">bookstore</span>&gt;</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">book</span><span class="ot"> category=</span><span class="st">&quot;CHILDREN&quot;</span>&gt;</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">title</span>&gt;Harry Potter&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">author</span>&gt;J K. Rowling&lt;/<span class="kw">author</span>&gt;</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">year</span>&gt;2005&lt;/<span class="kw">year</span>&gt;</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">price</span>&gt;29.99&lt;/<span class="kw">price</span>&gt;</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">book</span>&gt;</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">book</span><span class="ot"> category=</span><span class="st">&quot;WEB&quot;</span>&gt;</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">title</span>&gt;Learning XML&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">author</span>&gt;Erik T. Ray&lt;/<span class="kw">author</span>&gt;</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">year</span>&gt;2003&lt;/<span class="kw">year</span>&gt;</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">price</span>&gt;39.95&lt;/<span class="kw">price</span>&gt;</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">book</span>&gt;</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">bookstore</span>&gt;</span></code></pre></div>
+<p>As with JSON documents the structure of XML is arbitary and
+application-specific. If you are designing an XML document you should do
+so to capture the information you want in as easy to report a format as
+possible. (Though you should really be thinking about using JSON instead
+in my opinion!)</p>
+<p>If you’re consuming an XML document generated elsewhere you’ll have
+to put up with the format given (unless you use something called an XSL
+Transform (see later!).</p>
+<h2 data-number="3.6" id="empty-elements"><span class="header-section-number">3.6</span> Empty elements</h2>
+<p>An empty element (as distinct from not existing) can be written in
+two ways:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- empty element written in full --&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">note</span>&gt;&lt;/<span class="kw">note</span>&gt;</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- shorthand for empty element --&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">note</span> /&gt;</span></code></pre></div>
+<h1 data-number="4" id="well-formed-xml"><span class="header-section-number">4</span> Well-formed XML</h1>
+<p>As you’re probably already aware, most JSON parsers will throw an
+error if a JSON document is not <em>well formed</em>.</p>
+<p><strong>Discussion point:</strong> what are the structural rules for
+JSON, and what happens if they’re broken.</p>
+<p>Factors leading to non-well-formed JSON:</p>
+<ul>
+<li>Writing JSON manually especially without syntax-aware editor</li>
+<li>Constructing JSON in code yourself as opposed to using libraries
+like Python’s json library.</li>
+</ul>
+<p>The same factors apply in the case of XML.</p>
+<h2 data-number="4.1" id="syntactic-rules"><span class="header-section-number">4.1</span> Syntactic rules</h2>
+<p>When XML text satisfies the syntactic rules as laid out in the XML
+specification, we say that it is well-formed. To be well formed:</p>
+<ol type="1">
+<li><p>All XML elements must have a closing tag, except empty
+elements.</p></li>
+<li><p>Tags are case sensitive.</p></li>
+<li><p>All elements must be properly nested.</p></li>
+<li><p>Documents must have one single root element.</p></li>
+<li><p>Attribute values must be quoted.</p></li>
+<li><p>Certain characters must be replaced with <em>Entity
+References</em> (see next).</p></li>
+</ol>
+<h2 data-number="4.2" id="entity-references"><span class="header-section-number">4.2</span> Entity references</h2>
+<p>Entity references are used to encode character literals that could be
+problematic in XML:</p>
+<ul>
+<li>&lt; (less than) <code>&amp;lt;</code></li>
+<li>(greater than) &gt; <code>&amp;gt;</code></li>
+<li>&amp; (ampersand) <code>&amp;amp;</code></li>
+<li>’ apostrophe <code>&amp;apos;</code></li>
+<li>” quotation mark <code>&amp;quot;</code></li>
+</ul>
+<h2 data-number="4.3" id="non-well-formed-xml"><span class="header-section-number">4.3</span> Non well-formed XML</h2>
+<p>Non well-formed XML will cause errors in applications and parsers
+that expect strict XML syntax.</p>
+<h2 data-number="4.4" id="testing-well-formedness"><span class="header-section-number">4.4</span> Testing well-formedness</h2>
+<p>XML libraries and utilities built on them will not normally parse a
+document that isn’t well formed.</p>
+<h3 data-number="4.4.1" id="powershell"><span class="header-section-number">4.4.1</span> Powershell</h3>
+<h3 data-number="4.4.2" id="linux-unix"><span class="header-section-number">4.4.2</span> Linux / Unix</h3>
+<p>The reference utility is <code>xmllint</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xmllint</span> nameOfFile.xml</span></code></pre></div>
+<h2 data-number="4.5" id="exercises"><span class="header-section-number">4.5</span> Exercises</h2>
+<p>Try to fix <code>hits.xml</code> and <code>bathe_cat.xml</code>.</p>
+<h1 data-number="5" id="xml-document-design"><span class="header-section-number">5</span> XML document design</h1>
+<p>We are going to view XML in this module as a legacy and undesirable
+document format, so we will not focus too much on how to design “good”
+XML documents.</p>
+<p>The same overall structural considerations would apply as in the case
+of JSON but there are a couple of additional aspects:</p>
+<ul>
+<li>Do “list” items need an enclosing element?</li>
+<li>Attributes vs element content</li>
+</ul>
+<h1 data-number="6" id="reading-and-writing-xml"><span class="header-section-number">6</span> Reading and writing XML</h1>
+<p>As we’re treating XML as a legacy format that we don’t use except
+when forced to, these notes will largely concentrate on reading in XML
+rather than writing it.</p>
+<h2 data-number="6.1" id="manual-editing"><span class="header-section-number">6.1</span> Manual editing</h2>
+<p>If you are editing XML by hand, first think “Should I be doing
+this?”</p>
+<p>Next, make sure you have an editor (like emacs, VSCode) that supports
+syntax highlighting and well-formedness checking. (Later on, may be good
+if it can do schema checking, more complex!)</p>
+<h2 data-number="6.2" id="programmatic-usage"><span class="header-section-number">6.2</span> Programmatic usage</h2>
+<p>Seriously, don’t attempt to parse XML by writing your own parsing
+code.</p>
+<p>Although not as difficult, don’t be tempted to write your own XML
+writing code either if a library exists for the language you are
+using.</p>
+<p>The only exception to this rule would be if you are adapting an old
+piece of software written in a language lacking an XML library to output
+XML. (However, you should consider if a simpler format like JSON would
+suffice in this instance too!)</p>
+<h2 data-number="6.3" id="powershell-1"><span class="header-section-number">6.3</span> Powershell</h2>
+<p>Powershell (on any OS) can read XML documents in to a powershell
+object. This can be navigated by the usual dot syntax in PowerShell.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reading an XML file on disk</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">$doc</span> <span class="op">=</span> <span class="op">[</span>xml<span class="op">](</span><span class="fu">Get-Content</span> bathe_cat_solution<span class="op">.</span><span class="fu">xml</span><span class="op">)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then access the contents using the dot syntax</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Write-Host</span> <span class="va">$doc</span><span class="op">.</span><span class="fu">PROCEDURE</span><span class="op">.</span><span class="fu">TITLE</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># can loop over multiple same-type elements in a list</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="cf">foreach</span> <span class="op">(</span> <span class="va">$step</span> <span class="kw">in</span> <span class="va">$doc</span><span class="op">.</span><span class="fu">PROCEDURE</span><span class="op">.</span><span class="fu">INSTRUCTIONS</span><span class="op">.</span><span class="fu">STEP</span> <span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Write-Host</span> <span class="va">$step</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>As you can see the conversion will be quite dependent on the original
+document structure, and the resulting PowerShell object structure might
+not make sense in all cases!</p>
+<h1 data-number="7" id="python-xml-functions"><span class="header-section-number">7</span> Python XML functions</h1>
+<p>There are a number of options for dumping / loading XML in Python.
+Let’s start by opening a new TMUX window and running
+<code>ipython3</code>.</p>
+<p>Technically there are two types of parsers (in any language):</p>
+<ol type="1">
+<li><p>Parsers that build a document object model (DOM), essentially a
+tree structure in memory of the document. (This is the type we’ll
+use.)</p></li>
+<li><p>Streaming parsers that trigger an action when they encounter each
+element. These can parse documents larger than availabile system memory.
+(We won’t cover these.)</p></li>
+</ol>
+<p>DOM parsers turn a text-based XML representation into an XML document
+structure in memory.</p>
+<h2 data-number="7.1" id="obtaining-xml-document"><span class="header-section-number">7.1</span> Obtaining XML document</h2>
+<p>Like JSON, XML documents can originate from files, APIs or many other
+sources. To get a suitable XML document let’s get Irish Rail’s list of
+stations using their realtime API via the <code>requests</code> library
+in Python.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import requests library</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get content from URL</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(<span class="st">&#39;https://api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML&#39;</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># get text content (i.e. the XML doc)</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.content)</span></code></pre></div>
+<h2 data-number="7.2" id="parsing-xml-document"><span class="header-section-number">7.2</span> Parsing XML document</h2>
+<p>I recommend the <code>lxml</code> library which has a so-called
+ElementTree compatible interface to its document object model.</p>
+<p>Unlike the <code>json</code> functions in Python, it doesn’t directly
+return a standard Python dictionary / list structure. Instead we have to
+work with the functions to get the element and attribute values we
+need.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the library</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lxml <span class="im">import</span> etree</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create document tree from the response content</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> etree.fromstring(response.content)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># note: need to use content (not text) attribute</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># use the dynamic help to discover available methods</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(root)</span></code></pre></div>
+<h2 data-number="7.3" id="navigation"><span class="header-section-number">7.3</span> Navigation</h2>
+<p>Exploring is reasonably easy once you know the document structure and
+some important methods:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get all child nodes</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>stations <span class="op">=</span> root.getchildren()</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># can then iterate over them (Usually)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> station <span class="kw">in</span> stations:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(station)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># (new, more Pythonic) alternative: just iterate over the root object</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> station <span class="kw">in</span> root:</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(station)</span></code></pre></div>
+<p>The elements in each child object are then accessible in the same
+way.</p>
+<h2 data-number="7.4" id="finding-a-child-element"><span class="header-section-number">7.4</span> Finding a child element</h2>
+<p>If an element has a child element, we can get it using the
+<code>find</code> and <code>findall</code> methods:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a single element from doc</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>station <span class="op">=</span> stations.getchildren()[<span class="dv">0</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># look at the child elements</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>station.getchildren()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># find the one called StationDescription</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>station.find(<span class="st">&#39;StationDesc&#39;</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>desc <span class="op">=</span> station.find(<span class="st">&#39;{*}StationDesc&#39;</span>) <span class="co"># if has namespaces</span></span></code></pre></div>
+<h2 data-number="7.5" id="getting-element-content"><span class="header-section-number">7.5</span> Getting element content</h2>
+<p>Use the <code>.text</code> attribute to get/set the text content.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a particular station element</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>desc <span class="op">=</span> station.find(<span class="st">&#39;{*}StationDesc&#39;</span>) <span class="co"># if has namespaces</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get text value from the element</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(desc.text)</span></code></pre></div>
+<h1 data-number="8" id="xml-namespaces"><span class="header-section-number">8</span> XML namespaces</h1>
+<p>One of the most problematic things you will encounter from a
+practical and consumption-centric viewpoint in XML is namespaces,
+specified by <code>xmlns</code> attributes usually on the root
+element.</p>
+<h1 data-number="9" id="altering-xml-documents-in-python"><span class="header-section-number">9</span> Altering XML documents in
+Python</h1>
+<p>Although I’ve made repeated recommendations <em>not</em> to generate
+XML voluntarily where possible, sometimes you may want to alter a
+document and re-write it.</p>
+<p>This is by no means exhaustive, but it should be enough to get you
+able to make basic modifications to an existing XML document.</p>
+<h2 data-number="9.1" id="changing-element-text-content"><span class="header-section-number">9.1</span> Changing element text
+content</h2>
+<p>To change text content of an element, we can simply change the
+<code>text</code> attribute:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># re-set the text attribute</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>station.find(<span class="st">&#39;{*}StationDesc&#39;</span>).text <span class="op">=</span> <span class="st">&#39;Belfast Central&#39;</span></span></code></pre></div>
+<h2 data-number="9.2" id="adding-deleting-child-elements"><span class="header-section-number">9.2</span> Adding / deleting child
+elements</h2>
+<p>By example.</p>
+<h2 data-number="9.3" id="outputting-xml-document"><span class="header-section-number">9.3</span> Outputting XML document</h2>
+<p>Outputting an XML document requires us to get its string
+representation from element tree. To do this we can use the
+<code>tostring</code> methods:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(etree.tostring) <span class="co"># for info</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># XML tree as string</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>etree.tostring(root)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># w/ pretty printing</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>etree.tostring(root, pretty_print<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<h1 data-number="10" id="xpath-navigation"><span class="header-section-number">10</span> XPath navigation</h1>
+<p>XPath expressions allow us to easily retrieve the contents of
+elements and attributes in an XML document, by writing expressions.</p>
+<p>The XPath expression language is standardised and works similarly in
+many languages - Java, C#, C++/libxml/JavaScript etc.</p>
+<p>XPath uses <strong>expressions</strong> and standard
+<strong>functions</strong> to return <strong>nodes</strong> that are
+<strong>related</strong> to other nodes.</p>
+<h3 data-number="10.0.1" id="nodes"><span class="header-section-number">10.0.1</span> Nodes</h3>
+<p>In XPath, there are seven kinds of nodes:</p>
+<ol type="1">
+<li><strong>Element</strong></li>
+<li><strong>Attribute</strong></li>
+<li><strong>Text</strong></li>
+<li>Namespace (see later)</li>
+<li>Processing instruction</li>
+<li>Comment</li>
+<li><strong>Document</strong></li>
+</ol>
+<h3 data-number="10.0.2" id="relationships"><span class="header-section-number">10.0.2</span> Relationships</h3>
+<p>Effective use of XPath requires a firm understanding of the
+relationships present between various nodes:</p>
+<ul>
+<li><strong>Parent:</strong> Each element and attribute has one
+parent.</li>
+<li><strong>Children:</strong> Element nodes may have zero, one or more
+children.</li>
+<li><strong>Siblings:</strong> Nodes that have the same parent.</li>
+<li><strong>Ancestors:</strong> A node’s parent, parent’s parent,
+etc.</li>
+<li><strong>Descendants:</strong> A node’s children, children’s
+children, etc.</li>
+</ul>
+<h3 data-number="10.0.3" id="predicates"><span class="header-section-number">10.0.3</span> Predicates</h3>
+<p>A predicate imposes additional selectivity on which nodes to return
+for a given expression, usually based on their or their child node’s
+values.</p>
+<h3 data-number="10.0.4" id="axes"><span class="header-section-number">10.0.4</span> Axes</h3>
+<p>Axes are used to select nodes based on their relationship to other
+nodes.</p>
+<h2 data-number="10.1" id="basic-selection-expressions"><span class="header-section-number">10.1</span> Basic selection
+expressions</h2>
+<p>XPath uses path expressions to select nodes or node-sets in an XML
+document. The node is selected by following a path or steps. The most
+useful path expressions are:</p>
+<ul>
+<li><code>elementname</code> all “elementname” elements</li>
+<li><code>/</code> from root node / previous node</li>
+<li><code>//</code> from anywhere in the document</li>
+<li><code>..</code> parent of the current node</li>
+<li><code>@attribname</code> attribute “attribname”</li>
+<li><code>text()</code> text content of current node</li>
+</ul>
+<h3 data-number="10.1.1" id="writing-path-expressions"><span class="header-section-number">10.1.1</span> Writing path
+expressions</h3>
+<p>A location path can be absolute or relative. An absolute location
+path starts with a slash ( / ) and a relative location path does not. In
+both cases the location path consists of one or more steps, each
+separated by a slash.</p>
+<p>Each step is evaluated against the nodes in the current node-set.</p>
+<h1 data-number="11" id="out-of-scope"><span class="header-section-number">11</span> Out of scope</h1>
+<p>We won’t be convering:</p>
+<ul>
+<li>Styling XML using CSS (not done really anymore).</li>
+<li>Using XSLT in the browser (not really done often).</li>
+<li>Document Type Declaration (DTD) as XML schemas cover most of these
+instead. Same idea.</li>
+</ul>
+<p>https://api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML</p>
+</body>
+</html>

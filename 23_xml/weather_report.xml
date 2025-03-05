@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<weather>
+  <location lang="en">Dundalk</location>
+  <location lang="ga">Dun Dealgan</location>
+  <temperature units="C">12</temperature>
+  <uv>1</uv>
+</weather>

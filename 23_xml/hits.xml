@@ -1,0 +1,11 @@
+<?XML VERSION="1.0" encoding="UTF-8" standalone="yes" ?>
+<!-- This file contains errors.  Find and fix the errors... -->
+<CD>
+<CDTITLE>All time greatest hits
+<ARTIST>Louis Armstrong</Artist>
+	<track>What a wonderful world</track>
+	<track>Hello Dolly</track>
+	<track>Kiss in fire<track>
+	<track>Mack the knife</track>
+</CD>
+

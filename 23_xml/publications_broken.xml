@@ -1,0 +1,12 @@
+<!-- XML declaration -->
+<?xml version="1.0"?>
+<publications>
+  <group>
+    <title>Journal articles</title>
+    <label>jrnlpub
+    <publication>bujok:2016:approach
+    <publication>schmidt:2013:influence
+    <publication>grant:2013:simulation
+    <publication>grant:2010:effect</label></publication>
+  </group>
+</publications>
