@@ -440,11 +440,72 @@ print(desc.text)
 
 One of the most problematic things you will encounter from a practical and consumption-centric viewpoint in XML is namespaces, specified by `xmlns` attributes usually on the root element.
 
+XML namespaces were originally conceived as a way to avoid element name conflicts when one XML document is embedded within another.
+However they add extreme complexity to what should be otherwise simple reading and navigation operations. 
+
+## Default namespace
+
+A document with an `xmlns` attribute on the root element has a default namespace "owned" by the organisation, conventionally written as a URL.
+
+
+## Removing XML namespaces
+
+On a practical level it's often easiest to strip namespaces from documents where there is no risk of clash. 
+
+To do this we will use an XSL Transform to modify the original XML document so that the namespace declarations are removed.
+Then many of our tools will be a lot easier to work with. 
+
+XSL itself is a powerful tool, often used to transform XML documents to other XML documents or to alternative formats like plain text and HTML. 
+In real situations it's often easier to write a script to do the same thing as an XSL transform in a shorter time. 
+
+```graphviz
+digraph G {
+	rankdir=LR;
+	node [ style=filled, shape=rectangle ];
+	xml [ label="Input XML document" ];
+	xsl [ label="XSL transform" ];
+	transformer [ label="Transformer", fillcolor=lightcyan ];
+	output [ label="Output XML document", fillcolor=palegreen ];
+	xml -> transformer;
+	xsl -> transformer;
+	transformer -> output;
+}
+```
+
+XSL Transforms are themselves XML documents.
+When stored on disk it's conventional to use `.xsl` as the file extension for them. 
+We'll use `lxml` to load the XML document defining the transform, create a transform object and then apply it to the original XML document. 
+
+The particular document we'll use is called an *identity transform* that will pass through the document but will strip namespace information from it.
+
+
+```python
+# assume original doc is root 
+
+# open the XML file defining the XSL transform
+xslt_file = open('remove_namespaces.xsl','r')
+
+# parse the XSLT (same as an XML file)
+xslt_root = etree.parse(xslt_file)
+
+# create the transformer from the XSLT
+transform = etree.XSLT(xslt_root)
+
+# apply the transform
+transform_result = transform(root)
+
+# get the document root
+root = transform_result.get_root()
+
+# then use as original (note the namespace missing!)
+```
+
 
 
 # Altering XML documents in Python
 
 Although I've made repeated recommendations *not* to generate XML voluntarily where possible, sometimes you may want to alter a document and re-write it.
+Or you may be required by management / clients to supply XML.
 
 This is by no means exhaustive, but it should be enough to get you able to make basic modifications to an existing XML document. 
 
@@ -484,7 +545,7 @@ etree.tostring(root, pretty_print=True)
 
 
 XPath expressions allow us to easily retrieve the contents of elements
-and attributes in an XML document, by writing expressions.
+and attributes in an XML document, by writing XPath expressions.
 
 The XPath expression language is standardised and works similarly in
 many languages - Java, C#, C++/libxml/JavaScript etc.
@@ -492,6 +553,7 @@ many languages - Java, C#, C++/libxml/JavaScript etc.
 XPath uses **expressions** and standard **functions** to return
 **nodes** that are **related** to other nodes.
 
+Rather than laboriously going through its theory, it's easy to get started practically using the `.xpath` method in `lxml` on any Node object. 
 
 
 ### Nodes
@@ -504,7 +566,7 @@ In XPath, there are seven kinds of nodes:
 3.  **Text**
 4.  Namespace (see later)
 5.  Processing instruction
-6.  Comment
+6.  Comment (XML oddly does read comments rather than just pass over them)
 7.  **Document**
 
 
@@ -554,7 +616,7 @@ useful path expressions are:
 ### Writing path expressions
 
 A location path can be absolute or relative. An absolute location path
-starts with a slash ( / ) and a relative location path does not. In both
+starts with a slash `/`  and a relative location path does not. In both
 cases the location path consists of one or more steps, each separated by
 a slash.
 
@@ -569,5 +631,3 @@ We won't be convering:
 - Using XSLT in the browser (not really done often).
 - Document Type Declaration (DTD) as XML schemas cover most of these instead. Same idea.
 
-
-https://api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML

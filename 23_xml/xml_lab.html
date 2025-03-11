@@ -188,7 +188,11 @@ attributes</a></li>
 <li><a href="#finding-a-child-element" id="toc-finding-a-child-element"><span class="toc-section-number">7.4</span> Finding a child element</a></li>
 <li><a href="#getting-element-content" id="toc-getting-element-content"><span class="toc-section-number">7.5</span> Getting element content</a></li>
 </ul></li>
-<li><a href="#xml-namespaces" id="toc-xml-namespaces"><span class="toc-section-number">8</span> XML namespaces</a></li>
+<li><a href="#xml-namespaces" id="toc-xml-namespaces"><span class="toc-section-number">8</span> XML namespaces</a>
+<ul>
+<li><a href="#default-namespace" id="toc-default-namespace"><span class="toc-section-number">8.1</span> Default namespace</a></li>
+<li><a href="#removing-xml-namespaces" id="toc-removing-xml-namespaces"><span class="toc-section-number">8.2</span> Removing XML namespaces</a></li>
+</ul></li>
 <li><a href="#altering-xml-documents-in-python" id="toc-altering-xml-documents-in-python"><span class="toc-section-number">9</span> Altering XML documents in Python</a>
 <ul>
 <li><a href="#changing-element-text-content" id="toc-changing-element-text-content"><span class="toc-section-number">9.1</span> Changing element text
@@ -552,19 +556,65 @@ way.</p>
 practical and consumption-centric viewpoint in XML is namespaces,
 specified by <code>xmlns</code> attributes usually on the root
 element.</p>
+<p>XML namespaces were originally conceived as a way to avoid element
+name conflicts when one XML document is embedded within another. However
+they add extreme complexity to what should be otherwise simple reading
+and navigation operations.</p>
+<h2 data-number="8.1" id="default-namespace"><span class="header-section-number">8.1</span> Default namespace</h2>
+<p>A document with an <code>xmlns</code> attribute on the root element
+has a default namespace “owned” by the organisation, conventionally
+written as a URL.</p>
+<h2 data-number="8.2" id="removing-xml-namespaces"><span class="header-section-number">8.2</span> Removing XML namespaces</h2>
+<p>On a practical level it’s often easiest to strip namespaces from
+documents where there is no risk of clash.</p>
+<p>To do this we will use an XSL Transform to modify the original XML
+document so that the namespace declarations are removed. Then many of
+our tools will be a lot easier to work with.</p>
+<p>XSL itself is a powerful tool, often used to transform XML documents
+to other XML documents or to alternative formats like plain text and
+HTML. In real situations it’s often easier to write a script to do the
+same thing as an XSL transform in a shorter time.</p>
+<p><img role="img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSI0NDVwdCIgaGVpZ2h0PSI5OHB0Igogdmlld0JveD0iMC4wMCAwLjAwIDQ0NS4yNSA5OC4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA5NCkiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtOTQgNDQxLjI1LC05NCA0NDEuMjUsNCAtNCw0Ii8+CjwhLS0geG1sIC0tPgo8ZyBpZD0ibm9kZTEiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnhtbDwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9ImxpZ2h0Z3JleSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMzYsLTkwIDAsLTkwIDAsLTU0IDEzNiwtNTQgMTM2LC05MCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2OCIgeT0iLTY2Ljk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPklucHV0IFhNTCBkb2N1bWVudDwvdGV4dD4KPC9nPgo8IS0tIHRyYW5zZm9ybWVyIC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnRyYW5zZm9ybWVyPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibGlnaHRjeWFuIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI1Ni4yNSwtNjMgMTcyLC02MyAxNzIsLTI3IDI1Ni4yNSwtMjcgMjU2LjI1LC02MyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTQuMTIiIHk9Ii0zOS45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5UcmFuc2Zvcm1lcjwvdGV4dD4KPC9nPgo8IS0tIHhtbCYjNDU7Jmd0O3RyYW5zZm9ybWVyIC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnhtbCYjNDU7Jmd0O3RyYW5zZm9ybWVyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTEzNi40MiwtNTkuMzdDMTQ0LjQ5LC01Ny44NiAxNTIuNjQsLTU2LjMzIDE2MC40NiwtNTQuODciLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTYwLjk3LC01OC4zMyAxNzAuMTUsLTUzLjA1IDE1OS42OCwtNTEuNDUgMTYwLjk3LC01OC4zMyIvPgo8L2c+CjwhLS0geHNsIC0tPgo8ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnhzbDwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9ImxpZ2h0Z3JleSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMTYuODgsLTM2IDE5LjEyLC0zNiAxOS4xMiwwIDExNi44OCwwIDExNi44OCwtMzYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjgiIHk9Ii0xMi45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5YU0wgdHJhbnNmb3JtPC90ZXh0Pgo8L2c+CjwhLS0geHNsJiM0NTsmZ3Q7dHJhbnNmb3JtZXIgLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+eHNsJiM0NTsmZ3Q7dHJhbnNmb3JtZXI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTE2Ljk5LC0yNi45OUMxMzAuOTUsLTI5LjYxIDE0Ni4yNywtMzIuNDcgMTYwLjQ5LC0zNS4xNCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNTkuNjYsLTM4LjU0IDE3MC4xMywtMzYuOTUgMTYwLjk1LC0zMS42NiAxNTkuNjYsLTM4LjU0Ii8+CjwvZz4KPCEtLSBvdXRwdXQgLS0+CjxnIGlkPSJub2RlNCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+b3V0cHV0PC90aXRsZT4KPHBvbHlnb24gZmlsbD0icGFsZWdyZWVuIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjQzNy4yNSwtNjMgMjkyLjI1LC02MyAyOTIuMjUsLTI3IDQzNy4yNSwtMjcgNDM3LjI1LC02MyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzNjQuNzUiIHk9Ii0zOS45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5PdXRwdXQgWE1MIGRvY3VtZW50PC90ZXh0Pgo8L2c+CjwhLS0gdHJhbnNmb3JtZXImIzQ1OyZndDtvdXRwdXQgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+dHJhbnNmb3JtZXImIzQ1OyZndDtvdXRwdXQ8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjU2LjUzLC00NUMyNjQuMDgsLTQ1IDI3Mi4yMSwtNDUgMjgwLjQ5LC00NSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyODAuMzIsLTQ4LjUgMjkwLjMyLC00NSAyODAuMzIsLTQxLjUgMjgwLjMyLC00OC41Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" /></p>
+<p>XSL Transforms are themselves XML documents. When stored on disk it’s
+conventional to use <code>.xsl</code> as the file extension for them.
+We’ll use <code>lxml</code> to load the XML document defining the
+transform, create a transform object and then apply it to the original
+XML document.</p>
+<p>The particular document we’ll use is called an <em>identity
+transform</em> that will pass through the document but will strip
+namespace information from it.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assume original doc is root </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># open the XML file defining the XSL transform</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>xslt_file <span class="op">=</span> <span class="bu">open</span>(<span class="st">&#39;remove_namespaces.xsl&#39;</span>,<span class="st">&#39;r&#39;</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># parse the XSLT (same as an XML file)</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>xslt_root <span class="op">=</span> etree.parse(xslt_file)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create the transformer from the XSLT</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>transform <span class="op">=</span> etree.XSLT(xslt_root)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># apply the transform</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>transform_result <span class="op">=</span> transform(root)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># get the document root</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> transform_result.get_root()</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># then use as original (note the namespace missing!)</span></span></code></pre></div>
 <h1 data-number="9" id="altering-xml-documents-in-python"><span class="header-section-number">9</span> Altering XML documents in
 Python</h1>
 <p>Although I’ve made repeated recommendations <em>not</em> to generate
 XML voluntarily where possible, sometimes you may want to alter a
-document and re-write it.</p>
+document and re-write it. Or you may be required by management / clients
+to supply XML.</p>
 <p>This is by no means exhaustive, but it should be enough to get you
 able to make basic modifications to an existing XML document.</p>
 <h2 data-number="9.1" id="changing-element-text-content"><span class="header-section-number">9.1</span> Changing element text
 content</h2>
 <p>To change text content of an element, we can simply change the
 <code>text</code> attribute:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># re-set the text attribute</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>station.find(<span class="st">&#39;{*}StationDesc&#39;</span>).text <span class="op">=</span> <span class="st">&#39;Belfast Central&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># re-set the text attribute</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>station.find(<span class="st">&#39;{*}StationDesc&#39;</span>).text <span class="op">=</span> <span class="st">&#39;Belfast Central&#39;</span></span></code></pre></div>
 <h2 data-number="9.2" id="adding-deleting-child-elements"><span class="header-section-number">9.2</span> Adding / deleting child
 elements</h2>
 <p>By example.</p>
@@ -572,21 +622,25 @@ elements</h2>
 <p>Outputting an XML document requires us to get its string
 representation from element tree. To do this we can use the
 <code>tostring</code> methods:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(etree.tostring) <span class="co"># for info</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># XML tree as string</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>etree.tostring(root)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># w/ pretty printing</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>etree.tostring(root, pretty_print<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(etree.tostring) <span class="co"># for info</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># XML tree as string</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>etree.tostring(root)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># w/ pretty printing</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>etree.tostring(root, pretty_print<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
 <h1 data-number="10" id="xpath-navigation"><span class="header-section-number">10</span> XPath navigation</h1>
 <p>XPath expressions allow us to easily retrieve the contents of
-elements and attributes in an XML document, by writing expressions.</p>
+elements and attributes in an XML document, by writing XPath
+expressions.</p>
 <p>The XPath expression language is standardised and works similarly in
 many languages - Java, C#, C++/libxml/JavaScript etc.</p>
 <p>XPath uses <strong>expressions</strong> and standard
 <strong>functions</strong> to return <strong>nodes</strong> that are
 <strong>related</strong> to other nodes.</p>
+<p>Rather than laboriously going through its theory, it’s easy to get
+started practically using the <code>.xpath</code> method in
+<code>lxml</code> on any Node object.</p>
 <h3 data-number="10.0.1" id="nodes"><span class="header-section-number">10.0.1</span> Nodes</h3>
 <p>In XPath, there are seven kinds of nodes:</p>
 <ol type="1">
@@ -595,7 +649,8 @@ many languages - Java, C#, C++/libxml/JavaScript etc.</p>
 <li><strong>Text</strong></li>
 <li>Namespace (see later)</li>
 <li>Processing instruction</li>
-<li>Comment</li>
+<li>Comment (XML oddly does read comments rather than just pass over
+them)</li>
 <li><strong>Document</strong></li>
 </ol>
 <h3 data-number="10.0.2" id="relationships"><span class="header-section-number">10.0.2</span> Relationships</h3>
@@ -635,9 +690,9 @@ useful path expressions are:</p>
 <h3 data-number="10.1.1" id="writing-path-expressions"><span class="header-section-number">10.1.1</span> Writing path
 expressions</h3>
 <p>A location path can be absolute or relative. An absolute location
-path starts with a slash ( / ) and a relative location path does not. In
-both cases the location path consists of one or more steps, each
-separated by a slash.</p>
+path starts with a slash <code>/</code> and a relative location path
+does not. In both cases the location path consists of one or more steps,
+each separated by a slash.</p>
 <p>Each step is evaluated against the nodes in the current node-set.</p>
 <h1 data-number="11" id="out-of-scope"><span class="header-section-number">11</span> Out of scope</h1>
 <p>We won’t be convering:</p>
@@ -647,6 +702,5 @@ separated by a slash.</p>
 <li>Document Type Declaration (DTD) as XML schemas cover most of these
 instead. Same idea.</li>
 </ul>
-<p>https://api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML</p>
 </body>
 </html>
