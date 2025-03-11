@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Advanced XML</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+body {
+font-family: sans-serif;
+background-color: rgb(245,245,245);
+}
+#TOC {
+padding: 10px;
+background-color: lightyellow;
+}
+h1.title {
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 150%;
+}
+h1 {
+background-color: lightcyan;
+padding: 5px;
+font-size: 120%;
+}
+h2 {
+color: darkblue;
+font-size: 100%;
+}
+h3 {
+color: darkgreen;
+font-size: 100%;
+}
+code {
+font-weight: bold;
+font-size: 120%;
+}
+pre {
+font-size: 120%;
+padding: 0.5em;
+font-weight: bold;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(100,100,100);
+background-color: rgb(245,255,245);
+}
+
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Advanced XML</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#connecting" id="toc-connecting"><span class="toc-section-number">1</span> Connecting</a>
+<ul>
+<li><a href="#remote-or-laptop-students" id="toc-remote-or-laptop-students"><span class="toc-section-number">1.1</span> Remote or laptop students</a></li>
+<li><a href="#login-to-the-shared-server" id="toc-login-to-the-shared-server"><span class="toc-section-number">1.2</span> Login to the shared
+server</a></li>
+</ul></li>
+<li><a href="#real-world-xml-issues" id="toc-real-world-xml-issues"><span class="toc-section-number">2</span>
+Real-world XML issues</a></li>
+<li><a href="#xml-namespaces" id="toc-xml-namespaces"><span class="toc-section-number">3</span> XML namespaces</a>
+<ul>
+<li><a href="#default-namespace" id="toc-default-namespace"><span class="toc-section-number">3.1</span> Default namespace</a></li>
+<li><a href="#prefixed-namespaces" id="toc-prefixed-namespaces"><span class="toc-section-number">3.2</span> Prefixed namespaces</a></li>
+<li><a href="#can-we-just-ignore-them" id="toc-can-we-just-ignore-them"><span class="toc-section-number">3.3</span> Can we just ignore them?</a></li>
+</ul></li>
+<li><a href="#validity" id="toc-validity"><span class="toc-section-number">4</span> Validity</a>
+<ul>
+<li><a href="#well-formed-prerequisite" id="toc-well-formed-prerequisite"><span class="toc-section-number">4.1</span> Well-formed prerequisite</a></li>
+<li><a href="#xml-schema-validation" id="toc-xml-schema-validation"><span class="toc-section-number">4.2</span> XML Schema validation</a></li>
+<li><a href="#xml-schema-example" id="toc-xml-schema-example"><span class="toc-section-number">4.3</span> XML Schema example</a></li>
+<li><a href="#schema-document" id="toc-schema-document"><span class="toc-section-number">4.4</span> Schema document</a></li>
+<li><a href="#validating-the-document" id="toc-validating-the-document"><span class="toc-section-number">4.5</span> Validating the document</a></li>
+<li><a href="#schema-design" id="toc-schema-design"><span class="toc-section-number">4.6</span> Schema design</a></li>
+<li><a href="#use-cases" id="toc-use-cases"><span class="toc-section-number">4.7</span> Use cases</a></li>
+</ul></li>
+<li><a href="#xsl-transforms" id="toc-xsl-transforms"><span class="toc-section-number">5</span> XSL Transforms</a>
+<ul>
+<li><a href="#conversion-to-other-xml-documents." id="toc-conversion-to-other-xml-documents."><span class="toc-section-number">5.1</span> Conversion to other XML
+documents.</a></li>
+<li><a href="#conversion-to-non-xml-formats" id="toc-conversion-to-non-xml-formats"><span class="toc-section-number">5.2</span> Conversion to non-XML
+formats</a></li>
+<li><a href="#removing-xml-namespaces" id="toc-removing-xml-namespaces"><span class="toc-section-number">5.3</span> Removing XML namespaces</a></li>
+</ul></li>
+<li><a href="#xml-support-in-postgresql" id="toc-xml-support-in-postgresql"><span class="toc-section-number">6</span> XML support in PostgreSQL</a></li>
+</ul>
+</nav>
+<p><strong>Important resources:</strong></p>
+<ul>
+<li><a href="https://www.w3schools.com/Xml/schema_intro.asp">XSD
+Schema</a></li>
+<li><a href="https://www.w3schools.com/Xml/xsl_intro.asp">XSLT
+Introduction</a></li>
+<li><a href="https://www.postgresql.org/docs/16/datatype-xml.html">PostgreSQL
+XML type</a></li>
+<li><a href="https://www.postgresql.org/docs/16/functions-xml.html">PostgreSQL
+XML functions</a></li>
+</ul>
+<p>In today’s lab we’ll look at some more advanced XML features. We’ll
+primarily use <code>lxml</code> in Python to explore these.</p>
+<p>We will also briefly look at some functionality PostgreSQL provides
+to handle XML documents. The XML support is less flexible and useful
+than the <code>json</code> and <code>jsonb</code> types but can be
+useful in some cases.</p>
+<h1 data-number="1" id="connecting"><span class="header-section-number">1</span> Connecting</h1>
+<h2 data-number="1.1" id="remote-or-laptop-students"><span class="header-section-number">1.1</span> Remote or laptop students</h2>
+<p><em>Skip if on a lab machine</em></p>
+<p><a href="https://dkitvpn.dkit.ie">Connect to the VPN</a> at the
+beginning of this class.</p>
+<h2 data-number="1.2" id="login-to-the-shared-server"><span class="header-section-number">1.2</span> Login to the shared server</h2>
+<p>As per last week, we’ll login to the shared lab server.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> yourname@10.200.172.60</span></code></pre></div>
+<h1 data-number="2" id="real-world-xml-issues"><span class="header-section-number">2</span> Real-world XML issues</h1>
+<p>XML documents we may encounter or be required to produce may
+involve:</p>
+<ol type="1">
+<li>Namespaces</li>
+<li>Validity checks</li>
+<li>Transforms</li>
+<li>Advanced XPath usage</li>
+</ol>
+<h1 data-number="3" id="xml-namespaces"><span class="header-section-number">3</span> XML namespaces</h1>
+<p>One of the most problematic things you will encounter from a
+practical and consumption-centric viewpoint in XML is namespaces,
+specified by <code>xmlns</code> attributes usually on the root
+element.</p>
+<p>XML namespaces were originally conceived as a way to avoid element
+name conflicts when one XML document is embedded within another. However
+they add extreme complexity to what should be otherwise simple reading
+and navigation operations.</p>
+<p>You will often encounter them even in a document made by a single
+producer, becuase they have an <code>xmlns</code> attribute on the root
+element.</p>
+<h2 data-number="3.1" id="default-namespace"><span class="header-section-number">3.1</span> Default namespace</h2>
+<p>A document with an <code>xmlns</code> attribute on the root element
+has a default namespace “owned” by the organisation, conventionally
+written as a URL (but need not resolve to one).</p>
+<p>It would usually be expected that a particular namespace has some
+governing rules expressed as an XML Schema or a SGML Document Type
+Declaration.</p>
+<p>These documents are simple once you know how to remove or strip the
+XML namespace information if it’s problematic.</p>
+<h2 data-number="3.2" id="prefixed-namespaces"><span class="header-section-number">3.2</span> Prefixed namespaces</h2>
+<p>Sometimes we have one or more namespaces defining a prefix. If we had
+for example an XML doc:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">&quot;1.0&quot;</span> <span class="fu">?&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">itinerary</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ot">xmlns:bus=</span><span class="st">&quot;http://bus.company/here&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ot">xmlns:train=</span><span class="st">&quot;http://train.company/here&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ot">xmlns=</span><span class="st">&quot;http://ferry.company/default/namespace&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">bus:journey</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- a bus journey with elements relating to bus co --&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">bus</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">train:journey</span>&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- a train journey w/ elements relating to train co --&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">journey</span>&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- a ferry journey w/ elements relating to ferry --&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">journey</span>&gt;</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">itinerary</span>&gt;</span></code></pre></div>
+<h2 data-number="3.3" id="can-we-just-ignore-them"><span class="header-section-number">3.3</span> Can we just ignore them?</h2>
+<p>It would be great if we could! <em>BUT</em> Some tools that we use
+for schema checking and transforms use them to work.</p>
+<p>The good news is that we can ignore them for the most part, and can
+sometimes strip them if they are causing a problem.</p>
+<h1 data-number="4" id="validity"><span class="header-section-number">4</span> Validity</h1>
+<p>Last week we looked at well-formed XML. This is distinct from
+<em>Valid</em> XML. A Valid XML document obeys a machine-readable set of
+validity rules.</p>
+<p>There are a few ways to check validity:</p>
+<ol type="1">
+<li>Document Type Declaration (older)</li>
+<li>XML Schema (newer)</li>
+<li>RelaxNG</li>
+<li>Schematron</li>
+</ol>
+<p>We’ll <em>briefly</em> look at XML schemas but more from a general
+usage point-of-view. We won’t spend time writing schemas from
+scratch.</p>
+<h2 data-number="4.1" id="well-formed-prerequisite"><span class="header-section-number">4.1</span> Well-formed prerequisite</h2>
+<p>In order for an XML document to be valid, it must be well-formed.</p>
+<h2 data-number="4.2" id="xml-schema-validation"><span class="header-section-number">4.2</span> XML Schema validation</h2>
+<p>Schema validation is a process where a given <em>document</em> is
+evaluated against the rules specified in the <em>schema</em>. If no
+rules are found to be broken, the document is valid.</p>
+<p><img role="img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSI1MzJwdCIgaGVpZ2h0PSI5OHB0Igogdmlld0JveD0iMC4wMCAwLjAwIDUzMS41MCA5OC4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA5NCkiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtOTQgNTI3LjUsLTk0IDUyNy41LDQgLTQsNCIvPgo8IS0tIHhtbCAtLT4KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT54bWw8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJsaWdodGdyZXkiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMzMyLC05MCAxOTYsLTkwIDE5NiwtNTQgMzMyLC01NCAzMzIsLTkwIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI2NCIgeT0iLTY2Ljk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPklucHV0IFhNTCBkb2N1bWVudDwvdGV4dD4KPC9nPgo8IS0tIHZhbGlkYXRvciAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT52YWxpZGF0b3I8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJsaWdodGN5YW4iIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNDMzLjUsLTYzIDM2OCwtNjMgMzY4LC0yNyA0MzMuNSwtMjcgNDMzLjUsLTYzIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQwMC43NSIgeT0iLTM5Ljk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPlZhbGlkYXRvcjwvdGV4dD4KPC9nPgo8IS0tIHhtbCYjNDU7Jmd0O3ZhbGlkYXRvciAtLT4KPGcgaWQ9ImVkZ2UzIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT54bWwmIzQ1OyZndDt2YWxpZGF0b3I8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzMyLjM4LC01OC41QzM0MC41OSwtNTYuODUgMzQ4LjgsLTU1LjIxIDM1Ni41MywtNTMuNjYiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMzU3LjIxLC01Ny4wOSAzNjYuMzMsLTUxLjcgMzU1Ljg0LC01MC4yMyAzNTcuMjEsLTU3LjA5Ii8+CjwvZz4KPCEtLSB4c2QgLS0+CjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+eHNkPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibGlnaHRncmV5IiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjU0LC0zNiAwLC0zNiAwLDAgNTQsMCA1NCwtMzYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjciIHk9Ii0xMi45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5YU0Q8L3RleHQ+CjwvZz4KPCEtLSBnZW5lcmF0b3IgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+Z2VuZXJhdG9yPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibGlnaHRncmV5IiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE2MCwtMzYgOTAsLTM2IDkwLDAgMTYwLDAgMTYwLC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMjUiIHk9Ii0xMi45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5HZW5lcmF0b3I8L3RleHQ+CjwvZz4KPCEtLSB4c2QmIzQ1OyZndDtnZW5lcmF0b3IgLS0+CjxnIGlkPSJlZGdlMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+eHNkJiM0NTsmZ3Q7Z2VuZXJhdG9yPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTU0LjQ5LC0xOEM2MS44OCwtMTggNzAuMTMsLTE4IDc4LjMsLTE4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijc4LjE3LC0yMS41IDg4LjE3LC0xOCA3OC4xNiwtMTQuNSA3OC4xNywtMjEuNSIvPgo8L2c+CjwhLS0gc2NoZW1hIC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnNjaGVtYTwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9ImxpZ2h0Z3JleSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyOTMuNzUsLTM2IDIzNC4yNSwtMzYgMjM0LjI1LDAgMjkzLjc1LDAgMjkzLjc1LC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNjQiIHk9Ii0xMi45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5TY2hlbWE8L3RleHQ+CjwvZz4KPCEtLSBnZW5lcmF0b3ImIzQ1OyZndDtzY2hlbWEgLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+Z2VuZXJhdG9yJiM0NTsmZ3Q7c2NoZW1hPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE2MC4yMiwtMThDMTc5LjA4LC0xOCAyMDIuNjEsLTE4IDIyMi4zOSwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjIyLjM0LC0yMS41IDIzMi4zNCwtMTggMjIyLjM0LC0xNC41IDIyMi4zNCwtMjEuNSIvPgo8L2c+CjwhLS0gc2NoZW1hJiM0NTsmZ3Q7dmFsaWRhdG9yIC0tPgo8ZyBpZD0iZWRnZTQiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnNjaGVtYSYjNDU7Jmd0O3ZhbGlkYXRvcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yOTQuMjQsLTIzLjg2QzMxMi40NCwtMjcuNTEgMzM2LjE4LC0zMi4yNiAzNTYuNTMsLTM2LjM0Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjM1NS43NiwtMzkuNzYgMzY2LjI2LC0zOC4yOSAzNTcuMTQsLTMyLjg5IDM1NS43NiwtMzkuNzYiLz4KPC9nPgo8IS0tIG91dHB1dCAtLT4KPGcgaWQ9Im5vZGU2IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5vdXRwdXQ8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJwYWxlZ3JlZW4iIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTIzLjUsLTYzIDQ2OS41LC02MyA0NjkuNSwtMjcgNTIzLjUsLTI3IDUyMy41LC02MyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI0OTYuNSIgeT0iLTM5Ljk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPlJlc3VsdDwvdGV4dD4KPC9nPgo8IS0tIHZhbGlkYXRvciYjNDU7Jmd0O291dHB1dCAtLT4KPGcgaWQ9ImVkZ2U1IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT52YWxpZGF0b3ImIzQ1OyZndDtvdXRwdXQ8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNDMzLjc1LC00NUM0NDEuNTIsLTQ1IDQ0OS45LC00NSA0NTcuOSwtNDUiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNDU3LjczLC00OC41IDQ2Ny43MywtNDUgNDU3LjczLC00MS41IDQ1Ny43MywtNDguNSIvPgo8L2c+CjwvZz4KPC9zdmc+Cg==" /></p>
+<h2 data-number="4.3" id="xml-schema-example"><span class="header-section-number">4.3</span> XML Schema example</h2>
+<p>Let’s take the fixed <code>bathe_cat.xml</code> from last week. It’s
+by no means a great example of an XML document but it’s enough to get us
+going!</p>
+<p>Let’s try to load it in Python:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lxml etree import</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lxml <span class="im">import</span> etree</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read in bathe_cat.xml</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;bathe_cat.xml&#39;</span>,<span class="st">&#39;r&#39;</span>) <span class="im">as</span> f:</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    doc <span class="op">=</span> etree.parse(f)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># root element</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>procedure <span class="op">=</span> doc.getroot()</span></code></pre></div>
+<h2 data-number="4.4" id="schema-document"><span class="header-section-number">4.4</span> Schema document</h2>
+<p>Looking at the XML document:</p>
+<ol type="1">
+<li>Root element is <code>PROCEDURE</code>.</li>
+<li>Root element has <code>TITLE</code>, <code>OVERVIEW</code> and
+<code>WARNING</code> elements that all contain text.</li>
+<li>It has <code>EQUIPMENT</code> element with one or more
+<code>ITEM</code> elements containing text within.</li>
+<li>It has <code>INSTRUCTIONS</code> element with one or more
+<code>STEP</code> elements containing text within.</li>
+</ol>
+<p>An XML Schema to encode the requirements above is given in the
+<code>procedure.xsd</code> file.</p>
+<h2 data-number="4.5" id="validating-the-document"><span class="header-section-number">4.5</span> Validating the document</h2>
+<p>We will first use <code>lxml</code> to load the schema, creating a
+Schema object, and then validate the document against the schema.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the schema XML document</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;procedure.xsd&#39;</span>,<span class="st">&#39;r&#39;</span>) <span class="im">as</span> f:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    schema_doc <span class="op">=</span> etree.parse(f)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># make a schema object from the schema doc</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> etree.XMLSchema(schema_doc)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># use the schema to validate the original doc</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>schema.validate(doc)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># result will be boolean</span></span></code></pre></div>
+<p>If we want a failure to validate to cause a Python exception we can
+instead use:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>schema.assertValid(doc)</span></code></pre></div>
+<p>This will also contain the traceback of validation errors.</p>
+<h2 data-number="4.6" id="schema-design"><span class="header-section-number">4.6</span> Schema design</h2>
+<p>Schema design can get very complicated! This class has only a basic
+schema so you’ll understand the purpose and basic capabilities.</p>
+<h2 data-number="4.7" id="use-cases"><span class="header-section-number">4.7</span> Use cases</h2>
+<p>If you’re receiving XML from multiple different producers that is
+supposed to conform to a given XSD file, then you really should use
+it!</p>
+<p>If you’re receiving XML from other producers and have a set of rules
+but no XSD (or alternative like DTD) then you should consider creating
+one or consulting with someone to create one with/for you.</p>
+<p>If you’re being asked to produce XML to send on elsewhere according
+to a set of rules, then you and the receiver should agree on encoding
+them as an XSD to avoid any misunderstandings.</p>
+<h1 data-number="5" id="xsl-transforms"><span class="header-section-number">5</span> XSL Transforms</h1>
+<p>XSL transforms allow us to convert an XML document to another XML
+document or to generic text formats.</p>
+<p><img role="img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSI0NDVwdCIgaGVpZ2h0PSI5OHB0Igogdmlld0JveD0iMC4wMCAwLjAwIDQ0NS4yNSA5OC4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA5NCkiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtOTQgNDQxLjI1LC05NCA0NDEuMjUsNCAtNCw0Ii8+CjwhLS0geG1sIC0tPgo8ZyBpZD0ibm9kZTEiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnhtbDwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9ImxpZ2h0Z3JleSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMzYsLTkwIDAsLTkwIDAsLTU0IDEzNiwtNTQgMTM2LC05MCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2OCIgeT0iLTY2Ljk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPklucHV0IFhNTCBkb2N1bWVudDwvdGV4dD4KPC9nPgo8IS0tIHRyYW5zZm9ybWVyIC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnRyYW5zZm9ybWVyPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibGlnaHRjeWFuIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI1Ni4yNSwtNjMgMTcyLC02MyAxNzIsLTI3IDI1Ni4yNSwtMjcgMjU2LjI1LC02MyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTQuMTIiIHk9Ii0zOS45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5UcmFuc2Zvcm1lcjwvdGV4dD4KPC9nPgo8IS0tIHhtbCYjNDU7Jmd0O3RyYW5zZm9ybWVyIC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnhtbCYjNDU7Jmd0O3RyYW5zZm9ybWVyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTEzNi40MiwtNTkuMzdDMTQ0LjQ5LC01Ny44NiAxNTIuNjQsLTU2LjMzIDE2MC40NiwtNTQuODciLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTYwLjk3LC01OC4zMyAxNzAuMTUsLTUzLjA1IDE1OS42OCwtNTEuNDUgMTYwLjk3LC01OC4zMyIvPgo8L2c+CjwhLS0geHNsIC0tPgo8ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnhzbDwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9ImxpZ2h0Z3JleSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMTYuODgsLTM2IDE5LjEyLC0zNiAxOS4xMiwwIDExNi44OCwwIDExNi44OCwtMzYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjgiIHk9Ii0xMi45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5YU0wgdHJhbnNmb3JtPC90ZXh0Pgo8L2c+CjwhLS0geHNsJiM0NTsmZ3Q7dHJhbnNmb3JtZXIgLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+eHNsJiM0NTsmZ3Q7dHJhbnNmb3JtZXI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTE2Ljk5LC0yNi45OUMxMzAuOTUsLTI5LjYxIDE0Ni4yNywtMzIuNDcgMTYwLjQ5LC0zNS4xNCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNTkuNjYsLTM4LjU0IDE3MC4xMywtMzYuOTUgMTYwLjk1LC0zMS42NiAxNTkuNjYsLTM4LjU0Ii8+CjwvZz4KPCEtLSBvdXRwdXQgLS0+CjxnIGlkPSJub2RlNCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+b3V0cHV0PC90aXRsZT4KPHBvbHlnb24gZmlsbD0icGFsZWdyZWVuIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjQzNy4yNSwtNjMgMjkyLjI1LC02MyAyOTIuMjUsLTI3IDQzNy4yNSwtMjcgNDM3LjI1LC02MyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzNjQuNzUiIHk9Ii0zOS45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5PdXRwdXQgWE1MIGRvY3VtZW50PC90ZXh0Pgo8L2c+CjwhLS0gdHJhbnNmb3JtZXImIzQ1OyZndDtvdXRwdXQgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+dHJhbnNmb3JtZXImIzQ1OyZndDtvdXRwdXQ8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjU2LjUzLC00NUMyNjQuMDgsLTQ1IDI3Mi4yMSwtNDUgMjgwLjQ5LC00NSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyODAuMzIsLTQ4LjUgMjkwLjMyLC00NSAyODAuMzIsLTQxLjUgMjgwLjMyLC00OC41Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" /></p>
+<p>XSL Transforms are written as XML documents . When stored on disk
+it’s conventional to use <code>.xsl</code> as the file extension for
+them.</p>
+<h2 data-number="5.1" id="conversion-to-other-xml-documents."><span class="header-section-number">5.1</span> Conversion to other XML
+documents.</h2>
+<p>XSL’s primary function is to convert from one document to another.
+Let’s say we wanted a slightly different version of
+<code>bathe_cat.xml</code>, we could have an XSL transform.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assume original doc is root </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># open the XML file defining the XSL transform</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>xslt_file <span class="op">=</span> <span class="bu">open</span>(<span class="st">&#39;summary.xsl&#39;</span>,<span class="st">&#39;r&#39;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># parse the XSLT (same as an XML file)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>xslt_root <span class="op">=</span> etree.parse(xslt_file)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create the transformer from the XSLT</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>transform <span class="op">=</span> etree.XSLT(xslt_root)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># apply the transform</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>transform_result <span class="op">=</span> transform(root)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># get the document root</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> transform_result.get_root()</span></code></pre></div>
+<h2 data-number="5.2" id="conversion-to-non-xml-formats"><span class="header-section-number">5.2</span> Conversion to non-XML
+formats</h2>
+<p>XSL can also convert an XML document to a non-XML string
+representation. This can be used for a variety of purposes.</p>
+<h2 data-number="5.3" id="removing-xml-namespaces"><span class="header-section-number">5.3</span> Removing XML namespaces</h2>
+<p>On a practical level it’s often easiest to strip namespaces from
+documents where there is no risk of clash.</p>
+<p>To do this we will use an XSL Transform to modify the original XML
+document so that the namespace declarations are removed. Then many of
+our tools will be a lot easier to work with.</p>
+<p>XSL itself is a powerful tool, often used to transform XML documents
+to other XML documents or to alternative formats like plain text and
+HTML. In real situations it’s often easier to write a script to do the
+same thing as an XSL transform in a shorter time.</p>
+<p>We’ll use <code>lxml</code> to load the XML document defining the
+transform, create a transform object and then apply it to the original
+XML document.</p>
+<p>The particular document we’ll use is called an <em>identity
+transform</em> that will pass through the document but will strip
+namespace information from it.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assume original doc is root </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># open the XML file defining the XSL transform</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>xslt_file <span class="op">=</span> <span class="bu">open</span>(<span class="st">&#39;remove_namespaces.xsl&#39;</span>,<span class="st">&#39;r&#39;</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># parse the XSLT (same as an XML file)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>xslt_root <span class="op">=</span> etree.parse(xslt_file)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create the transformer from the XSLT</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>transform <span class="op">=</span> etree.XSLT(xslt_root)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># apply the transform</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>transform_result <span class="op">=</span> transform(root)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># get the document root</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> transform_result.get_root()</span></code></pre></div>
+<h1 data-number="6" id="xml-support-in-postgresql"><span class="header-section-number">6</span> XML support in PostgreSQL</h1>
+<p>PostgreSQL can understand XML to a lesser extent that JSON, using its
+<code>xml</code> type.</p>
+</body>
+</html>
