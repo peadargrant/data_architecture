@@ -12,3 +12,7 @@
 
 6. [Document-Relational DB](https://media.heanet.ie/page/850dab8e2a2e4d71ae2b1e0336787270)
 
+7. *See week 8*
+
+8. [XML](https://media.heanet.ie/page/b247c3fd16544b9f92ac51af099e6013)
+
