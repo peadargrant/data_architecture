@@ -265,8 +265,6 @@ Non well-formed XML will cause errors in applications and parsers that expect st
 
 XML libraries and utilities built on them will not normally parse a document that isn't well formed.
 
-### Powershell
-
 ### Linux / Unix
 
 The reference utility is `xmllint`.
