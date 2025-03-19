@@ -16,3 +16,5 @@
 
 8. [XML](https://media.heanet.ie/page/b247c3fd16544b9f92ac51af099e6013)
 
+9. [Graph databases](https://media.heanet.ie/page/03a46f64487e4e018cefad80e092d7a9)
+
