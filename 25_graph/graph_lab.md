@@ -294,6 +294,14 @@ We use `MATCH` with `DELETE`:
 MATCH (n) DELETE n 
 ```
 
+### Deleting all nodes and their relationships
+
+Given that most nodes will have relationships we generally instead can use:
+
+```cypher
+MATCH (n) DETACH DELETE n
+```
+
 
 # Your own database
 
@@ -312,3 +320,8 @@ Choose from one of these options:
 [Neo4J Python Driver Manual](https://neo4j.com/docs/python-manual/current/)
 
 
+
+
+
+
+MATCH (p:Person {name:'Mary'})-[r:FOLLOWS]->(s:Sport {name:'F1'}) DELETE r
