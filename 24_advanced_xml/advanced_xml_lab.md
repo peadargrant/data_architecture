@@ -174,6 +174,18 @@ Looking at the XML document:
 An XML Schema to encode the requirements above is given in the `procedure.xsd` file.
 
 
+## Document validation at command-line
+
+In UNIX systems if we have the `.xsd` and a given `.xml` file we can use `xmllint`'s `--schema` option to test if the document validates against the schema.
+
+```bash
+xmllint --schema procedure.xsd bathe_cat.xml 
+```
+
+If the document validates `xmllint` will by default print out the document followed by a confirmation that it is valid.
+
+
+
 ## Validating the document
 
 We will first use `lxml` to load the schema, creating a Schema object, and then validate the document against the schema.
@@ -239,6 +251,9 @@ digraph G {
 XSL Transforms are written as XML documents .
 When stored on disk it's conventional to use `.xsl` as the file extension for them. 
 
+XSL itself is a powerful tool, and historically was often used to transform XML documents to to alternative formats like plain text and HTML, as well as other XML documents.
+In real situations in 2025 it's often easier to write a script in a procedural language like Python to do the same thing as an XSL transform in a shorter time. 
+
 
 ## Conversion to other XML documents.
 
@@ -279,9 +294,6 @@ On a practical level it's often easiest to strip namespaces from documents where
 
 To do this we will use an XSL Transform to modify the original XML document so that the namespace declarations are removed.
 Then many of our tools will be a lot easier to work with. 
-
-XSL itself is a powerful tool, often used to transform XML documents to other XML documents or to alternative formats like plain text and HTML. 
-In real situations it's often easier to write a script to do the same thing as an XSL transform in a shorter time. 
 
 We'll use `lxml` to load the XML document defining the transform, create a transform object and then apply it to the original XML document. 
 
