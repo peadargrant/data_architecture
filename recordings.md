@@ -18,3 +18,6 @@
 
 9. [Graph databases](https://media.heanet.ie/page/03a46f64487e4e018cefad80e092d7a9)
 
+10. [Graph databases - pathfinding](https://media.heanet.ie/page/ea975b6182ba4714a039454e25347351)
+
+
