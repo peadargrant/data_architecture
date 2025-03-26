@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>MSc CA2 spec</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+body {
+font-family: sans-serif;
+background-color: rgb(245,245,245);
+}
+#TOC {
+padding: 10px;
+background-color: lightyellow;
+}
+h1.title {
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 150%;
+}
+h1 {
+background-color: lightcyan;
+padding: 5px;
+font-size: 120%;
+}
+h2 {
+color: darkblue;
+font-size: 100%;
+}
+h3 {
+color: darkgreen;
+font-size: 100%;
+}
+code {
+font-weight: bold;
+font-size: 120%;
+}
+pre {
+font-size: 120%;
+padding: 0.5em;
+font-weight: bold;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(100,100,100);
+background-color: rgb(245,255,245);
+}
+
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">MSc CA2 spec</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#introduction" id="toc-introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#deliverables" id="toc-deliverables"><span class="toc-section-number">2</span> Deliverables</a>
+<ul>
+<li><a href="#description-10" id="toc-description-10"><span class="toc-section-number">2.1</span> Description (10%)</a></li>
+<li><a href="#data-load-20" id="toc-data-load-20"><span class="toc-section-number">2.2</span> Data load (20%)</a></li>
+<li><a href="#statistics-10" id="toc-statistics-10"><span class="toc-section-number">2.3</span> Statistics (10%)</a></li>
+<li><a href="#route-planner-30" id="toc-route-planner-30"><span class="toc-section-number">2.4</span> Route planner (30%)</a></li>
+<li><a href="#use-of-version-control-10" id="toc-use-of-version-control-10"><span class="toc-section-number">2.5</span> Use of version control
+(10%)</a></li>
+<li><a href="#additional-enhancement-20" id="toc-additional-enhancement-20"><span class="toc-section-number">2.6</span> Additional enhancement
+(20%)</a></li>
+</ul></li>
+<li><a href="#submission" id="toc-submission"><span class="toc-section-number">3</span> Submission</a></li>
+<li><a href="#feedback" id="toc-feedback"><span class="toc-section-number">4</span> Feedback</a></li>
+</ul>
+</nav>
+<p><strong>Deadline:</strong> To be confirmed.</p>
+<p><strong>Weight:</strong> 35%</p>
+<p><em>NB: This CA is for MSc Data Architecture students only. PgDip
+students should consult PgDip Project.</em></p>
+<h1 data-number="1" id="introduction"><span class="header-section-number">1</span> Introduction</h1>
+<p>You are to develop a route planning application in Python on the
+Neo4J database for your choice of public transport system. You can
+either provide data for a real system (e.g. Dublin’s LUAS, Irish Rail
+network) or integrate it from elsewhere (e.g. GitHub, Kaggle, etc).</p>
+<h1 data-number="2" id="deliverables"><span class="header-section-number">2</span> Deliverables</h1>
+<p>Python files must be plain <code>.py</code> and not
+<code>.ipynb</code> or similar, and should work from the
+command-line.</p>
+<h2 data-number="2.1" id="description-10"><span class="header-section-number">2.1</span> Description (10%)</h2>
+<p>In your <code>README.md</code> file:</p>
+<ul>
+<li>Indicate the specific system(s) / dataset chosen, and the expected
+outputs from it.</li>
+<li>Provide instructions for running the other script(s) in the
+repository.</li>
+<li>Indicate what OS and Python versions this work was completed
+on.</li>
+</ul>
+<h2 data-number="2.2" id="data-load-20"><span class="header-section-number">2.2</span> Data load (20%)</h2>
+<p>Provide a <code>data_load.py</code> script that will load data into
+your Neo4J database.</p>
+<p>You are free to decide how this script retrieves its data. Some
+options:</p>
+<ol type="1">
+<li>Provide local <code>.csv</code>, <code>.xml</code>,
+<code>.json</code> or other files with a file named
+<code>source.txt</code> that explains the source or origin data of these
+files.</li>
+<li>Directly download them from an online URL (which may be static or
+provided by an API).</li>
+<li>Use an LLM to synthesize them directly via an API. <em>You should
+discuss this with me first.</em></li>
+</ol>
+<p>Marks for data loading will be enhanced by:</p>
+<ul>
+<li>Appropriate labelling of nodes and relationships based on source
+data</li>
+<li>Addition of nodes to enhance representation of relationships</li>
+<li>Storage of appropriate properties for nodes and relationships</li>
+<li>Avoiding redundant storage of information</li>
+</ul>
+<h2 data-number="2.3" id="statistics-10"><span class="header-section-number">2.3</span> Statistics (10%)</h2>
+<p>Provide a <code>statistics.py</code> script that will show:</p>
+<ol type="1">
+<li>The number of nodes of each label type.</li>
+<li>The number of relationships of each label type.</li>
+</ol>
+<p>Marks for statistics will be enhanced by:</p>
+<ul>
+<li>Identifying additional significant groupings in output</li>
+<li>Employing visualisations e.g. using scipy where appropriate</li>
+</ul>
+<h2 data-number="2.4" id="route-planner-30"><span class="header-section-number">2.4</span> Route planner (30%)</h2>
+<p>Your route planner should be in the <code>planner.py</code>
+script.</p>
+<p>It should permit the entry of an origin and destination point by name
+or publically identifiable number/code (e.g. airport codes).</p>
+<p>Marks for the route planner will be enhanced by:</p>
+<ul>
+<li>Using the <code>argparse</code>, <code>click</code> or similar
+libraries to provide a robust command-line interface.</li>
+<li>Professional Python program organisation using functions, classes,
+appropriate control structures, exceptions.</li>
+<li>Formatting the output to enhance usability</li>
+<li>Employing visualisations e.g. using scipy</li>
+</ul>
+<h2 data-number="2.5" id="use-of-version-control-10"><span class="header-section-number">2.5</span> Use of version control
+(10%)</h2>
+<p>Marks for use of version control will be enhanced by:</p>
+<ul>
+<li>Sensible atomic commits demonstrating clear development steps.</li>
+<li>Evidence of commits happening in line with standard development
+cycle, not bulk loading towards the end.</li>
+<li>Meaningful clear commit messages</li>
+<li>Use of tags to demarcate milestones</li>
+</ul>
+<h2 data-number="2.6" id="additional-enhancement-20"><span class="header-section-number">2.6</span> Additional enhancement
+(20%)</h2>
+<p>This section is for an additional enhancement. Ideas could
+include:</p>
+<ul>
+<li>Pulling real-time travel information from an online API</li>
+<li>Additional data storage (e.g. document DB, relational DB)</li>
+<li>Significant use of database features beyond class usage, as
+indicated in comments.</li>
+<li>Storage / recall of preferred routings using a database</li>
+<li>Providing a Python GUI or webapp</li>
+<li>Exporting output to MS Office, HTML or other formats.</li>
+</ul>
+<p><em>You should discuss your planned enhancement with me before
+starting work. A basic attempt is required here only.</em></p>
+<h1 data-number="3" id="submission"><span class="header-section-number">3</span> Submission</h1>
+<p>Your work must be presented in a git repository named exactly
+<code>data_arch_ca2</code> on the <a href="https://gitlab.comp.dkit.ie/">school GitLab server</a>.
+Submissions will not be accepted via Moodle or email.</p>
+<p>You must add <code>grantp</code> with <em>Developer</em>-level access
+to your repository so that I can access your work to grade it.</p>
+<p>The most recent commit in advance of the deadline will be taken as
+your submitted version.</p>
+<h1 data-number="4" id="feedback"><span class="header-section-number">4</span> Feedback</h1>
+<p>Numerical component grades and summary feedback will be returned on
+Moodle.</p>
+<p>Verbal feedback available on request during consultation period.</p>
+</body>
+</html>
