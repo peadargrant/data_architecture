@@ -19,6 +19,11 @@ n1 -> n2 [ label="relationship\n/ edge" ];
 }
 ```
 
+Links:
+
+- [Why Graph Databases are the Future](https://neo4j.com/blog/graph-database/why-graph-databases-are-the-future/?ref=blog%2F#definition)
+
+
 ## Nodes
 
 Nodes normally represent entities / instances such as people, businesses, accounts, or any other item to be tracked:
@@ -319,6 +324,41 @@ Choose from one of these options:
 
 [Neo4J Python Driver Manual](https://neo4j.com/docs/python-manual/current/)
 
+You will need to install the `neo4j` module.
+
+
+## Connecting
+
+```python
+from neo4j import GraphDatabase
+URI = "neo4j://localhost"
+AUTH = ("neo4j", "1Password2025.")
+driver = GraphDatabase.driver(URI, auth=AUTH)
+driver.verify_connectivity()
+```
+
+The `driver` object provides the `execute_query` method that we use to run Cypher queries through Python.
+
+
+## Creating nodes
+
+Simple example of creating a node: 
+
+```python3
+records, summary, keys = driver.execute_query("CREATE (a:Artist {name: 'Daft Punk') RETURN (a)", database_="neo4j",)
+```
+
+
+## Reading from DB
+
+To read from the DB we can use the returned `records` object:
+
+```python3
+records, summary, keys = driver.execute_query("MATCH (p:Artist) RETURN p.name AS name", database_="neo4j",)
+```
+
+
+## Parameter handling
 
 
 

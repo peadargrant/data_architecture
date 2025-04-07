@@ -20,6 +20,71 @@ margin: 0 0.8em 0.2em -1.6em;
 vertical-align: middle;
 }
 .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
   <style type="text/css">
 body {
@@ -98,10 +163,20 @@ types</a></li>
 relationships</a></li>
 <li><a href="#set-properties" id="toc-set-properties"><span class="toc-section-number">3.9</span> SET properties</a></li>
 <li><a href="#remove-properties" id="toc-remove-properties"><span class="toc-section-number">3.10</span> REMOVE properties</a></li>
-<li><a href="#deleting-all-nodes" id="toc-deleting-all-nodes"><span class="toc-section-number">3.11</span> Deleting all nodes</a></li>
+<li><a href="#deleting-all-nodes" id="toc-deleting-all-nodes"><span class="toc-section-number">3.11</span> Deleting all nodes</a>
+<ul>
+<li><a href="#deleting-all-nodes-and-their-relationships" id="toc-deleting-all-nodes-and-their-relationships"><span class="toc-section-number">3.11.1</span> Deleting all nodes and their
+relationships</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#your-own-database" id="toc-your-own-database"><span class="toc-section-number">4</span> Your own database</a></li>
-<li><a href="#python-connectivity" id="toc-python-connectivity"><span class="toc-section-number">5</span> Python connectivity</a></li>
+<li><a href="#python-connectivity" id="toc-python-connectivity"><span class="toc-section-number">5</span> Python connectivity</a>
+<ul>
+<li><a href="#connecting" id="toc-connecting"><span class="toc-section-number">5.1</span> Connecting</a></li>
+<li><a href="#creating-nodes" id="toc-creating-nodes"><span class="toc-section-number">5.2</span> Creating nodes</a></li>
+<li><a href="#reading-from-db" id="toc-reading-from-db"><span class="toc-section-number">5.3</span> Reading from DB</a></li>
+<li><a href="#parameter-handling" id="toc-parameter-handling"><span class="toc-section-number">5.4</span> Parameter handling</a></li>
+</ul></li>
 </ul>
 </nav>
 <p>We will largely be following the <a href="https://neo4j.com/docs/getting-started/">Neo4J tutorial</a>
@@ -113,6 +188,11 @@ record types: <strong>nodes</strong> and
 <strong>relationships</strong>.</p>
 <p>Nodes are connected to each other by <em>relationships</em>.</p>
 <p><img role="img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIyNTJwdCIgaGVpZ2h0PSI1OXB0Igogdmlld0JveD0iMC4wMCAwLjAwIDI1MS43NCA1OS4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA1NSkiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtNTUgMjQ3Ljc0LC01NSAyNDcuNzQsNCAtNCw0Ii8+CjwhLS0gbjEgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+bjE8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJsaWdodGdyZXkiIHN0cm9rZT0iYmxhY2siIGN4PSIzNiIgY3k9Ii0xOCIgcng9IjM2IiByeT0iMTgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzYiIHk9Ii0xMi45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5ub2RlIDE8L3RleHQ+CjwvZz4KPCEtLSBuMiAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5uMjwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9ImxpZ2h0Z3JleSIgc3Ryb2tlPSJibGFjayIgY3g9IjIwNy43NCIgY3k9Ii0xOCIgcng9IjM2IiByeT0iMTgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjA3Ljc0IiB5PSItMTIuOTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+bm9kZSAyPC90ZXh0Pgo8L2c+CjwhLS0gbjEmIzQ1OyZndDtuMiAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5uMSYjNDU7Jmd0O24yPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTcyLjE3LC0xOEM5Ny41NywtMTggMTMyLjE1LC0xOCAxNTkuOSwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTU5LjgxLC0yMS41IDE2OS44MSwtMTggMTU5LjgxLC0xNC41IDE1OS44MSwtMjEuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMjEuODciIHk9Ii0zNy43IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnJlbGF0aW9uc2hpcDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTIxLjg3IiB5PSItMjEuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4vIGVkZ2U8L3RleHQ+CjwvZz4KPC9nPgo8L3N2Zz4K" /></p>
+<p>Links:</p>
+<ul>
+<li><a href="https://neo4j.com/blog/graph-database/why-graph-databases-are-the-future/?ref=blog%2F#definition">Why
+Graph Databases are the Future</a></li>
+</ul>
 <h2 data-number="1.1" id="nodes"><span class="header-section-number">1.1</span> Nodes</h2>
 <p>Nodes normally represent entities / instances such as people,
 businesses, accounts, or any other item to be tracked:</p>
@@ -258,6 +338,11 @@ with <code>SET</code>.</p>
 <h2 data-number="3.11" id="deleting-all-nodes"><span class="header-section-number">3.11</span> Deleting all nodes</h2>
 <p>We use <code>MATCH</code> with <code>DELETE</code>:</p>
 <pre class="cypher"><code>MATCH (n) DELETE n </code></pre>
+<h3 data-number="3.11.1" id="deleting-all-nodes-and-their-relationships"><span class="header-section-number">3.11.1</span> Deleting all nodes and their
+relationships</h3>
+<p>Given that most nodes will have relationships we generally instead
+can use:</p>
+<pre class="cypher"><code>MATCH (n) DETACH DELETE n</code></pre>
 <h1 data-number="4" id="your-own-database"><span class="header-section-number">4</span> Your own database</h1>
 <p>Choose from one of these options:</p>
 <ol type="1">
@@ -269,5 +354,25 @@ them.</p></li>
 <h1 data-number="5" id="python-connectivity"><span class="header-section-number">5</span> Python connectivity</h1>
 <p><a href="https://neo4j.com/docs/python-manual/current/">Neo4J Python
 Driver Manual</a></p>
+<p>You will need to install the <code>neo4j</code> module.</p>
+<h2 data-number="5.1" id="connecting"><span class="header-section-number">5.1</span> Connecting</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> neo4j <span class="im">import</span> GraphDatabase</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>URI <span class="op">=</span> <span class="st">&quot;neo4j://localhost&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>AUTH <span class="op">=</span> (<span class="st">&quot;neo4j&quot;</span>, <span class="st">&quot;1Password2025.&quot;</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> GraphDatabase.driver(URI, auth<span class="op">=</span>AUTH)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>driver.verify_connectivity()</span></code></pre></div>
+<p>The <code>driver</code> object provides the
+<code>execute_query</code> method that we use to run Cypher queries
+through Python.</p>
+<h2 data-number="5.2" id="creating-nodes"><span class="header-section-number">5.2</span> Creating nodes</h2>
+<p>Simple example of creating a node:</p>
+<pre class="python3"><code>records, summary, keys = driver.execute_query(&quot;CREATE (a:Artist {name: &#39;Daft Punk&#39;) RETURN (a)&quot;, database_=&quot;neo4j&quot;,)</code></pre>
+<h2 data-number="5.3" id="reading-from-db"><span class="header-section-number">5.3</span> Reading from DB</h2>
+<p>To read from the DB we can use the returned <code>records</code>
+object:</p>
+<pre class="python3"><code>records, summary, keys = driver.execute_query(&quot;MATCH (p:Artist) RETURN p.name AS name&quot;, database_=&quot;neo4j&quot;,)</code></pre>
+<h2 data-number="5.4" id="parameter-handling"><span class="header-section-number">5.4</span> Parameter handling</h2>
+<p>MATCH (p:Person {name:‘Mary’})-[r:FOLLOWS]-&gt;(s:Sport {name:‘F1’})
+DELETE r</p>
 </body>
 </html>
