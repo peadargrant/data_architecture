@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Queues</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+body {
+font-family: sans-serif;
+background-color: rgb(245,245,245);
+}
+#TOC {
+padding: 10px;
+background-color: lightyellow;
+}
+h1.title {
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 150%;
+}
+h1 {
+background-color: lightcyan;
+padding: 5px;
+font-size: 120%;
+}
+h2 {
+color: darkblue;
+font-size: 100%;
+}
+h3 {
+color: darkgreen;
+font-size: 100%;
+}
+code {
+font-weight: bold;
+font-size: 120%;
+}
+pre {
+font-size: 120%;
+padding: 0.5em;
+font-weight: bold;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(100,100,100);
+background-color: rgb(245,255,245);
+}
+
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Queues</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#login" id="toc-login"><span class="toc-section-number">1</span> Login</a></li>
+<li><a href="#message-brokers" id="toc-message-brokers"><span class="toc-section-number">2</span> Message Brokers</a>
+<ul>
+<li><a href="#clients" id="toc-clients"><span class="toc-section-number">2.1</span> Clients</a></li>
+<li><a href="#brokers-and-protocols" id="toc-brokers-and-protocols"><span class="toc-section-number">2.2</span> Brokers and Protocols</a></li>
+<li><a href="#lab-setup" id="toc-lab-setup"><span class="toc-section-number">2.3</span> Lab setup</a></li>
+</ul></li>
+<li><a href="#basic-functionality" id="toc-basic-functionality"><span class="toc-section-number">3</span> Basic functionality</a>
+<ul>
+<li><a href="#sending-a-message" id="toc-sending-a-message"><span class="toc-section-number">3.1</span> Sending a message</a>
+<ul>
+<li><a href="#pika-module-import" id="toc-pika-module-import"><span class="toc-section-number">3.1.1</span> Pika module import</a></li>
+<li><a href="#connection" id="toc-connection"><span class="toc-section-number">3.1.2</span> Connection</a></li>
+<li><a href="#queue" id="toc-queue"><span class="toc-section-number">3.1.3</span> Queue</a></li>
+<li><a href="#send-message" id="toc-send-message"><span class="toc-section-number">3.1.4</span> Send message</a></li>
+<li><a href="#send-some-more-messages" id="toc-send-some-more-messages"><span class="toc-section-number">3.1.5</span> Send some more messages</a></li>
+</ul></li>
+<li><a href="#receiving-messages" id="toc-receiving-messages"><span class="toc-section-number">3.2</span> Receiving messages</a>
+<ul>
+<li><a href="#python-interpreter" id="toc-python-interpreter"><span class="toc-section-number">3.2.1</span> Python interpreter</a></li>
+<li><a href="#connection-1" id="toc-connection-1"><span class="toc-section-number">3.2.2</span> Connection</a></li>
+<li><a href="#queue-1" id="toc-queue-1"><span class="toc-section-number">3.2.3</span> Queue</a></li>
+<li><a href="#callback-function" id="toc-callback-function"><span class="toc-section-number">3.2.4</span> Callback function</a></li>
+<li><a href="#consuming-messages" id="toc-consuming-messages"><span class="toc-section-number">3.2.5</span> Consuming messages</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#work-queues" id="toc-work-queues"><span class="toc-section-number">4</span> Work queues</a>
+<ul>
+<li><a href="#basic-worker" id="toc-basic-worker"><span class="toc-section-number">4.1</span> Basic Worker</a>
+<ul>
+<li><a href="#uploading" id="toc-uploading"><span class="toc-section-number">4.1.1</span> Uploading</a></li>
+<li><a href="#running" id="toc-running"><span class="toc-section-number">4.1.2</span> Running</a></li>
+</ul></li>
+<li><a href="#load-balancing" id="toc-load-balancing"><span class="toc-section-number">4.2</span> Load balancing</a></li>
+<li><a href="#work-failures" id="toc-work-failures"><span class="toc-section-number">4.3</span> Work failures</a></li>
+<li><a href="#message-acknowledgments" id="toc-message-acknowledgments"><span class="toc-section-number">4.4</span> Message acknowledgments</a></li>
+</ul></li>
+<li><a href="#queue-deletion" id="toc-queue-deletion"><span class="toc-section-number">5</span> Queue deletion</a></li>
+<li><a href="#queue-durability" id="toc-queue-durability"><span class="toc-section-number">6</span> Queue Durability</a></li>
+<li><a href="#fair-dispatch" id="toc-fair-dispatch"><span class="toc-section-number">7</span> Fair dispatch</a></li>
+<li><a href="#issues" id="toc-issues"><span class="toc-section-number">8</span> Issues</a>
+<ul>
+<li><a href="#timeouts" id="toc-timeouts"><span class="toc-section-number">8.1</span> Timeouts</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>Today’s lab will look at messaging queue systems.</p>
+<p><strong>Useful links:</strong></p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol">Wikipedia
+article on AMQP</a></li>
+<li><a href="https://www.rabbitmq.com/tutorials/tutorial-one-python">RabbitMQ
+documentation</a></li>
+<li><a href="https://aws.amazon.com/message-queue/">AWS guide to
+messaging queues</a></li>
+</ul>
+<p><em>Today’s lab is a very simplified introduction to messaging queue
+systems. You’ll probably find that systems you encounter or build differ
+a bit from the example presented here, but the basic ideas are the
+same.</em></p>
+<h1 data-number="1" id="login"><span class="header-section-number">1</span> Login</h1>
+<p>Today’s class will make use of the shared server:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ssh yourname@<span class="dv">10.200</span><span class="op">.</span><span class="dv">172.60</span></span></code></pre></div>
+<h1 data-number="2" id="message-brokers"><span class="header-section-number">2</span> Message Brokers</h1>
+<p>Message brokers are a server process (similar to a DBMS) that run
+normally on a dedicated computer in a data centre environment or cloud.
+They can however also run locally on a desktop / laptop co-located with
+some or all of the programs using them.</p>
+<p>We are using RabbitMQ as our broker. This is a very commonly used
+Broker that supports a number of different messaging protocols.</p>
+<h2 data-number="2.1" id="clients"><span class="header-section-number">2.1</span> Clients</h2>
+<p>Message brokers are unusual in that there are two separate client
+types</p>
+<p><img role="img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIyOTFwdCIgaGVpZ2h0PSI5OHB0Igogdmlld0JveD0iMC4wMCAwLjAwIDI5MC43OCA5OC4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA5NCkiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtOTQgMjg2Ljc4LC05NCAyODYuNzgsNCAtNCw0Ii8+CjwhLS0gcHJvZHVjZXIgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+cHJvZHVjZXI8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJsaWdodGN5YW4iIHN0cm9rZT0iYmxhY2siIGN4PSI5Ni4zOSIgY3k9Ii03MiIgcng9Ijg2LjY3IiByeT0iMTgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iOTYuMzkiIHk9Ii02Ni45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5Qcm9kdWNlciAvIFB1Ymxpc2hlcjwvdGV4dD4KPC9nPgo8IS0tIHF1ZXVlIC0tPgo8ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnF1ZXVlPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibGlnaHR5ZWxsb3ciIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjgyLjc4LC02MyAyMjguNzgsLTYzIDIyOC43OCwtMjcgMjgyLjc4LC0yNyAyODIuNzgsLTYzIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI1NS43OCIgeT0iLTM5Ljk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPlF1ZXVlPC90ZXh0Pgo8L2c+CjwhLS0gcHJvZHVjZXImIzQ1OyZndDtxdWV1ZSAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5wcm9kdWNlciYjNDU7Jmd0O3F1ZXVlPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE2NC4xNCwtNjAuNTVDMTgyLjM0LC01Ny40MyAyMDEuNDIsLTU0LjE1IDIxNy4zNSwtNTEuNDIiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjE3LjU4LC01NC45MyAyMjYuODQsLTQ5Ljc5IDIxNi40LC00OC4wMyAyMTcuNTgsLTU0LjkzIi8+CjwvZz4KPCEtLSBjb25zdW1lciAtLT4KPGcgaWQ9Im5vZGUzIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5jb25zdW1lcjwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9InBhbGVncmVlbiIgc3Ryb2tlPSJibGFjayIgY3g9Ijk2LjM5IiBjeT0iLTE4IiByeD0iOTYuMzkiIHJ5PSIxOCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI5Ni4zOSIgeT0iLTEyLjk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkNvbnN1bWVyIC8gU3Vic2NyaWJlcjwvdGV4dD4KPC9nPgo8IS0tIGNvbnN1bWVyJiM0NTsmZ3Q7cXVldWUgLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+Y29uc3VtZXImIzQ1OyZndDtxdWV1ZTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xNjguNzIsLTMwLjI0QzE4NS41MywtMzMuMTIgMjAyLjgsLTM2LjA4IDIxNy40MSwtMzguNTkiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjE2LjU2LC00MiAyMjcuMDEsLTQwLjI0IDIxNy43NSwtMzUuMSAyMTYuNTYsLTQyIi8+CjwvZz4KPC9nPgo8L3N2Zz4K" /></p>
+<ul>
+<li><strong>Producers / Publishers</strong> send (or enqueue) messages
+into a named queue on the broker.</li>
+<li><strong>Consumers / Subscribers</strong> receive (or dequeue)
+messages from a named queue on the broker.</li>
+</ul>
+<h2 data-number="2.2" id="brokers-and-protocols"><span class="header-section-number">2.2</span> Brokers and Protocols</h2>
+<p>Unlike most DBMS where each DBMS has its own communication protocol,
+there are a number of messaging protocols supported by a number of
+different brokers.</p>
+<p>The <strong>protocol</strong> we’ll use today is called AMQP. AMQP is
+normally on TCP Port 5672.</p>
+<p>The <strong>broker</strong> implementing the AMQP protocol that we’ll
+use in today’s lab is called RabbitMQ and is a commonly deployed broker
+in on-premises and cloud setups.</p>
+<p>To access the broker from our own Python code we’ll use the
+<code>pika</code> AMQP liibrary.</p>
+<h2 data-number="2.3" id="lab-setup"><span class="header-section-number">2.3</span> Lab setup</h2>
+<p>Each RabbitMQ server supports 1 or more <em>vhosts</em> which are
+conceptually like a database in a DBMS. In the lab configuration:</p>
+<ul>
+<li>Server host: 10.200.172.54</li>
+<li>Port: 5672</li>
+<li>Username: same as database server username</li>
+<li>Each student has their own vhost named the same as their
+username.</li>
+<li>Default password is <code>1Password</code>.</li>
+<li>You have full control of your rabbitmq vhost in terms of creating /
+deleting queues.</li>
+</ul>
+<h1 data-number="3" id="basic-functionality"><span class="header-section-number">3</span> Basic functionality</h1>
+<p>We’ll be following the <a href="https://www.rabbitmq.com/tutorials/tutorial-one-python">RabbitMQ
+Python Hello World tutorial</a>.</p>
+<h2 data-number="3.1" id="sending-a-message"><span class="header-section-number">3.1</span> Sending a message</h2>
+<p>We’ll first try sending a couple of messages using python
+interactively. Run <code>ipython3</code> and try the following:</p>
+<h3 data-number="3.1.1" id="pika-module-import"><span class="header-section-number">3.1.1</span> Pika module import</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the pika library</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pika</span></code></pre></div>
+<h3 data-number="3.1.2" id="connection"><span class="header-section-number">3.1.2</span> Connection</h3>
+<p>The first thing we need to do is to establish a connection with
+RabbitMQ server. This can be a bit cumbersome compared to the tutorial,
+as we’re connecting to a remote machine which means we need to set up
+credentials and a connection parameters object.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># review help for connection object and connection parameters</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(pika.BlockingConnection)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(pika.ConnectionParameters)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># credentials</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pika.credentials <span class="im">import</span> PlainCredentials</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>credentials <span class="op">=</span> PlainCredentials(<span class="st">&#39;grantpdev&#39;</span>,<span class="st">&#39;1Password&#39;</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># setup the connection parameters</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> pika.ConnectionParameters(<span class="st">&#39;10.200.172.54&#39;</span>,virtual_host<span class="op">=</span><span class="st">&#39;grantpdev&#39;</span>, credentials<span class="op">=</span>credentials, heartbeat<span class="op">=</span><span class="dv">3600</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create a connection object</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>connection <span class="op">=</span> pika.BlockingConnection(params)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># create channel</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>channel <span class="op">=</span> connection.channel()</span></code></pre></div>
+<h3 data-number="3.1.3" id="queue"><span class="header-section-number">3.1.3</span> Queue</h3>
+<p>Next, before sending we need to make sure the recipient queue exists.
+If we send a message to non-existing location, RabbitMQ will just drop
+the message. Let’s create a <em>hello</em> queue to which the message
+will be delivered:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>channel.queue_declare(queue<span class="op">=</span><span class="st">&#39;hello&#39;</span>)</span></code></pre></div>
+<p><em>This will return output, which is fine!</em></p>
+<h3 data-number="3.1.4" id="send-message"><span class="header-section-number">3.1.4</span> Send message</h3>
+<p>At this point we’re ready to send a message. Our first message will
+just contain a string <code>Hello World!</code> and we want to send it
+to our <code>hello</code> queue.</p>
+<p>As the tutorial states: - In RabbitMQ a message can never be sent
+directly to the queue, it always needs to go through an
+<em>exchange</em>. - For now we’ll just use the <em>default
+exchange</em> identified by an empty string. - The default exchange
+allows us to specify exactly to which queue the message should go. - The
+queue name needs to be specified in the <code>routing_key</code>
+parameter.</p>
+<p>To send a message:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>channel.basic_publish(exchange<span class="op">=</span><span class="st">&#39;&#39;</span>, routing_key<span class="op">=</span><span class="st">&#39;hello&#39;</span>, body<span class="op">=</span><span class="st">&#39;Hello World!&#39;</span>)</span></code></pre></div>
+<p><em>This command will return nothing by default.</em></p>
+<h3 data-number="3.1.5" id="send-some-more-messages"><span class="header-section-number">3.1.5</span> Send some more messages</h3>
+<p>Repeat the previous command a few times to send approx 5-10 messages
+into your queue.</p>
+<h2 data-number="3.2" id="receiving-messages"><span class="header-section-number">3.2</span> Receiving messages</h2>
+<p>Receiving messages is a little more complex.</p>
+<p>Basically we define a <em>callback function</em> and then tell the
+<code>channel</code> object to call this function when it receives a new
+message.</p>
+<h3 data-number="3.2.1" id="python-interpreter"><span class="header-section-number">3.2.1</span> Python interpreter</h3>
+<p>Open a new TMUX window and run <code>ipython3</code>, leaving your
+original window intact.</p>
+<h3 data-number="3.2.2" id="connection-1"><span class="header-section-number">3.2.2</span> Connection</h3>
+<p>Re-run the connection commands from the sending messages section.</p>
+<h3 data-number="3.2.3" id="queue-1"><span class="header-section-number">3.2.3</span> Queue</h3>
+<p>Queue declaration / creation is idempotent. Confirm that the queue
+exists by running:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>channel.queue_declare(queue<span class="op">=</span><span class="st">&#39;hello&#39;</span>)</span></code></pre></div>
+<h3 data-number="3.2.4" id="callback-function"><span class="header-section-number">3.2.4</span> Callback function</h3>
+<p>Next we define the <em>callback function</em> which is going to
+process each received message. Ours is just going to print the
+<code>body</code> to the screen and will ignore the other provided
+information.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> callback(ch, method, properties, body):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot; [x] Received </span><span class="sc">{</span>body<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<p>You can obviously adapt this pattern to do anything you like,
+e.g. fill values received into a DBMS, send an email, print a ticket,
+whatever.</p>
+<h3 data-number="3.2.5" id="consuming-messages"><span class="header-section-number">3.2.5</span> Consuming messages</h3>
+<p>First, we will configure our channel to consume messages on the
+<code>hello</code> queue and send them to the <code>callback</code>
+function we defined earlier:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>channel.basic_consume(queue<span class="op">=</span><span class="st">&#39;hello&#39;</span>, auto_ack<span class="op">=</span><span class="va">True</span>, on_message_callback<span class="op">=</span>callback)</span></code></pre></div>
+<p>Then we can enter a never-ending loop:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>channel.start_consuming()</span></code></pre></div>
+<p>Note that the messages you sent are all received. Now, you can go
+back to the other python session and send a few more messages, note that
+they’re now received as well.</p>
+<h1 data-number="4" id="work-queues"><span class="header-section-number">4</span> Work queues</h1>
+<p>We’ll carry on using the <a href="https://www.rabbitmq.com/tutorials/tutorial-two-python">work
+queues RabbitMQ tutorial</a>:</p>
+<ul>
+<li>This is conceptually identical to the previous example except we now
+have two (or more) consumers attached to the queue at one time.</li>
+<li>We also need to deal with the issue of <em>message
+acknowledgment</em> to cover situations where the workers fail.</li>
+</ul>
+<p><img role="img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIyMjZwdCIgaGVpZ2h0PSIxNzRwdCIKIHZpZXdCb3g9IjAuMDAgMC4wMCAyMjUuNjMgMTczLjk5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDE2OS45OSkiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtMTY5Ljk5IDIyMS42MywtMTY5Ljk5IDIyMS42Myw0IC00LDQiLz4KPCEtLSBwcm9kdWNlciAtLT4KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5wcm9kdWNlcjwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9ImxpZ2h0Y3lhbiIgc3Ryb2tlPSJibGFjayIgY3g9IjYzLjgyIiBjeT0iLTEzNyIgcng9IjYzLjgyIiByeT0iMjguOTkiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjMuODIiIHk9Ii0xNDAuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5Qcm9kdWNlcihzKTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjMuODIiIHk9Ii0xMjMuNyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jYW4gYmUgbWFueSE8L3RleHQ+CjwvZz4KPCEtLSBxdWV1ZSAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5xdWV1ZTwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9ImxpZ2h0eWVsbG93IiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjIxNy42MywtOTAgMTYzLjYzLC05MCAxNjMuNjMsLTU0IDIxNy42MywtNTQgMjE3LjYzLC05MCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxOTAuNjMiIHk9Ii02Ni45NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5RdWV1ZTwvdGV4dD4KPC9nPgo8IS0tIHByb2R1Y2VyJiM0NTsmZ3Q7cXVldWUgLS0+CjxnIGlkPSJlZGdlMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+cHJvZHVjZXImIzQ1OyZndDtxdWV1ZTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xMDYuNzMsLTExNS4xOEMxMjEuNzcsLTEwNy4zNCAxMzguNiwtOTguNTcgMTUzLjE1LC05MSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNTQuNjksLTk0LjE1IDE2MS45NCwtODYuNDIgMTUxLjQ1LC04Ny45NCAxNTQuNjksLTk0LjE1Ii8+CjwvZz4KPCEtLSBjMSAtLT4KPGcgaWQ9Im5vZGUzIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5jMTwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9InBhbGVncmVlbiIgc3Ryb2tlPSJibGFjayIgY3g9IjYzLjgyIiBjeT0iLTcyIiByeD0iNTYuNDciIHJ5PSIxOCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2My44MiIgeT0iLTY2Ljk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkNvbnN1bWVyIDE8L3RleHQ+CjwvZz4KPCEtLSBjMSYjNDU7Jmd0O3F1ZXVlIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmMxJiM0NTsmZ3Q7cXVldWU8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTIwLjY1LC03MkMxMzEuMTcsLTcyIDE0MS45NSwtNzIgMTUxLjc2LC03MiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNTEuNjUsLTc1LjUgMTYxLjY1LC03MiAxNTEuNjUsLTY4LjUgMTUxLjY1LC03NS41Ii8+CjwvZz4KPCEtLSBjMiAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5jMjwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9InBhbGVncmVlbiIgc3Ryb2tlPSJibGFjayIgY3g9IjYzLjgyIiBjeT0iLTE4IiByeD0iNTYuNDciIHJ5PSIxOCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2My44MiIgeT0iLTEyLjk1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkNvbnN1bWVyIDI8L3RleHQ+CjwvZz4KPCEtLSBjMiYjNDU7Jmd0O3F1ZXVlIC0tPgo8ZyBpZD0iZWRnZTMiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmMyJiM0NTsmZ3Q7cXVldWU8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNOTguNzMsLTMyLjU0QzEwOC4xLC0zNi41NyAxMTguMjYsLTQwLjk1IDEyNy42MywtNDUgMTM1LjgsLTQ4LjUzIDE0NC41NiwtNTIuMzQgMTUyLjg2LC01NS45NSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNTEuNDUsLTU5LjE1IDE2Mi4wMSwtNTkuOTQgMTU0LjI0LC01Mi43NCAxNTEuNDUsLTU5LjE1Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" /></p>
+<p>For this example we’ll keep our python session for sending the
+messages open. We’ll now quit the receiving one using Ctrl-C.</p>
+<h2 data-number="4.1" id="basic-worker"><span class="header-section-number">4.1</span> Basic Worker</h2>
+<p>I’ve implemented a basic worker in <code>qprocessor.py</code> that
+you’re free to use as a starting template for your own work:</p>
+<ul>
+<li>It prints out the message received in the message body.</li>
+<li>It fakes a delay of the same number of seconds as there are
+characters in the message.</li>
+<li>It also can deliberately lose some messages</li>
+</ul>
+<h3 data-number="4.1.1" id="uploading"><span class="header-section-number">4.1.1</span> Uploading</h3>
+<p>Upload the <code>qprocessor.py</code> script to the server using
+SFTP.</p>
+<h3 data-number="4.1.2" id="running"><span class="header-section-number">4.1.2</span> Running</h3>
+<p>Run it using</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./qprocessor.py</span>  </span></code></pre></div>
+<p>You will need to supply the <code>--host</code>,
+<code>--vhost</code>, <code>--username</code>, <code>--password</code>
+and <code>--queue</code> options!</p>
+<p>Send a few messages in to the queue from the original python
+session.</p>
+<h2 data-number="4.2" id="load-balancing"><span class="header-section-number">4.2</span> Load balancing</h2>
+<p>We could load-balance the queue by using multiple workers. We just
+need to run multiple workers at the same time. Try running a second
+instance of the worker in another TMUX window (or pane), and send in a
+few different messages into the queue together.</p>
+<p>Notice how the messages are distributed between the two workers. You
+can if you like add another 1-2 workers, even during processing. Best to
+put them in multiple panes in a single TMUX window so you can see
+everything that is going on!</p>
+<h2 data-number="4.3" id="work-failures"><span class="header-section-number">4.3</span> Work failures</h2>
+<p>Any work process can go wrong. Let’s quit one of our workers and
+re-start it with the <code>--lose-every 3</code> flag so that it will
+lose 1 message in every 3.</p>
+<p>These failures aren’t picked up, so the messages get lost.</p>
+<h2 data-number="4.4" id="message-acknowledgments"><span class="header-section-number">4.4</span> Message acknowledgments</h2>
+<p>We can make our queue tolerent to failures in the workers by using
+message acknowledgements. This separates the reception of the message
+from its deletion.</p>
+<p>When the message is received by a worker it’s hidden. Once the worker
+is finished processing the message it then deletes it. If the worker
+fails to do this within the delivery tieout period (as set on the
+RabbitMQ server) the message will be re-delivered to another worker.</p>
+<p>Previously we turned on <code>auto_ack</code>. This time we’ll leave
+it off (the default). The <code>qprocessor.py</code> program has an
+<code>--acknowledge</code> switch that does two things:</p>
+<ul>
+<li>Turns off the <code>auto_ack</code>.</li>
+<li>Sends an acknowledgement after each message has been processed.</li>
+</ul>
+<p>By default, a worker that has failed will be disconnected. You may
+need to “wrap” a worker appropriately so that it can restart if
+feasible.</p>
+<h1 data-number="5" id="queue-deletion"><span class="header-section-number">5</span> Queue deletion</h1>
+<p>You can delete a queue from <code>pika</code> in Python using:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>channel.queue_delete(queue<span class="op">=</span><span class="st">&#39;hello&#39;</span>)</span></code></pre></div>
+<p>Before issuing this command you should make sure that there are no
+producers or consumers connected to it.</p>
+<h1 data-number="6" id="queue-durability"><span class="header-section-number">6</span> Queue Durability</h1>
+<p><em>For discussion</em></p>
+<h1 data-number="7" id="fair-dispatch"><span class="header-section-number">7</span> Fair dispatch</h1>
+<p><em>For discussion</em></p>
+<h1 data-number="8" id="issues"><span class="header-section-number">8</span> Issues</h1>
+<h2 data-number="8.1" id="timeouts"><span class="header-section-number">8.1</span> Timeouts</h2>
+<p>If you see:</p>
+<pre><code>StreamLostError: Stream connection lost: ConnectionResetError(104, &#39;Connection reset by peer&#39;)</code></pre>
+<p>it’s because of activity timeouts on the server. Make sure to
+increase the <code>heartbeat</code> connection parameter.</p>
+</body>
+</html>
