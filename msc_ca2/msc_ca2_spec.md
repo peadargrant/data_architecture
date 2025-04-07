@@ -86,7 +86,7 @@ Marks for use of version control will be enhanced by:
 ## Additional enhancement (20%)
 
 This section is for an additional enhancement.
-Ideas could include:
+Some ideas, but you're free to choose your own:
 
 - Pulling real-time travel information from an online API
 - Additional data storage (e.g. document DB, relational DB)
@@ -94,6 +94,7 @@ Ideas could include:
 - Storage / recall of preferred routings using a database
 - Providing a Python GUI or webapp
 - Exporting output to MS Office, HTML or other formats.
+- Use of GitLab CI/CD Pipeline features
 
 *You should discuss your planned enhancement with me before starting work. A basic attempt is required here only.*
 
