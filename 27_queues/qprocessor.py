@@ -48,7 +48,8 @@ def main():
             print(" [!] Lost!")
             return
         print(" [x] Done")
-        ch.basic_ack(delivery_tag = method.delivery_tag) 
+        if ( args.acknowledge ):
+            ch.basic_ack(delivery_tag = method.delivery_tag) 
     callback.completed = 0
         
     # setup callback to receive messages
