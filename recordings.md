@@ -21,3 +21,6 @@
 10. [Graph databases - pathfinding](https://media.heanet.ie/page/ea975b6182ba4714a039454e25347351)
 
 11. [Project, Git](https://media.heanet.ie/page/69d4b809552f47b1b484c2fcc845fa04)
+
+12. [Messaging queues, Class test](https://media.heanet.ie/page/bbd9edd6ba474c9aa5c76e115ee8ea4f)
+
