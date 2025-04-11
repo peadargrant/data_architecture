@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>GraphViz example lab</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+body {
+font-family: sans-serif;
+background-color: rgb(245,245,245);
+}
+#TOC {
+padding: 10px;
+background-color: lightyellow;
+}
+h1.title {
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 150%;
+}
+h1 {
+background-color: lightcyan;
+padding: 5px;
+font-size: 120%;
+}
+h2 {
+color: darkblue;
+font-size: 100%;
+}
+h3 {
+color: darkgreen;
+font-size: 100%;
+}
+code {
+font-weight: bold;
+font-size: 120%;
+}
+pre {
+font-size: 120%;
+padding: 0.5em;
+font-weight: bold;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(100,100,100);
+background-color: rgb(245,255,245);
+}
+
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">GraphViz example lab</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#functionality" id="toc-functionality"><span class="toc-section-number">1</span> Functionality</a></li>
+<li><a href="#getting-graphviz" id="toc-getting-graphviz"><span class="toc-section-number">2</span> Getting GraphViz</a>
+<ul>
+<li><a href="#checking-for-graphviz" id="toc-checking-for-graphviz"><span class="toc-section-number">2.1</span> Checking for GraphViz</a></li>
+<li><a href="#installation" id="toc-installation"><span class="toc-section-number">2.2</span> Installation</a>
+<ul>
+<li><a href="#linux-unix" id="toc-linux-unix"><span class="toc-section-number">2.2.1</span> Linux / Unix</a></li>
+<li><a href="#mac" id="toc-mac"><span class="toc-section-number">2.2.2</span> Mac</a></li>
+<li><a href="#windows" id="toc-windows"><span class="toc-section-number">2.2.3</span> Windows</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#basic-example" id="toc-basic-example"><span class="toc-section-number">3</span> Basic example</a>
+<ul>
+<li><a href="#converting" id="toc-converting"><span class="toc-section-number">3.1</span> Converting</a></li>
+</ul></li>
+<li><a href="#other-things-you-can-do-with-graphviz" id="toc-other-things-you-can-do-with-graphviz"><span class="toc-section-number">4</span> Other things you can do with
+GraphViz</a></li>
+</ul>
+</nav>
+<p><em>This is a very quick intro to GraphViz based on class on
+09/04/2025.</em></p>
+<h1 data-number="1" id="functionality"><span class="header-section-number">1</span> Functionality</h1>
+<p>GraphViz is able to take a text description of a connected graph and
+output it as an image. For example, the following graph:</p>
+<p><img role="img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIzOTZwdCIgaGVpZ2h0PSIzMjlwdCIKIHZpZXdCb3g9IjAuMDAgMC4wMCAzOTYuMjUgMzI4LjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDMyNC41KSI+Cjx0aXRsZT5HPC90aXRsZT4KPHBvbHlnb24gZmlsbD0id2hpdGUiIHN0cm9rZT0ibm9uZSIgcG9pbnRzPSItNCw0IC00LC0zMjQuNSAzOTIuMjUsLTMyNC41IDM5Mi4yNSw0IC00LDQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTk0LjEyIiB5PSItNy4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkNsaWVudC9zZXJ2ZXIgZW52aXJvbm1lbnQ8L3RleHQ+CjxnIGlkPSJjbHVzdDEiIGNsYXNzPSJjbHVzdGVyIj4KPHRpdGxlPmNsdXN0ZXJfZGM8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjEyNy4yNSwtMzIuNSAxMjcuMjUsLTMxMi41IDM4OC4yNSwtMzEyLjUgMzg4LjI1LC0zMi41IDEyNy4yNSwtMzIuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNTcuNzUiIHk9Ii0yOTUuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5EYXRhIGNlbnRyZSBlbnZpcm9ubWVudDwvdGV4dD4KPC9nPgo8ZyBpZD0iY2x1c3QyIiBjbGFzcz0iY2x1c3RlciI+Cjx0aXRsZT5jbHVzdGVyX2RiPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyNzIuNzUsLTQwLjUgMjcyLjc1LC0yNzkuNSAzODAuMjUsLTI3OS41IDM4MC4yNSwtNDAuNSAyNzIuNzUsLTQwLjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzI2LjUiIHk9Ii0yNjIuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5EYXRhYmFzZSBzZXJ2ZXJzPC90ZXh0Pgo8L2c+CjwhLS0gY2xpZW50IC0tPgo8ZyBpZD0ibm9kZTEiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmNsaWVudDwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9InBhbGVncmVlbiIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI5OS4yNSwtMTY1LjUgMCwtMTY1LjUgMCwtMTI5LjUgOTkuMjUsLTEyOS41IDk5LjI1LC0xNjUuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI0OS42MiIgeT0iLTE0Mi40NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5DbGllbnQgcHJvZ3JhbTwvdGV4dD4KPC9nPgo8IS0tIHByb2dyYW0gLS0+CjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+cHJvZ3JhbTwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9ImxpZ2h0eWVsbG93IiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjIzNi43NSwtMTY1LjUgMTM1LjI1LC0xNjUuNSAxMzUuMjUsLTEyOS41IDIzNi43NSwtMTI5LjUgMjM2Ljc1LC0xNjUuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxODYiIHk9Ii0xNDIuNDUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+U2VydmVyIHByb2dyYW08L3RleHQ+CjwvZz4KPCEtLSBjbGllbnQmIzQ1OyZndDtwcm9ncmFtIC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmNsaWVudCYjNDU7Jmd0O3Byb2dyYW08L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNOTkuNTIsLTE0Ny41QzEwNy4zNywtMTQ3LjUgMTE1LjU5LC0xNDcuNSAxMjMuNjksLTE0Ny41Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjEyMy41LC0xNTEgMTMzLjUsLTE0Ny41IDEyMy41LC0xNDQgMTIzLjUsLTE1MSIvPgo8L2c+CjwhLS0gcG9zdGdyZXMgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+cG9zdGdyZXM8L3RpdGxlPgo8cGF0aCBmaWxsPSJsaWdodGJsdWUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0zNTYuNSwtODEuMjNDMzU2LjUsLTgzLjAzIDM0Mi44MywtODQuNSAzMjYsLTg0LjUgMzA5LjE3LC04NC41IDI5NS41LC04My4wMyAyOTUuNSwtODEuMjMgMjk1LjUsLTgxLjIzIDI5NS41LC01MS43NyAyOTUuNSwtNTEuNzcgMjk1LjUsLTQ5Ljk3IDMwOS4xNywtNDguNSAzMjYsLTQ4LjUgMzQyLjgzLC00OC41IDM1Ni41LC00OS45NyAzNTYuNSwtNTEuNzcgMzU2LjUsLTUxLjc3IDM1Ni41LC04MS4yMyAzNTYuNSwtODEuMjMiLz4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTM1Ni41LC04MS4yM0MzNTYuNSwtNzkuNDIgMzQyLjgzLC03Ny45NSAzMjYsLTc3Ljk1IDMwOS4xNywtNzcuOTUgMjk1LjUsLTc5LjQyIDI5NS41LC04MS4yMyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMjYiIHk9Ii02MS40NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5wb3N0Z3JlczwvdGV4dD4KPC9nPgo8IS0tIHByb2dyYW0mIzQ1OyZndDtwb3N0Z3JlcyAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5wcm9ncmFtJiM0NTsmZ3Q7cG9zdGdyZXM8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjE0LjgzLC0xMjkuMTNDMjMxLjQzLC0xMTguMzkgMjUzLjA1LC0xMDQuNzcgMjcyLjc1LC05My41IDI3Ni43OSwtOTEuMTkgMjgxLjA0LC04OC44NSAyODUuMzEsLTg2LjU2Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI4Ni42NSwtODkuODEgMjkzLjg2LC04Mi4wNSAyODMuMzgsLTgzLjYyIDI4Ni42NSwtODkuODEiLz4KPC9nPgo8IS0tIG15c3FsIC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPm15c3FsPC90aXRsZT4KPHBhdGggZmlsbD0ibGlnaHRibHVlIiBzdHJva2U9ImJsYWNrIiBkPSJNMzUzLC0xMzUuMjNDMzUzLC0xMzcuMDMgMzQwLjksLTEzOC41IDMyNiwtMTM4LjUgMzExLjEsLTEzOC41IDI5OSwtMTM3LjAzIDI5OSwtMTM1LjIzIDI5OSwtMTM1LjIzIDI5OSwtMTA1Ljc3IDI5OSwtMTA1Ljc3IDI5OSwtMTAzLjk3IDMxMS4xLC0xMDIuNSAzMjYsLTEwMi41IDM0MC45LC0xMDIuNSAzNTMsLTEwMy45NyAzNTMsLTEwNS43NyAzNTMsLTEwNS43NyAzNTMsLTEzNS4yMyAzNTMsLTEzNS4yMyIvPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzUzLC0xMzUuMjNDMzUzLC0xMzMuNDIgMzQwLjksLTEzMS45NSAzMjYsLTEzMS45NSAzMTEuMSwtMTMxLjk1IDI5OSwtMTMzLjQyIDI5OSwtMTM1LjIzIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMyNiIgeT0iLTExNS40NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5teXNxbDwvdGV4dD4KPC9nPgo8IS0tIHByb2dyYW0mIzQ1OyZndDtteXNxbCAtLT4KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5wcm9ncmFtJiM0NTsmZ3Q7bXlzcWw8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjM3LjIxLC0xMzcuNjhDMjUzLjc5LC0xMzQuNDMgMjcxLjk0LC0xMzAuODggMjg3LjQxLC0xMjcuODUiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjg4LjAyLC0xMzEuMyAyOTcuMTYsLTEyNS45NSAyODYuNjgsLTEyNC40MyAyODguMDIsLTEzMS4zIi8+CjwvZz4KPCEtLSBuZW80aiAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5uZW80ajwvdGl0bGU+CjxwYXRoIGZpbGw9ImxpZ2h0Ymx1ZSIgc3Ryb2tlPSJibGFjayIgZD0iTTM1MywtMTg5LjIzQzM1MywtMTkxLjAzIDM0MC45LC0xOTIuNSAzMjYsLTE5Mi41IDMxMS4xLC0xOTIuNSAyOTksLTE5MS4wMyAyOTksLTE4OS4yMyAyOTksLTE4OS4yMyAyOTksLTE1OS43NyAyOTksLTE1OS43NyAyOTksLTE1Ny45NyAzMTEuMSwtMTU2LjUgMzI2LC0xNTYuNSAzNDAuOSwtMTU2LjUgMzUzLC0xNTcuOTcgMzUzLC0xNTkuNzcgMzUzLC0xNTkuNzcgMzUzLC0xODkuMjMgMzUzLC0xODkuMjMiLz4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTM1MywtMTg5LjIzQzM1MywtMTg3LjQyIDM0MC45LC0xODUuOTUgMzI2LC0xODUuOTUgMzExLjEsLTE4NS45NSAyOTksLTE4Ny40MiAyOTksLTE4OS4yMyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMjYiIHk9Ii0xNjkuNDUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+bmVvNGo8L3RleHQ+CjwvZz4KPCEtLSBwcm9ncmFtJiM0NTsmZ3Q7bmVvNGogLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+cHJvZ3JhbSYjNDU7Jmd0O25lbzRqPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTIzNy4yMSwtMTU3LjMyQzI1My43OSwtMTYwLjU3IDI3MS45NCwtMTY0LjEyIDI4Ny40MSwtMTY3LjE1Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI4Ni42OCwtMTcwLjU3IDI5Ny4xNiwtMTY5LjA1IDI4OC4wMiwtMTYzLjcgMjg2LjY4LC0xNzAuNTciLz4KPC9nPgo8IS0tIGJyb2tlciAtLT4KPGcgaWQ9Im5vZGU2IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5icm9rZXI8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJsaWdodGJsdWUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMzUzLC0yNDYuNSAzMDMsLTI0Ni41IDI5OSwtMjQyLjUgMjk5LC0yMTAuNSAzNDksLTIxMC41IDM1MywtMjE0LjUgMzUzLC0yNDYuNSIvPgo8cG9seWxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzNDksLTI0Mi41IDI5OSwtMjQyLjUiLz4KPHBvbHlsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMzQ5LC0yNDIuNSAzNDksLTIxMC41Ii8+Cjxwb2x5bGluZSBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjM0OSwtMjQyLjUgMzUzLC0yNDYuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMjYiIHk9Ii0yMjMuNDUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+YnJva2VyPC90ZXh0Pgo8L2c+CjwhLS0gcHJvZ3JhbSYjNDU7Jmd0O2Jyb2tlciAtLT4KPGcgaWQ9ImVkZ2U0IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5wcm9ncmFtJiM0NTsmZ3Q7YnJva2VyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTIxNC44MywtMTY1Ljg3QzIzMS40MywtMTc2LjYxIDI1My4wNSwtMTkwLjIzIDI3Mi43NSwtMjAxLjUgMjc3LjgzLC0yMDQuNCAyODMuMjUsLTIwNy4zNiAyODguNjEsLTIxMC4yIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI4Ni44OSwtMjEzLjI1IDI5Ny4zOCwtMjE0Ljc3IDI5MC4xMywtMjA3LjA1IDI4Ni44OSwtMjEzLjI1Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" /></p>
+<p>was produced by:</p>
+<pre><code>digraph G {
+
+    label=&quot;Client/server environment&quot;;
+    
+    rankdir=LR;
+
+    node [style=filled,shape=rectangle ];
+
+    client [label=&quot;Client program&quot;, fillcolor=palegreen ];
+
+    subgraph cluster_dc {
+    label=&quot;Data centre environment&quot;;
+
+    program [label=&quot;Server program&quot;, fillcolor=lightyellow] ;
+    
+    node [shape=cylinder, fillcolor=lightblue];
+
+    subgraph cluster_db {
+    label=&quot;Database servers&quot;;
+    postgres ;
+    mysql ;
+    neo4j ;
+
+    broker [shape=box3d];
+    }
+    }
+
+    program -&gt; postgres ;
+    program -&gt; mysql ;
+    program -&gt; neo4j ;
+    program -&gt; broker ;
+    client -&gt; program ; 
+
+    
+    
+}</code></pre>
+<p>Sometimes it can be useful for Python or other programs to produce
+GraphViz output.</p>
+<h1 data-number="2" id="getting-graphviz"><span class="header-section-number">2</span> Getting GraphViz</h1>
+<p>GraphViz is a command-line program (despite making images). It was
+originally designed for Unix platforms but works fine on Windows via
+PowerShell.</p>
+<h2 data-number="2.1" id="checking-for-graphviz"><span class="header-section-number">2.1</span> Checking for GraphViz</h2>
+<p>If graphviz is installed, the <code>dot</code> command will be
+present:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> dot</span></code></pre></div>
+<p>GraphViz is installed on the shared server, but you won’t directly be
+able to view any images it creates.</p>
+<h2 data-number="2.2" id="installation"><span class="header-section-number">2.2</span> Installation</h2>
+<h3 data-number="2.2.1" id="linux-unix"><span class="header-section-number">2.2.1</span> Linux / Unix</h3>
+<p>Install via your package manager (apt, yum) or configuration
+management tool (ansible, cloud-init).</p>
+<h3 data-number="2.2.2" id="mac"><span class="header-section-number">2.2.2</span> Mac</h3>
+<p>Install via homebrew or macports.</p>
+<h3 data-number="2.2.3" id="windows"><span class="header-section-number">2.2.3</span> Windows</h3>
+<p>Install directly from the <a href="https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/12.2.1/windows_10_cmake_Release_graphviz-install-12.2.1-win64.exe">MSI
+package</a>.</p>
+<h1 data-number="3" id="basic-example"><span class="header-section-number">3</span> Basic example</h1>
+<p>Copy and paste the code for the sample above into a file called
+<code>architecture.gv</code>. We normally use <code>.gv</code> as the
+extension for GraphViz files.</p>
+<h2 data-number="3.1" id="converting"><span class="header-section-number">3.1</span> Converting</h2>
+<p>To generate a PNG image file we can use:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dot</span> <span class="at">-Tpng</span> <span class="at">-o</span> architecture.png architecture.gv</span></code></pre></div>
+<p>We can follow the same pattern (changing the <code>-T</code> argument
+and output filename extension) to get: <code>.jpg</code>,
+<code>.svg</code>, <code>.pdf</code> and more. The GraphViz docs have a
+<a href="https://graphviz.org/docs/outputs/">full list of output
+formats</a>.</p>
+<h1 data-number="4" id="other-things-you-can-do-with-graphviz"><span class="header-section-number">4</span> Other things you can do with
+GraphViz</h1>
+<ul>
+<li>Much more complicated node shapes</li>
+<li>Wrap GraphViz with a script to preview changes live</li>
+<li>Integrate with document processors like pandoc or latex</li>
+</ul>
+</body>
+</html>

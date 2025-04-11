@@ -1,0 +1,36 @@
+digraph G {
+
+    label="Client/server environment";
+    
+    rankdir=LR;
+
+    node [style=filled,shape=rectangle ];
+
+    client [label="Client program", fillcolor=palegreen ];
+
+    subgraph cluster_dc {
+	label="Data centre environment";
+
+    program [label="Server program", fillcolor=lightyellow] ;
+	
+    node [shape=cylinder, fillcolor=lightblue];
+
+    subgraph cluster_db {
+	label="Database servers";
+    postgres ;
+    mysql ;
+    neo4j ;
+
+    broker [shape=box3d];
+    }
+    }
+
+    program -> postgres ;
+    program -> mysql ;
+    program -> neo4j ;
+    program -> broker ;
+    client -> program ; 
+
+    
+    
+}
