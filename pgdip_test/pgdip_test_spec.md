@@ -1,6 +1,6 @@
 % PgDip Class Test Information
 
-**Scheduled:** 29/04/2025
+**Scheduled:** 30/04/2025
 
 **Weight:** 40
 
@@ -13,10 +13,13 @@
 - You may use any static resources on the internet, including searching interactive user forums.
 - You may not communicate with any other person in the class or outside of it.
 - You may not get dynamic assistance from another person or internet resource (e.g. ChatGPT). 
-- You can (and should) use the shared server or a local install of Python and the databases we've studied to check your answers as you work. 
+- You need to be able to connect to the shared server (or alternatively and at your own risk a local install of Python and the databases we've studied to check your answers as you work). 
 
 
 # Layout
+
+All questions are compulsory.
+
 
 ## Question 1: Document databases (25%)
 
@@ -42,7 +45,7 @@ Theory of operation; Basic consumption and production operations; Worker queues.
 
 The test will be available automatically on Moodle at 18:00.
 
-You can download the question PDF from Moodle at that time.
+You can download the question PDF and supporting files from Moodle at that time.
 
 It is designed for a 2 hour time window.
 
@@ -63,6 +66,8 @@ It is very important that these file names are adhered to.
 
 Check that you can login to this module on Moodle.
 (Very important since we don't use Moodle for day to day class.)
+
+Make sure that you can connect to the VPN and shared server.
 
 
 # Generative AI
