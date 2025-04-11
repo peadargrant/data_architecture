@@ -1,6 +1,6 @@
 % Applied Data Architecture Project
 
-**Deadline:** To be confirmed.
+**Deadline:** 09/05/2025
 
 **Weight:** 60%
 
