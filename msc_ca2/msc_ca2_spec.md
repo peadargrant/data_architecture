@@ -1,6 +1,6 @@
 % MSc CA2 spec
 
-**Deadline:** To be confirmed.
+**Deadline:** 16/05/2025 21:00
 
 **Weight:** 35%
 
